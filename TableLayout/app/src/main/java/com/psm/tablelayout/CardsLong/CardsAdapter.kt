@@ -1,4 +1,4 @@
-package com.psm.tablelayout.CardsSearch
+package com.psm.tablelayout.CardsLong
 
 import android.content.Context
 import android.view.LayoutInflater

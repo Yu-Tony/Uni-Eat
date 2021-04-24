@@ -1,4 +1,4 @@
-package com.psm.tablelayout.CardsSearch
+package com.psm.tablelayout.CardsLong
 
 import android.content.Context
 import com.psm.tablelayout.R
@@ -15,7 +15,7 @@ object DataCards {
     init {
         this.initializeFacultad()
         this.initializeCategorias()
-        this.initializeAlbums()
+        this.initializeComidas()
 
     }
 
@@ -84,7 +84,7 @@ object DataCards {
 
     }
 
-    private fun initializeAlbums(){
+    private fun initializeComidas(){
         var com =  Comida()
         com.strTitle =  "The 7th Sense"
         com.strDescription = "I'm a misfit 맞는 fit 자체가 없지 숨이 턱턱 막힌 옷을 입은 느낌 지겹지 고민없이 그냥 rip it 나를 끌어내리려할수록 get lifted[Verse 2: Taeyong]됐으요 날재단하려 는 것 다 됐으요"

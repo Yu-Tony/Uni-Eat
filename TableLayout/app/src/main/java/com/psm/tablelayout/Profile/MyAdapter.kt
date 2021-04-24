@@ -4,10 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
-import com.psm.tablelayout.CardsSearch.Comida
+import com.psm.tablelayout.CardsLong.Comida
 
 
 class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<MyAdapter.ViewHolder>(), Filterable {
@@ -20,25 +23,10 @@ class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Ad
     //se hace cargo de los graficos
     inner class  ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
 
-
-
-
         val txtTitle =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtTitle)
         val txtDescription =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtDescription)
         val imgcomidaCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.imgComidaCard)
         var comidaPosition:Int =  0
-
-        init{
-
-
-
-
-
-
-        }
-
-
-
 
     }
 
@@ -101,6 +89,8 @@ class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Ad
         }
 
     }
+
+
 
 
 }
