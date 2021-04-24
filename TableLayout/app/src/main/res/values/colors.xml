@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="colorBlanco">#f4f4f4</color>
-    <color name="colorVerde">#0CAFA9</color>
+    <color name="colorBlanco">#f0ede8</color>
+    <color name="colorVerde">#2b5865</color>
     <color name="colorNaranja">#ff8a5b</color>
+    <color name="colorNaranjaFuerte">#e57601</color>
+    <color name="colorNaranjaBajito">#FFD3C1</color>
 </resources>

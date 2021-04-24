@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     1-> {
                             tab.text =  "Favorite"
-                            tab.setIcon(R.drawable.ico_fav)
+                            tab.setIcon(R.drawable.ico_favoritos)
                         }
                     2-> {
                             tab.text =  "MY"

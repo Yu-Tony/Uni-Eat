@@ -29,8 +29,10 @@ class CardFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        rcListAlbum.layoutManager =  layoutManager
-        this.adapter = context?.let { CardsAdapter(it, DataCards.albums) }
-        rcListAlbum.adapter = this.adapter
+        rcListComidaSearch.layoutManager =  layoutManager
+        this.adapter = context?.let { CardsAdapter(it, DataCards.comida) }
+        rcListComidaSearch.adapter = this.adapter
     }
+
+
 }

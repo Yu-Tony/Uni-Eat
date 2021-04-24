@@ -8,13 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.tablelayout.R
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_home.*
 
 
 class CardHomeFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter:CardsHomeAdapter? = null
+    private var adapterFacu:CardsHomeAdapterFacu? = null
+    private var adapterCateg:CardsHomeAdapterCateg? = null
+    private var adapterBest:CardsHomeAdapterBest? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,10 +29,25 @@ class CardHomeFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        rcListAlbum.layoutManager =  layoutManager
-        this.adapter = context?.let { CardsHomeAdapter(it, DataCards.albums) }
-        rcListAlbum.adapter = this.adapter
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager3 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        recycleFacultades.layoutManager =  layoutManager
+        adapterFacu = context?.let { CardsHomeAdapterFacu(it, DataCards.facultad) }
+        recycleFacultades.adapter = adapterFacu
+
+        recycleCategoria.layoutManager =  layoutManager2
+        adapterCateg = context?.let { CardsHomeAdapterCateg(it, DataCards.categorias) }
+        recycleCategoria.adapter = adapterCateg
+
+        recycleBest.layoutManager =  layoutManager3
+        adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.comida) }
+        recycleBest.adapter = adapterBest
+
+
+
+
     }
 }

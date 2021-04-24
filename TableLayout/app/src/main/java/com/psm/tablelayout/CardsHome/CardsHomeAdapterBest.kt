@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 
 
-class CardsHomeAdapter(val context: Context, var albums:List<Album>): RecyclerView.Adapter<CardsHomeAdapter.ViewHolder>(), Filterable {
+class CardsHomeAdapterBest(val context: Context, var albums:List<Comida>): RecyclerView.Adapter<CardsHomeAdapterBest.ViewHolder>(), Filterable {
 
 
 
     private  val layoutInflater =  LayoutInflater.from(context)
-    private val fullAlbums =  ArrayList<Album>(albums)
+    private val fullAlbums =  ArrayList<Comida>(albums)
 
     //se hace cargo de los graficos
     inner class  ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -83,21 +83,13 @@ class CardsHomeAdapter(val context: Context, var albums:List<Album>): RecyclerVi
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
-                albums =  results?.values as List<Album>
+                albums =  results?.values as List<Comida>
                 notifyDataSetChanged()
             }
 
         }
 
     }
-
-    private fun SaveLikes( likes: Int?, position: Int) {
-        val albumEdit:Album =  DataCards.albums[position]
-        albumEdit.numLikes = likes
-        Log.d("UGH2", "Se agrego los likes:" + likes)
-
-    }
-
 
 
 }

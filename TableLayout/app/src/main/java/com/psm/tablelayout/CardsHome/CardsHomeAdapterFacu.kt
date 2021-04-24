@@ -1,6 +1,7 @@
 package com.psm.tablelayout.CardsSearch
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 
 
-class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<CardsAdapter.ViewHolder>(), Filterable {
+class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): RecyclerView.Adapter<CardsHomeAdapterFacu.ViewHolder>(), Filterable {
 
 
 
     private  val layoutInflater =  LayoutInflater.from(context)
-    private val fullComidas =  ArrayList<Comida>(comidas)
+    private val fullAlbums =  ArrayList<Facultades>(facu)
 
     //se hace cargo de los graficos
     inner class  ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -22,19 +23,9 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
 
 
-        val txtTitle =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtTitle)
-        val txtDescription =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtDescription)
-        val imgcomidaCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.imgComidaCard)
-        var comidaPosition:Int =  0
-
-        init{
-
-
-
-
-
-
-        }
+        val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.TitleCard)
+        val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.ImageCard)
+        var albumPosition:Int =  0
 
 
 
@@ -43,26 +34,25 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView =  this.layoutInflater.inflate(com.psm.tablelayout.R.layout.item_card_search,parent,false)
+        val itemView =  this.layoutInflater.inflate(com.psm.tablelayout.R.layout.item_card_home,parent,false)
         return  ViewHolder(itemView)
 
     }
 
     override fun getItemCount(): Int {
-        return this.comidas.size;
+        return this.facu.size;
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val comida =  this.comidas[position]
-        holder.txtTitle.text =  comida.strTitle
-        holder.txtDescription.setText(comida.strDescription)
-        holder.comidaPosition =  position
+        val facultades =  this.facu[position]
+        holder.TitleCard.text =  facultades.strTitleF
+        holder.albumPosition =  position
+        //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
-
-        if(comida.imgArray == null){
-            holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+        if(facultades.imgArray == null){
+            holder.ImageCard.setImageResource(facultades.imageFacu!!)
         }else{
-            holder.imgcomidaCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(comida.imgArray!!))
+            holder.ImageCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(facultades.imgArray!!))
         }
 
     }
@@ -75,16 +65,16 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
                 val filterResults = Filter.FilterResults()
                 filterResults.values =  if (charSequence == null || charSequence.isEmpty()){
 
-                    fullComidas
+                    fullAlbums
 
                 }else{
                     val queryString = charSequence?.toString()?.toLowerCase()
 
 
 
-                    comidas.filter { comidas ->
+                    facu.filter { facu ->
 
-                        comidas.strTitle!!.toLowerCase().contains(queryString)|| comidas.strDescription!!.toLowerCase().contains(queryString)
+                        facu.strTitleF!!.toLowerCase().contains(queryString)
                     }
                 }
 
@@ -93,13 +83,16 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
-                comidas =  results?.values as List<Comida>
+                facu =  results?.values as List<Facultades>
                 notifyDataSetChanged()
             }
 
         }
 
     }
+
+
+
 
 
 }

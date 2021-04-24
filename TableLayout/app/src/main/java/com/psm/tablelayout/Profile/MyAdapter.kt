@@ -1,4 +1,4 @@
-package com.psm.tablelayout.CardsSearch
+package com.psm.tablelayout.Profile
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsSearch.Comida
 
 
-class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<CardsAdapter.ViewHolder>(), Filterable {
+class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<MyAdapter.ViewHolder>(), Filterable {
 
 
 

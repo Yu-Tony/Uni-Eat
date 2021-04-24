@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.psm.tablelayout.CardsSearch.CardFragment
 import com.psm.tablelayout.CardsSearch.CardHomeFragment
+import com.psm.tablelayout.Profile.MyFragment
 
 //Extiende de FragmentStateAdapter
 
@@ -21,9 +22,12 @@ class ViewPagerAdapater(fragment: FragmentActivity) : FragmentStateAdapter(fragm
 
     override fun createFragment(position: Int): Fragment {
         //Vamos a crear el fragmente
-        val fragment1 =  DemoObjectFragment()
+        val fragment1 = CardHomeFragment()
         val fragment2 =  CardFragment()
-        val fragment3 = CardHomeFragment()
+        val fragment3 =  MyFragment()
+        val fragment =  DemoObjectFragment()
+
+
 
         //Tenemos 2 formas de pasar información a ese fragment
         //Una pasar los datos por medio de un constructor que no es recomendable
@@ -37,7 +41,7 @@ class ViewPagerAdapater(fragment: FragmentActivity) : FragmentStateAdapter(fragm
         when(position){
             0 ->
             {
-                return fragment3
+                return fragment1
             }
             1 ->
             {
@@ -46,15 +50,12 @@ class ViewPagerAdapater(fragment: FragmentActivity) : FragmentStateAdapter(fragm
             2 ->
             {
 
-                return fragment2
+                return fragment3
+
             }
             3 ->
             {
-                fragment1.arguments = Bundle().apply {
-                    // Our object is just an integer :-P
-                    putInt(ARG_OBJECT, position + 1)
-                }
-                return fragment1
+                return fragment2
 
             }
 
