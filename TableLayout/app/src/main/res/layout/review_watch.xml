@@ -29,7 +29,7 @@
             tools:showIn="@layout/activity_main">
 
             <com.synnapps.carouselview.CarouselView
-                android:id="@+id/carouselView"
+                android:id="@+id/carouselReviewWatch"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:fillColor="#FFFFFFFF"
@@ -56,6 +56,7 @@
             android:layout_marginRight="20dp">
 
             <TextView
+                android:id="@+id/txtTituloReviewWatch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
@@ -79,6 +80,7 @@
             android:layout_marginRight="20dp">
 
             <TextView
+                android:id="@+id/txtDescripcionReviewWatch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
@@ -102,6 +104,7 @@
             android:layout_marginRight="20dp">
 
             <TextView
+                android:id="@+id/txtCategoriaReviewWatch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
@@ -125,6 +128,7 @@
             android:layout_marginRight="20dp">
 
             <TextView
+                android:id="@+id/txtFacultadReviewWatch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"

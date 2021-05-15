@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Profile.MyEdit"></activity>
+        <activity android:name=".CardsLong.CardContent"></activity>
     </application>
 
 </manifest>

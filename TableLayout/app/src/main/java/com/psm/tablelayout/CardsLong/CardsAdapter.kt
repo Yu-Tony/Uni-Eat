@@ -1,6 +1,9 @@
 package com.psm.tablelayout.CardsLong
 
+import CARD_POSITION
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +32,35 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
         init{
 
+            /*this.LikeButton.setOnClickListener {
 
+                val albumEdit:Album =  DataManager.albums[albumPosition]
+                var tempNum = albumEdit.numLikes?.plus(1);
+
+
+                SaveLikes(tempNum,this.albumPosition);
+                this.likeAlbum.text = tempNum.toString()
+
+                Log.d("UGH", "AddLike:" + (tempNum))
+                //this.likeAlbum.setText(this.likeCount)
+            }*/
+
+            this.imgcomidaCard.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context,CardContent::class.java)
+                activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
+                context.startActivity(activityIntent)
+            }
+
+
+            this.txtTitle.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context,CardContent::class.java)
+                activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
+                context.startActivity(activityIntent)
+            }
 
 
 
