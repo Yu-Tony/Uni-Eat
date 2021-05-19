@@ -3,182 +3,226 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBlanco">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical"
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <EditText
-                android:id="@+id/tituloCreate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/rounded_input"
-                android:inputType="text"
-                android:paddingLeft="5dp" />
-
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:background="@color/colorBlanco"
-                android:text="Titulo" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Categoría" />
-
-            <Spinner
-                android:id="@+id/spinnerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:outlineAmbientShadowColor="@color/colorVerde" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Facultad" />
-
-            <Spinner
-                android:id="@+id/spinnerFacultad"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:outlineAmbientShadowColor="@color/colorVerde" />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <EditText
-                android:id="@+id/DescriptionCreate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/rounded_input"
-                android:inputType="text"
-                android:paddingLeft="5dp" />
-
-            <EditText
-                android:textColor="@color/colorVerde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:background="@color/colorBlanco"
-                android:text="Descripción" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <RatingBar
-                android:id="@+id/rating"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:isIndicator="true" />
-
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <Button
-                android:id="@+id/button9"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Añadir Imagen"
-                android:textColor="@color/colorVerde"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/colorNaranjaBajito"
-                />
-
-
-
-        </LinearLayout>
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            >
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/tituloCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_input"
+                    android:inputType="text"
+                    android:paddingLeft="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/colorBlanco"
+                    android:text="Titulo"
+                    android:textColor="@color/colorVerde" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Categoría"
+                    android:textColor="@color/colorVerde" />
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:outlineAmbientShadowColor="@color/colorVerde" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Facultad"
+                    android:textColor="@color/colorVerde" />
+
+                <Spinner
+                    android:id="@+id/spinnerFacultad"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:outlineAmbientShadowColor="@color/colorVerde" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/DescriptionCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_input"
+                       android:inputType="textMultiLine"
+                    android:paddingLeft="5dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/colorBlanco"
+                    android:text="Descripción"
+                    android:textColor="@color/colorVerde" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Guardar Borrador"
-                android:textColor="@color/colorVerde"
-                android:background="@drawable/rounded_button"
-                android:layout_marginRight="10dp"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Publicar"
-                android:textColor="@color/colorVerde"
-                android:background="@drawable/rounded_button"
 
-                android:layout_marginLeft="10dp"/>
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:isIndicator="false"
+                    android:numStars="5" />
+
+                <ImageSwitcher
+                    android:id="@+id/imageViewCreateReview"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    tools:srcCompat="@tools:sample/avatars">
+
+                </ImageSwitcher>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Hasta 5 imagenes*" />
+
+                <Button
+                    android:id="@+id/btnImageReviewCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/colorNaranjaBajito"
+                    android:text="Añadir Imagen"
+
+                    android:textColor="@color/colorVerde" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnBeforeReviewCreate"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ico_prev"
+                        android:backgroundTint="@color/colorNaranja" />
+
+                    <Button
+                        android:id="@+id/btnAfterReviewCreate"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ico_next"
+                        android:backgroundTint="@color/colorNaranja" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:text="Guardar Borrador"
+                    android:textColor="@color/colorVerde" />
+
+                <Button
+                    android:id="@+id/button10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:text="Publicar"
+
+                    android:textColor="@color/colorVerde" />
+            </LinearLayout>
+
+
         </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

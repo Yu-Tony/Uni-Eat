@@ -27,7 +27,7 @@ class SearchFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val spinner: Spinner
-        spinner = view.findViewById(R.id.spinnerAdvancedSearch) as Spinner
+        spinner = view.findViewById(R.id.SearchLayoutAdvanced)
 
         spinner.adapter = activity?.let {
             ArrayAdapter(

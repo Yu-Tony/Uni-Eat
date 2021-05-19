@@ -1,12 +1,20 @@
 package com.psm.tablelayout.CardsLong
 
+import FILTER_NAME
+import FILTER_TYPE
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.Search.SearchActivity
 
 
 class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): RecyclerView.Adapter<CardsHomeAdapterFacu.ViewHolder>(), Filterable {
@@ -19,14 +27,36 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
     //se hace cargo de los graficos
     inner class  ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
 
+        val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.HomeTextCard)
+        val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.HomeImageCard)
+        var facuPosition:Int =  0
 
 
+        init{
 
-        val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.TitleCard)
-        val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.ImageCard)
-        var albumPosition:Int =  0
+            this.ImageCard.setOnClickListener {
 
+                //Lanzamos el intent para abrir el detalle
+                val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
+               // Log.e("welcome", getFilter.strTitleF);
+                val  activityIntent =  Intent(context, SearchActivity::class.java)
+                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleF)
+                activityIntent.putExtra(FILTER_TYPE,"1")
+                context.startActivity(activityIntent)
+            }
 
+            this.TitleCard.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
+                // Log.e("welcome", getFilter.strTitleF);
+                val  activityIntent =  Intent(context, SearchActivity::class.java)
+                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleF)
+                activityIntent.putExtra(FILTER_TYPE,"1")
+                context.startActivity(activityIntent)
+            }
+
+        }
 
 
     }
@@ -34,6 +64,8 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =  this.layoutInflater.inflate(com.psm.tablelayout.R.layout.item_card_home,parent,false)
+
+
         return  ViewHolder(itemView)
 
     }
@@ -45,7 +77,7 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val facultades =  this.facu[position]
         holder.TitleCard.text =  facultades.strTitleF
-        holder.albumPosition =  position
+        holder.facuPosition =  position
         //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
         if(facultades.imgArray == null){

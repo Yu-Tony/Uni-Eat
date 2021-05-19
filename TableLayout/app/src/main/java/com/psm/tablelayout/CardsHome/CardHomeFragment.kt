@@ -1,6 +1,7 @@
 package com.psm.tablelayout.CardsLong
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.tablelayout.R
 import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.item_card_home.view.*
 
 
 class CardHomeFragment : Fragment() {
@@ -23,7 +25,11 @@ class CardHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.content_home, container, false)
+        val view: View = inflater.inflate(R.layout.content_home, container, false)
+
+
+        // Return the fragment view/layout
+        return view
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {

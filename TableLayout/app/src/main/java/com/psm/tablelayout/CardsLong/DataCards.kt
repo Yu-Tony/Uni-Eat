@@ -90,8 +90,9 @@ object DataCards {
         com.strDescription = "I'm a misfit 맞는 fit 자체가 없지 숨이 턱턱 막힌 옷을 입은 느낌 지겹지 고민없이 그냥 rip it 나를 끌어내리려할수록 get lifted[Verse 2: Taeyong]됐으요 날재단하려 는 것 다 됐으요"
         //album.imgArray =  ImageUtilities.getByteArrayFromResourse(R.drawable.beatles01,content!!)
         com.intIdImage = R.drawable.nct01
-        com.facu =  facultad[1]
-        com.categ= categorias[1]
+        com.facu =  facultad[0]
+        com.categ= categorias[0]
+        com.rating = 2.0f
         comida.add(com)
 
         com =  Comida()
@@ -101,15 +102,17 @@ object DataCards {
         com.intIdImage = R.drawable.nct01
         com.facu =  facultad[1]
         com.categ= categorias[1]
+        com.rating = 3.0f
         comida.add(com)
 
         com =  Comida()
         com.strTitle =  "Chewing Gum"
-        com.strDescription = "Breve descripcion de la comida"
+        com.strDescription = "Filosofía y Letras"
         //album.imgArray =  ImageUtilities.getByteArrayFromResourse(R.drawable.beatles03,content!!)
         com.intIdImage = R.drawable.nct01
         com.facu =  facultad[1]
-        com.categ= categorias[1]
+        com.categ= categorias[2]
+        com.rating = 4.5f
         comida.add(com)
 
         com =  Comida()
@@ -117,8 +120,9 @@ object DataCards {
         com.strDescription = "Breve descripcion de la comida"
         //album.imgArray =  ImageUtilities.getByteArrayFromResourse(R.drawable.beatles04,content!!)
         com.intIdImage = R.drawable.nct01
-        com.facu =  facultad[1]
-        com.categ= categorias[1]
+        com.facu =  facultad[2]
+        com.categ= categorias[2]
+        com.rating = 2.0f
         comida.add(com)
 
         com =  Comida()
@@ -126,8 +130,9 @@ object DataCards {
         com.strDescription = "Breve descripcion de la comida"
         //album.imgArray =  ImageUtilities.getByteArrayFromResourse(R.drawable.beatles05,content!!)
         com.intIdImage = R.drawable.nct01
-        com.facu =  facultad[1]
-        com.categ= categorias[1]
+        com.facu =  facultad[2]
+        com.categ= categorias[2]
+        com.rating = 5.0f
         comida.add(com)
 
     }

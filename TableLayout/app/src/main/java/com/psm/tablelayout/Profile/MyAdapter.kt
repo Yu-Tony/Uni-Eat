@@ -1,15 +1,15 @@
 package com.psm.tablelayout.Profile
 
+import CARD_POSITION
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsLong.CardContent
 import com.psm.tablelayout.CardsLong.Comida
 
 
@@ -26,7 +26,41 @@ class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Ad
         val txtTitle =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtTitle)
         val txtDescription =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtDescription)
         val imgcomidaCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.imgComidaCard)
+        val ratingComidaCard=itemView?.findViewById<RatingBar>(com.psm.tablelayout.R.id.ratingBarItemCard)
         var comidaPosition:Int =  0
+
+        init{
+
+            /*this.LikeButton.setOnClickListener {
+
+                val albumEdit:Album =  DataManager.albums[albumPosition]
+                var tempNum = albumEdit.numLikes?.plus(1);
+
+
+                SaveLikes(tempNum,this.albumPosition);
+                this.likeAlbum.text = tempNum.toString()
+
+                Log.d("UGH", "AddLike:" + (tempNum))
+                //this.likeAlbum.setText(this.likeCount)
+            }*/
+
+            this.imgcomidaCard.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context, CardContent::class.java)
+                activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
+                context.startActivity(activityIntent)
+            }
+
+
+            this.txtTitle.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context, CardContent::class.java)
+                activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
+                context.startActivity(activityIntent)
+            }
+        }
 
     }
 
@@ -45,6 +79,7 @@ class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Ad
         val comida =  this.comidas[position]
         holder.txtTitle.text =  comida.strTitle
         holder.txtDescription.setText(comida.strDescription)
+        comida.rating?.let { holder.ratingComidaCard.setRating(it) }
         holder.comidaPosition =  position
 
 

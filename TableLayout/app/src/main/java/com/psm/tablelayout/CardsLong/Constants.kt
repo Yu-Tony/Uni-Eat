@@ -10,6 +10,8 @@ const val LOREMIPSUM =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
 //Intents
 const val CARD_POSITION = "Card_Position"
+const val FILTER_NAME = "Filter_Name"
+const val FILTER_TYPE = "Filter_Type"
 const val DEFAULT_CARD_POSITION = -1
 const val IMAGE_PICK_CODE = 1000
 const val PERMISSION_CODE = 1001

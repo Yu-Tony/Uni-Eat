@@ -40,7 +40,7 @@
                     android:elevation="10dp">
 
                     <ImageView
-                        android:id="@+id/ImageCard"
+                        android:id="@+id/HomeImageCard"
 
                         android:layout_width="379dp"
                         android:layout_height="200dp"
@@ -55,14 +55,14 @@
 
 
                 <TextView
-                    android:id="@+id/TitleCard"
+                    android:id="@+id/HomeTextCard"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="Resonate"
                     android:textColor="@color/colorVerde"/>
             </LinearLayout>
 

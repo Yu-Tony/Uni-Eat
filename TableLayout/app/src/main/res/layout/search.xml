@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -18,31 +18,70 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:background="@drawable/ico_filter"
-            android:backgroundTint="@color/colorVerde"
-            />
-
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar por:" />
-
-        <Spinner
-            android:id="@+id/spinnerAdvancedSearch"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-        />
-
-        <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <SearchView
+                android:id="@+id/searchbarSearch"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/rounded_button"
+                android:queryHint="Buscar">
+
+            </SearchView>
+
+            <Button
+                android:id="@+id/btnToggleSearchAdvanced"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@drawable/ico_filter"
+                android:backgroundTint="@color/colorVerde" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/SearchLayoutAdvanced"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buscar por:" />
+
+            <Spinner
+                android:id="@+id/spinnerType"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ordenar de forma:" />
+
+            <Spinner
+                android:id="@+id/spinnerSort"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecycleViewSearch"
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
             tools:listitem="@layout/item_card_search"
 
             />

@@ -1,6 +1,8 @@
 package com.psm.tablelayout.CardsLong
 
+import CARD_POSITION
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +24,31 @@ class CardsHomeAdapterBest(val context: Context, var albums:List<Comida>): Recyc
 
 
 
-        val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.TitleCard)
-        val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.ImageCard)
-        var albumPosition:Int =  0
+        val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.HomeTextCard)
+        val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.HomeImageCard)
+        var bestPosition:Int =  0
 
 
+        init{
+
+            this.ImageCard.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context,CardContent::class.java)
+                //activityIntent.putExtra(CARD_POSITION,this.bestPosition)
+                context.startActivity(activityIntent)
+            }
+
+
+            this.TitleCard.setOnClickListener {
+
+                //Lanzamos el intent para abrir el detalle
+                val  activityIntent =  Intent(context,CardContent::class.java)
+                //activityIntent.putExtra(CARD_POSITION,this.bestPosition)
+                context.startActivity(activityIntent)
+            }
+
+        }
 
 
     }
@@ -45,7 +67,7 @@ class CardsHomeAdapterBest(val context: Context, var albums:List<Comida>): Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val album =  this.albums[position]
         holder.TitleCard.text =  album.strTitle
-        holder.albumPosition =  position
+        holder.bestPosition =  position
         //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
         if(album.imgArray == null){

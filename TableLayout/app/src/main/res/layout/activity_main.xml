@@ -1,41 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBlanco"
+    android:layout_marginTop="0dp"
     >
 
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/rounded_button"
-        android:queryHint="Buscar" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabTextColor="@color/colorVerde" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="622dp"
-        android:layout_weight="1"
+        <!-- https://stackoverflow.com/questions/4182486/placing-overlappingz-index-a-view-above-another-view-in-android-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            app:tabTextColor="@color/colorVerde" />
 
-        />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="677dp"
+            android:layout_weight="1"
+
+            />
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/ico_plus"/>
+        app:srcCompat="@drawable/ico_plus"
 
-</LinearLayout>
+
+        />
+<!--https://stackoverflow.com/questions/31205720/two-floating-action-buttons-next-to-each-other
+https://stackoverflow.com/questions/45108239/how-to-create-a-button-in-kotlin-that-opens-a-new-activity-android-studio
+-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="85dp"
+        android:layout_marginRight="16dp"
+        app:srcCompat="@drawable/ico_search"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

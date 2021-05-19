@@ -38,7 +38,7 @@ class CardContent: AppCompatActivity() {
         txtDescripcionReviewWatch.setText(showReview.strDescription)
         txtCategoriaReviewWatch.setText(showReview.categ?.strTitleC)
         txtFacultadReviewWatch.setText(showReview.facu?.strTitleF)
-
+        showReview.rating?.let { ratingReviewWatch.setRating(it) };
        /* carouselReviewWatch.pageCount=3;
         carouselReviewWatch.setImageListener{
             position,imageView->

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import kotlinx.android.synthetic.main.review_watch.*
 
 
 class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<CardsAdapter.ViewHolder>(), Filterable {
@@ -17,7 +18,8 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
 
     private  val layoutInflater =  LayoutInflater.from(context)
-    private val fullComidas =  ArrayList<Comida>(comidas)
+    val fullComidas =  ArrayList<Comida>(comidas)
+
 
     //se hace cargo de los graficos
     inner class  ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -28,7 +30,9 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
         val txtTitle =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtTitle)
         val txtDescription =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.txtDescription)
         val imgcomidaCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.imgComidaCard)
+        val ratingComidaCard=itemView?.findViewById<RatingBar>(com.psm.tablelayout.R.id.ratingBarItemCard)
         var comidaPosition:Int =  0
+
 
         init{
 
@@ -62,9 +66,6 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
                 context.startActivity(activityIntent)
             }
 
-
-
-
         }
 
 
@@ -86,6 +87,9 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comida =  this.comidas[position]
         holder.txtTitle.text =  comida.strTitle
+        //comida.rating?.let { holder.ratingComidaCard.setRating(it) };
+        //showReview.rating?.let { ratingReviewWatch.setRating(it) };
+        comida.rating?.let { holder.ratingComidaCard.setRating(it) }
         holder.txtDescription.setText(comida.strDescription)
         holder.comidaPosition =  position
 
@@ -98,39 +102,318 @@ class CardsAdapter(val context: Context, var comidas:List<Comida>): RecyclerView
 
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter(){
-            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+
+
+    override fun getFilter(): Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
 
                 //Obtenemos la cadena
                 val filterResults = Filter.FilterResults()
-                filterResults.values =  if (charSequence == null || charSequence.isEmpty()){
-
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+                    //Log.e("This enter ", "is null :c")
                     fullComidas
 
-                }else{
+                }
+                else{
                     val queryString = charSequence?.toString()?.toLowerCase()
-
-
-
-                    comidas.filter { comidas ->
-
-                        comidas.strTitle!!.toLowerCase().contains(queryString)|| comidas.strDescription!!.toLowerCase().contains(queryString)
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
                     }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+
+                            comidas.strTitle!!.toLowerCase().contains(queryString)|| //comidas.strDescription!!.toLowerCase().contains(queryString)||
+                                    comidas.facu?.strTitleF!!.toLowerCase().contains(queryString) ||
+                                    comidas.categ?.strTitleC!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
                 }
 
                 return filterResults
             }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
 
                 comidas =  results?.values as List<Comida>
                 notifyDataSetChanged()
             }
+        }
 
+
+    }
+
+    fun NameFilter():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
+                    }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                            comidas.filter { comidas ->
+                            comidas.strTitle!!.toLowerCase().contains(queryString) || comidas.strDescription!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                notifyDataSetChanged()
+            }
         }
 
     }
 
+    fun FacuFilter():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+                    //Log.e("This enter ", "is null :c")
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
+                    }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+
+
+                                    comidas.facu?.strTitleF!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                notifyDataSetChanged()
+            }
+        }
+
+    }
+
+    fun CategFilter():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+                    //Log.e("This enter ", "is null :c")
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
+                    }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+
+
+                                    comidas.categ?.strTitleC!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                notifyDataSetChanged()
+            }
+        }
+
+    }
+
+    fun NameFilterUpside():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+
+                comidas=comidas.reversed()
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+
+                    }
+                    else
+                    {
+
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+                            comidas.strTitle!!.toLowerCase().contains(queryString) || comidas.strDescription!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                comidas=comidas.reversed()
+                notifyDataSetChanged()
+            }
+        }
+
+    }
+
+    fun FacuFilterUpside():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+
+                comidas=comidas.reversed()
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+                    //Log.e("This enter ", "is null :c")
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
+                    }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+
+
+                            comidas.facu?.strTitleF!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                comidas=comidas.reversed()
+                notifyDataSetChanged()
+            }
+        }
+
+    }
+
+    fun CategFilterUpside():Filter
+    {
+        return object : Filter()
+        {
+            override fun performFiltering(charSequence: CharSequence?): Filter.FilterResults? {
+                comidas=comidas.reversed()
+                //Obtenemos la cadena
+                val filterResults = Filter.FilterResults()
+                filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
+                    //Log.e("This enter ", "is null :c")
+                    fullComidas
+
+                }
+                else{
+                    val queryString = charSequence?.toString()?.toLowerCase()
+                    if (queryString == null || queryString.isEmpty() || queryString == "")
+                    {
+                        // Log.e("This enter ", "is null too")
+                        fullComidas
+                    }
+                    else
+                    {
+                        // Log.e("This enter is not null ", queryString)
+                        comidas.filter { comidas ->
+
+
+                            comidas.categ?.strTitleC!!.toLowerCase().contains(queryString)
+                        }
+                    }
+
+                }
+
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+
+                comidas =  results?.values as List<Comida>
+                comidas=comidas.reversed()
+                notifyDataSetChanged()
+            }
+        }
+
+    }
 
 }

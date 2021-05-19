@@ -48,7 +48,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnStart1"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

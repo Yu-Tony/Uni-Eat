@@ -9,4 +9,15 @@
     <string name="email">Email*</string>
     <string name="pass">Contraseña*</string>
     <string name="telefono">Telefono</string>
+
+    <string-array name="listType">
+        <item>Nombre o descripcion</item>
+        <item>Facultad</item>
+        <item>Categoria</item>
+    </string-array>
+
+    <string-array name="listSort">
+        <item>Ascendente</item>
+        <item>Descendente</item>
+    </string-array>
 </resources>

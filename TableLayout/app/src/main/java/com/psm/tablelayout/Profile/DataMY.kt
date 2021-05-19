@@ -13,10 +13,9 @@ object DataMY {
     private fun initializePerfil()
     {
         var perf =  Perfil()
-        perf.MYname = "Teb"
-        perf.MYlast = "Soto"
-        perf.MYimage = R.drawable.nct01
-        perf.MYcomidas
+        perf.userNombre = "Teb"
+        perf.userApellidos = "Soto"
+        perf.userImage = R.drawable.nct01
         DataMY.perfil.add(perf)
 
     }

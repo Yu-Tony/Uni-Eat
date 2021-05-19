@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBlanco">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
         </RelativeLayout>
 
         <RatingBar
-            android:id="@+id/rating"
+            android:id="@+id/ratingReviewWatch"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            >
 
             <TextView
                 android:id="@+id/txtTituloReviewWatch"
@@ -62,14 +65,18 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_input"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:lineSpacingExtra="3dp"
+                android:includeFontPadding="true"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="-4dp"
                 android:background="@color/colorBlanco"
+                android:textColor="@color/colorVerde"
                 android:text="Titulo" />
         </RelativeLayout>
 
@@ -77,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/txtDescripcionReviewWatch"
@@ -85,23 +93,29 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_input"
-                android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:inputType="textMultiLine"
+                android:paddingLeft="5dp"
+                android:lineSpacingExtra="3dp"
+                android:includeFontPadding="true"
+
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="-4dp"
                 android:background="@color/colorBlanco"
-                android:text="Descripción" />
+                android:text="Descripción"
+                android:textColor="@color/colorVerde"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/txtCategoriaReviewWatch"
@@ -110,19 +124,23 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_input"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:lineSpacingExtra="3dp"
+                android:includeFontPadding="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="-4dp"
                 android:background="@color/colorBlanco"
-                android:text="Categoría" />
+                android:text="Categoría"
+                android:textColor="@color/colorVerde"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginBottom="2dp"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
@@ -134,15 +152,18 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_input"
                 android:inputType="text"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:lineSpacingExtra="3dp"
+                android:includeFontPadding="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="-4dp"
                 android:background="@color/colorBlanco"
-                android:text="Facultad" />
+                android:text="Facultad"
+                android:textColor="@color/colorVerde"/>
         </RelativeLayout>
 
     </LinearLayout>
