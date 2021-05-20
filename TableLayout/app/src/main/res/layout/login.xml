@@ -53,6 +53,7 @@
                     <EditText
 
                         android:layout_width="match_parent"
+                        android:id="@+id/LoginMail"
                         android:layout_height="match_parent"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/rounded_input"
@@ -76,6 +77,7 @@
 
                     <EditText
                         android:layout_width="match_parent"
+                        android:id="@+id/LoginPass"
                         android:layout_height="match_parent"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/rounded_input"

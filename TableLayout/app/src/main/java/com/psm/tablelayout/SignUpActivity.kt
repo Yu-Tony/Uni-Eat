@@ -196,6 +196,11 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SignUpActivity,"Usuario creado", Toast.LENGTH_LONG).show()
+
+                val returnIntent = Intent()
+                returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish();
             }
         })
     }
@@ -223,38 +228,38 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                     /*-----------------------------PASSWORD CHECK---------------------------*/
                     if(editTextTextPassword!!.text.toString() != "")
                     {
-                        if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-                            password.setError("Password is too weak");
-                            return false;
-                        }
-                        else
-                        {
-                            
-                        }
-
-                        passUsuario =  editTextTextPassword!!.text.toString()
-                        errorUser=0
-
-                        /*-----------------------------IMAGEN CHECK---------------------------*/
-                        if(imgArray!=null)
-                        {
-                            /*-----------------------------PHONE CHECK---------------------------*/
-                            if(editTextTextPhone!!.text.toString() != "")
-                            {
-                                errorUser=0
-                                phoneUsuario=  editTextTextPhone!!.text.toString()
-                            }
+                        if (!PASSWORD_PATTERN.matcher(editTextTextPassword!!.text.toString()).matches()) {
                             errorUser=0
-                           // Toast.makeText(this@SignUpActivity,"Todo todo bien", Toast.LENGTH_LONG).show()
-
-                            checkEmail()
-
+                            Toast.makeText(this@SignUpActivity,"Contraseña debe tener minimo 8 caracteres y debe incluir 1 mayus, 1 min, 1 numero", Toast.LENGTH_LONG).show()
                         }
                         else
                         {
-                            errorUser=1
-                            Toast.makeText(this@SignUpActivity,"Favor de agregar una imagen", Toast.LENGTH_LONG).show()
+                            passUsuario =  editTextTextPassword!!.text.toString()
+                            errorUser=0
+
+                            /*-----------------------------IMAGEN CHECK---------------------------*/
+                            if(imgArray!=null)
+                            {
+                                /*-----------------------------PHONE CHECK---------------------------*/
+                                if(editTextTextPhone!!.text.toString() != "")
+                                {
+                                    errorUser=0
+                                    phoneUsuario=  editTextTextPhone!!.text.toString()
+                                }
+                                errorUser=0
+                                // Toast.makeText(this@SignUpActivity,"Todo todo bien", Toast.LENGTH_LONG).show()
+
+                                checkEmail()
+
+                            }
+                            else
+                            {
+                                errorUser=1
+                                Toast.makeText(this@SignUpActivity,"Favor de agregar una imagen", Toast.LENGTH_LONG).show()
+                            }
                         }
+
+
 
                     }
                     else
