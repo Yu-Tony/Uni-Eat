@@ -15,9 +15,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.Search.SearchActivity
+import retrofit2.Call
+import kotlin.collections.ArrayList
 
 
-class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): RecyclerView.Adapter<CardsHomeAdapterFacu.ViewHolder>(), Filterable {
+class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): RecyclerView.Adapter<CardsHomeAdapterFacu.ViewHolder>(), Filterable {
 
 
 
@@ -34,16 +36,16 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
 
         init{
 
-            this.ImageCard.setOnClickListener {
+           /* this.ImageCard.setOnClickListener {
 
                 //Lanzamos el intent para abrir el detalle
                 val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
                // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
-                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleF)
+                activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
                 activityIntent.putExtra(FILTER_TYPE,"1")
                 context.startActivity(activityIntent)
-            }
+            }*/
 
             this.TitleCard.setOnClickListener {
 
@@ -51,7 +53,7 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
                 val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
                 // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
-                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleF)
+                activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
                 activityIntent.putExtra(FILTER_TYPE,"1")
                 context.startActivity(activityIntent)
             }
@@ -76,15 +78,26 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val facultades =  this.facu[position]
-        holder.TitleCard.text =  facultades.strTitleF
+        holder.TitleCard.text =  facultades.facultadesNombre
         holder.facuPosition =  position
         //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
+
+
         if(facultades.imgArray == null){
-            holder.ImageCard.setImageResource(facultades.imageFacu!!)
+            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
         }else{
             holder.ImageCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(facultades.imgArray!!))
         }
+
+
+        /*if(facultades.imgArray == null){
+            Log.e("take off", "null")
+           holder.ImageCard.setImageResource(facultades.facultadesImage!!)
+        }else{
+            holder.ImageCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(facultades.imgArray!!))
+            Log.e("take off", "next level")
+        }*/
 
     }
 
@@ -105,7 +118,7 @@ class CardsHomeAdapterFacu(val context: Context, var facu:List<Facultades>): Rec
 
                     facu.filter { facu ->
 
-                        facu.strTitleF!!.toLowerCase().contains(queryString)
+                        facu.facultadesNombre!!.toLowerCase().contains(queryString)
                     }
                 }
 

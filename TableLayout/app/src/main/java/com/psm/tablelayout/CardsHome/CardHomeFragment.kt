@@ -9,8 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.tablelayout.R
+import com.psm.tablelayout.RestEngine
+import com.psm.tablelayout.Service
 import kotlinx.android.synthetic.main.content_home.*
-import kotlinx.android.synthetic.main.item_card_home.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CardHomeFragment : Fragment() {
@@ -18,13 +22,17 @@ class CardHomeFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapterFacu:CardsHomeAdapterFacu? = null
     private var adapterCateg:CardsHomeAdapterCateg? = null
-    private var adapterBest:CardsHomeAdapterBest? = null
+    //private var adapterBest:CardsHomeAdapterBest? = null
+    var itemFacu:List<Facultades>?=null;
+    var itemCard:List<Categorias>?=null;
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        //getCategorias();
         val view: View = inflater.inflate(R.layout.content_home, container, false)
 
 
@@ -36,9 +44,10 @@ class CardHomeFragment : Fragment() {
         super.onViewCreated(itemView, savedInstanceState)
 
 
+
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val layoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager3 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        //val layoutManager3 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         recycleFacultades.layoutManager =  layoutManager
         adapterFacu = context?.let { CardsHomeAdapterFacu(it, DataCards.facultad) }
@@ -48,12 +57,16 @@ class CardHomeFragment : Fragment() {
         adapterCateg = context?.let { CardsHomeAdapterCateg(it, DataCards.categorias) }
         recycleCategoria.adapter = adapterCateg
 
-        recycleBest.layoutManager =  layoutManager3
+       /* recycleBest.layoutManager =  layoutManager3
         adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.comida) }
-        recycleBest.adapter = adapterBest
+        recycleBest.adapter = adapterBest*/
 
 
 
 
     }
+
+
+
+
 }

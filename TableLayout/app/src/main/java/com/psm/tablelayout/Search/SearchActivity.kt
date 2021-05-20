@@ -13,10 +13,10 @@ import com.psm.tablelayout.R
 import kotlinx.android.synthetic.main.search.*
 import java.util.*
 
+//class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener
+class SearchActivity:AppCompatActivity()  {
 
-class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener  {
-
-    private var reviewAdapter:CardsAdapter? = null
+    //private var reviewAdapter:CardsAdapter? = null
     private var type:String?=null;
     private var type2:String?="1";
     private var type3:String="1";
@@ -26,7 +26,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.search)
+       /* setContentView(R.layout.search)
 
 
         DataCards.content =  this
@@ -160,61 +160,62 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener  {
 
         }
 
-
+*/
 
     }
 
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
+   /* override fun onQueryTextSubmit(query: String?): Boolean {
         return false;
-    }
+    }*/
 
-    override fun onQueryTextChange(newText: String?): Boolean {
+    /*
+ override fun onQueryTextChange(newText: String?): Boolean {
 
-        if (newText != null){
+    (newText != null){
 
-            if(type2=="1")
-            {
-                if(type3=="1")
-                {
-                    reviewAdapter?.NameFilter()?.filter(newText)
-                }
-                else
-                {
-                    reviewAdapter?.NameFilterUpside()?.filter(newText)
-                }
+         if(type2=="1")
+         {
+             if(type3=="1")
+             {
+                 reviewAdapter?.NameFilter()?.filter(newText)
+             }
+             else
+             {
+                 reviewAdapter?.NameFilterUpside()?.filter(newText)
+             }
 
-            }
-            if(type2=="2")
-            {
-                if(type3=="1")
-                {
-                    reviewAdapter?.FacuFilter()?.filter(newText)
-                }
-                else
-                {
-                    reviewAdapter?.FacuFilterUpside()?.filter(newText)
-                }
+         }
+         if(type2=="2")
+         {
+             if(type3=="1")
+             {
+                 reviewAdapter?.FacuFilter()?.filter(newText)
+             }
+             else
+             {
+                 reviewAdapter?.FacuFilterUpside()?.filter(newText)
+             }
 
-            }
-            if(type2=="3")
-            {
-                if(type3=="1")
-                {
-                    reviewAdapter?.CategFilter()?.filter(newText)
-                }
-                else
-                {
-                    reviewAdapter?.CategFilterUpside()?.filter(newText)
-                }
+         }
+         if(type2=="3")
+         {
+             if(type3=="1")
+             {
+                 reviewAdapter?.CategFilter()?.filter(newText)
+             }
+             else
+             {
+                 reviewAdapter?.CategFilterUpside()?.filter(newText)
+             }
 
-            }
+         }
 
-        }
+     }
 
-        return false;
-    }
-
+     return false;
+ }
+*/
 
 
 }

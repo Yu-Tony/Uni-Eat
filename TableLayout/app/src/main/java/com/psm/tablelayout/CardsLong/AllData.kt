@@ -3,27 +3,39 @@ package com.psm.tablelayout.CardsLong
 import com.psm.tablelayout.R
 
 //Nos permite manejar los generos
-class Facultades(var imageFacu:Int,
-                 var strTitleF:String,
+class Facultades(var facultadesID:Int?=null,
+                 var facultadesNombre:String?=null,
+                 var facultadesImage:String? = null,
                  var imgArray: ByteArray? = null)
 {
 
-    override fun toString(): String {
-        return this.strTitleF
 
-    }
 }
 
-class Categorias(var imageCateg:Int,
-                 var strTitleC:String,
+
+class Categorias(var categoriaID:Int?=null,
+                 var categoriaNombre:String?=null,
+                 var categoriaImage:String? = null,
                  var imgArray: ByteArray? = null)
 {
 
-    override fun toString(): String {
+    /*override fun toString(): String {
         return this.strTitleC
 
-    }
+    }*/
 }
+
+data class Perfil(
+    var userID:Int? =  null,
+    var userNombre:String? = null,
+    var userApellidos:String? =  null,
+    var userMail:String? =  null,
+    var userPassword:String? =  null,
+    var userPhone:String? =  null,
+    var userImage:String? = null,
+    var imgArray: ByteArray? = null
+)
+{}
 
 
 class Comida(
@@ -37,14 +49,3 @@ class Comida(
    )
 {}
 
-class Perfil(
-    var userID:Int? =  null,
-    var userNombre:String? = null,
-    var userApellidos:String? =  null,
-    var userMail:String? =  null,
-    var userPassword:String? =  null,
-    var userPhone:String? =  null,
-    var userImage:Int? =  R.drawable.nct01,
-    var imgArray: ByteArray? = null
-)
-{}

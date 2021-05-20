@@ -1,6 +1,5 @@
 package com.psm.tablelayout.CardsLong
 
-import CARD_POSITION
 import FILTER_NAME
 import FILTER_TYPE
 import android.content.Context
@@ -12,9 +11,10 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.Search.SearchActivity
+import retrofit2.Call
 
 
-class CardsHomeAdapterCateg(val context: Context, var categ:List<Categorias>): RecyclerView.Adapter<CardsHomeAdapterCateg.ViewHolder>(), Filterable {
+class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): RecyclerView.Adapter<CardsHomeAdapterCateg.ViewHolder>(), Filterable {
 
 
 
@@ -40,7 +40,7 @@ class CardsHomeAdapterCateg(val context: Context, var categ:List<Categorias>): R
                 val getFilter: Categorias =  DataCards.categorias[this.categPosition]
                 // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
-                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleC)
+                activityIntent.putExtra(FILTER_NAME,getFilter.categoriaNombre)
                 activityIntent.putExtra(FILTER_TYPE,"2")
                 context.startActivity(activityIntent)
             }
@@ -52,7 +52,7 @@ class CardsHomeAdapterCateg(val context: Context, var categ:List<Categorias>): R
                 val getFilter: Categorias =  DataCards.categorias[this.categPosition]
                 // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
-                activityIntent.putExtra(FILTER_NAME,getFilter.strTitleC)
+                activityIntent.putExtra(FILTER_NAME,getFilter.categoriaNombre)
                 activityIntent.putExtra(FILTER_TYPE,"2")
                 context.startActivity(activityIntent)
             }
@@ -77,12 +77,12 @@ class CardsHomeAdapterCateg(val context: Context, var categ:List<Categorias>): R
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val categorias =  this.categ[position]
-        holder.TitleCard.text =  categorias.strTitleC
+        holder.TitleCard.text =  categorias.categoriaNombre
         holder.categPosition =  position
         //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
         if(categorias.imgArray == null){
-            holder.ImageCard.setImageResource(categorias.imageCateg!!)
+            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
         }else{
             holder.ImageCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(categorias.imgArray!!))
         }
@@ -106,7 +106,7 @@ class CardsHomeAdapterCateg(val context: Context, var categ:List<Categorias>): R
 
                     categ.filter { categ ->
 
-                        categ.strTitleC!!.toLowerCase().contains(queryString)
+                        categ.categoriaNombre!!.toLowerCase().contains(queryString)
                     }
                 }
 

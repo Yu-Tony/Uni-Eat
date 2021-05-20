@@ -28,16 +28,17 @@
             android:textSize="40sp" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:id="@+id/imageSignUp"
+            android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:maxHeight="150dp"
+            android:layout_gravity="center"
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnSignUpFoto"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

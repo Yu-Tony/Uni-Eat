@@ -3,6 +3,7 @@ package com.psm.tablelayout
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +13,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
-import com.psm.tablelayout.Profile.MyEdit
-import com.psm.tablelayout.Profile.onFragmentActionsListener
+import com.psm.tablelayout.CardsLong.DataCards
+//import com.psm.tablelayout.Profile.MyEdit
+//import com.psm.tablelayout.Profile.onFragmentActionsListener
 import com.psm.tablelayout.Search.SearchActivity
+import com.psm.tablelayout.Splash.SplashActivity
 
-
-class MainActivity : AppCompatActivity(), onFragmentActionsListener {
+//class MainActivity : AppCompatActivity(), onFragmentActionsListener {
+class MainActivity : AppCompatActivity() {
 
 
     var loggedin = false;
@@ -29,8 +32,12 @@ class MainActivity : AppCompatActivity(), onFragmentActionsListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        DataCards.facultad
+        DataCards.categorias
+
         if(loggedin==false)
         {
+
             setContentView(R.layout.start)
 
             val btnStart = findViewById<Button>(R.id.btnStart1)
@@ -58,48 +65,54 @@ class MainActivity : AppCompatActivity(), onFragmentActionsListener {
         }
         else
         {
-            setContentView(R.layout.activity_main)
-            val pagerMain =  findViewById<ViewPager2>(R.id.pager)
-            pagerMain.adapter =  this.adapter
 
-            val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
 
-            //Aqui ya sabe quien es nuestro tab, y quien nuestro pager
-            val tabLayoutMediator =  TabLayoutMediator(tab_layoutMain,pagerMain
-                , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    when(position){
-                        0-> {
-                            tab.text =  "Home"
-                            tab.setIcon(R.drawable.ico_home)
+
+
+
+                setContentView(R.layout.activity_main)
+                val pagerMain =  findViewById<ViewPager2>(R.id.pager)
+                pagerMain.adapter =  this.adapter
+
+                val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
+
+                //Aqui ya sabe quien es nuestro tab, y quien nuestro pager
+                val tabLayoutMediator =  TabLayoutMediator(tab_layoutMain,pagerMain
+                    , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                        when(position){
+                            0-> {
+                                tab.text =  "Home"
+                                tab.setIcon(R.drawable.ico_home)
+                            }
+                            1-> {
+                                tab.text =  "Favorite"
+                                tab.setIcon(R.drawable.ico_favoritos)
+                            }
+                            2-> {
+                                tab.text =  "MY"
+                                tab.setIcon(R.drawable.ico_person)
+                            }
+                            3-> {
+                                tab.text =  "Drafts"
+                                tab.setIcon(R.drawable.ico_draw)
+                            }
+
                         }
-                        1-> {
-                            tab.text =  "Favorite"
-                            tab.setIcon(R.drawable.ico_favoritos)
-                        }
-                        2-> {
-                            tab.text =  "MY"
-                            tab.setIcon(R.drawable.ico_person)
-                        }
-                        3-> {
-                            tab.text =  "Drafts"
-                            tab.setIcon(R.drawable.ico_draw)
-                        }
+                    })
+                tabLayoutMediator.attach()
 
-                    }
-                })
-            tabLayoutMediator.attach()
+                val btnAdd = findViewById<FloatingActionButton>(R.id.floating_action_button)
+                btnAdd.setOnClickListener {
+                    val intentAdd = Intent(this, AddCardActivity::class.java);
+                    startActivity(intentAdd);
+                }
 
-            val btnAdd = findViewById<FloatingActionButton>(R.id.floating_action_button)
-            btnAdd.setOnClickListener {
-                val intentAdd = Intent(this, AddCardActivity::class.java);
-                startActivity(intentAdd);
-            }
+                val btnSearch = findViewById<FloatingActionButton>(R.id.floating_action_button2)
+                btnSearch.setOnClickListener {
+                    val intentSearch = Intent(this, SearchActivity::class.java);
+                    startActivity(intentSearch);
+                }
 
-            val btnSearch = findViewById<FloatingActionButton>(R.id.floating_action_button2)
-            btnSearch.setOnClickListener {
-                val intentSearch = Intent(this, SearchActivity::class.java);
-                startActivity(intentSearch);
-            }
         }
 
 
@@ -168,15 +181,15 @@ class MainActivity : AppCompatActivity(), onFragmentActionsListener {
     } //onActivityResult
 
 
-    private fun replaceFragment(fragment:Fragment)
+   /* private fun replaceFragment(fragment:Fragment)
     {
         val fragmentTransaction=supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.layoutMyPrincipal, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-    }
+    }*/
 
-    override fun onClickFragmentMy(intId:Int) {
+    /*override fun onClickFragmentMy(intId:Int) {
        when(intId)
        {
            R.id.btnEditProfile->{
@@ -192,7 +205,7 @@ class MainActivity : AppCompatActivity(), onFragmentActionsListener {
                startActivity(intent)
            }
        }
-    }
+    }*/
 
 
 
