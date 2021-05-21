@@ -130,7 +130,7 @@
 
 
                 <RatingBar
-                    android:id="@+id/rating"
+                    android:id="@+id/ratingCreate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -145,12 +145,6 @@
                     tools:srcCompat="@tools:sample/avatars">
 
                 </ImageSwitcher>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Seleccionar minimo 3 imagenes" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -204,7 +198,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button11"
+                    android:id="@+id/btnSaveDraft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -214,7 +208,7 @@
                     android:textColor="@color/colorVerde" />
 
                 <Button
-                    android:id="@+id/button10"
+                    android:id="@+id/btnPost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
