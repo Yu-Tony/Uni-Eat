@@ -3,7 +3,6 @@ package com.psm.tablelayout.Profile
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -86,10 +85,17 @@ class MyEdit:  AppCompatActivity(), View.OnClickListener {
 
                 val bitmap = (imageEditProfile!!.getDrawable() as BitmapDrawable).bitmap
             }
-
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
 
     private fun close()
     {
@@ -112,110 +118,118 @@ class MyEdit:  AppCompatActivity(), View.OnClickListener {
         {
             if(intId!="" && imgArray!=null)
             {
-                Toast.makeText(this@MyEdit,DataMY.perfil[0].userID.toString(),Toast.LENGTH_LONG).show()
-                var passTemp=DataMY.perfil[0].userPassword
-                DataMY.perfil[0].userPassword = intId
+                Toast.makeText(this@MyEdit, DataMY.perfil?.userID.toString(),Toast.LENGTH_LONG).show()
+                var passTemp=DataMY.perfil?.userPassword
+                DataMY.perfil?.userPassword = intId
 
                 val encodedString:String =  Base64.getEncoder().encodeToString(this.imgArray)
                 val strEncodeImage:String = "data:image/png;base64," + encodedString
 
-                DataMY.perfil[0].userImage=strEncodeImage
+                DataMY.perfil?.userImage=strEncodeImage
 
                 //SE CONSTRUYE EL OBJECTO A ENVIAR,  ESTO DEPENDE DE COMO CONSTRUYAS EL SERVICIO
                 // SI TU SERVICIO POST REQUIERE DOS PARAMETROS HACER UN OBJECTO CON ESOS DOS PARAMETROS
-                val user =   Perfil(DataMY.perfil[0].userID,
-                    DataMY.perfil[0].userNombre,
-                    DataMY.perfil[0].userApellidos,
-                    DataMY.perfil[0].userMail,
-                    DataMY.perfil[0].userPassword,
-                    DataMY.perfil[0].userPhone,
-                    DataMY.perfil[0].userImage)
+                val user =   Perfil(DataMY.perfil?.userID,
+                    DataMY.perfil?.userNombre,
+                    DataMY.perfil?.userApellidos,
+                    DataMY.perfil?.userMail,
+                    DataMY.perfil?.userPassword,
+                    DataMY.perfil?.userPhone,
+                    DataMY.perfil?.userImage)
 
                 val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-                val result: Call<String> = service.updateUser(user)
+                val result: Call<Int> = service.updateUser(user)
 
-                result.enqueue(object: Callback<String>{
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        Toast.makeText(this@MyEdit,"Error" + DataMY.perfil[0].userPassword,Toast.LENGTH_LONG).show()
+                result.enqueue(object: Callback<Int>{
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        //Toast.makeText(this@MyEdit,"Error" + DataMY.perfil?.userPassword,Toast.LENGTH_LONG).show()
                     }
 
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
-                        Toast.makeText(this@MyEdit,"Usuario cambiado" + DataMY.perfil[0].userPassword, Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this@MyEdit,"Usuario cambiado" + DataMY.perfil?.userPassword, Toast.LENGTH_LONG).show()
 
 
                     }
                 })
+
+                DataMY.perfil?.imgArray=imgArray
+                Toast.makeText(this@MyEdit,"Usuario cambiado", Toast.LENGTH_LONG).show()
+                finish()
 
             }
             else
             {
                 if(intId!="")
                 {
-                    Toast.makeText(this@MyEdit,DataMY.perfil[0].userID.toString(),Toast.LENGTH_LONG).show()
-                    var passTemp=DataMY.perfil[0].userPassword
-                    DataMY.perfil[0].userPassword = intId
+                    Toast.makeText(this@MyEdit,DataMY.perfil?.userID.toString(),Toast.LENGTH_LONG).show()
+                    var passTemp=DataMY.perfil?.userPassword
+                    DataMY.perfil?.userPassword = intId
                     //SE CONSTRUYE EL OBJECTO A ENVIAR,  ESTO DEPENDE DE COMO CONSTRUYAS EL SERVICIO
                     // SI TU SERVICIO POST REQUIERE DOS PARAMETROS HACER UN OBJECTO CON ESOS DOS PARAMETROS
-                    val user =   Perfil(DataMY.perfil[0].userID,
-                        DataMY.perfil[0].userNombre,
-                        DataMY.perfil[0].userApellidos,
-                        DataMY.perfil[0].userMail,
-                        DataMY.perfil[0].userPassword,
-                        DataMY.perfil[0].userPhone,
-                        DataMY.perfil[0].userImage)
+                    val user =   Perfil(DataMY.perfil?.userID,
+                        DataMY.perfil?.userNombre,
+                        DataMY.perfil?.userApellidos,
+                        DataMY.perfil?.userMail,
+                        DataMY.perfil?.userPassword,
+                        DataMY.perfil?.userPhone,
+                        DataMY.perfil?.userImage)
 
                     val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-                    val result: Call<String> = service.updateUser(user)
+                    val result: Call<Int> = service.updateUser(user)
 
-                    result.enqueue(object: Callback<String>{
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            Toast.makeText(this@MyEdit,"Error" + DataMY.perfil[0].userPassword,Toast.LENGTH_LONG).show()
+                    result.enqueue(object: Callback<Int>{
+                        override fun onFailure(call: Call<Int>, t: Throwable) {
+                            //Toast.makeText(this@MyEdit,"Error" + DataMY.perfil?.userPassword,Toast.LENGTH_LONG).show()
                         }
 
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                        override fun onResponse(call: Call<Int>, response: Response<Int>) {
                             //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
-                            Toast.makeText(this@MyEdit,"Usuario cambiado" + DataMY.perfil[0].userPassword, Toast.LENGTH_LONG).show()
-
-
+                            //Toast.makeText(this@MyEdit,"Usuario cambiado" + DataMY.perfil?.userPassword, Toast.LENGTH_LONG).show()
                         }
                     })
+                    Toast.makeText(this@MyEdit,"Usuario cambiado", Toast.LENGTH_LONG).show()
+                    finish()
                 }
 
 
                 if(imgArray!=null)
                 {
-                    Toast.makeText(this@MyEdit,DataMY.perfil[0].userID.toString(),Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyEdit,DataMY.perfil?.userID.toString(),Toast.LENGTH_LONG).show()
 
                     val encodedString:String =  Base64.getEncoder().encodeToString(this.imgArray)
                     val strEncodeImage:String = "data:image/png;base64," + encodedString
 
-                    DataMY.perfil[0].userImage=strEncodeImage
+                    DataMY.perfil?.userImage=strEncodeImage
                     //SE CONSTRUYE EL OBJECTO A ENVIAR,  ESTO DEPENDE DE COMO CONSTRUYAS EL SERVICIO
                     // SI TU SERVICIO POST REQUIERE DOS PARAMETROS HACER UN OBJECTO CON ESOS DOS PARAMETROS
-                    val user =   Perfil(DataMY.perfil[0].userID,
-                        DataMY.perfil[0].userNombre,
-                        DataMY.perfil[0].userApellidos,
-                        DataMY.perfil[0].userMail,
-                        DataMY.perfil[0].userPassword,
-                        DataMY.perfil[0].userPhone,
-                        DataMY.perfil[0].userImage)
+                    val user =   Perfil(DataMY.perfil?.userID,
+                        DataMY.perfil?.userNombre,
+                        DataMY.perfil?.userApellidos,
+                        DataMY.perfil?.userMail,
+                        DataMY.perfil?.userPassword,
+                        DataMY.perfil?.userPhone,
+                        DataMY.perfil?.userImage)
 
                     val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-                    val result: Call<String> = service.updateUser(user)
+                    val result: Call<Int> = service.updateUser(user)
 
-                    result.enqueue(object: Callback<String>{
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            Toast.makeText(this@MyEdit,"Error",Toast.LENGTH_LONG).show()
+                    result.enqueue(object: Callback<Int>{
+                        override fun onFailure(call: Call<Int>, t: Throwable) {
+                            //Toast.makeText(this@MyEdit,"Error",Toast.LENGTH_LONG).show()
                         }
 
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                        override fun onResponse(call: Call<Int>, response: Response<Int>) {
                             //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
-                            Toast.makeText(this@MyEdit,"Usuario cambiado", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this@MyEdit,"Usuario cambiado", Toast.LENGTH_LONG).show()
 
 
                         }
                     })
+
+                    DataMY.perfil?.imgArray=imgArray
+                    Toast.makeText(this@MyEdit,"Usuario cambiado", Toast.LENGTH_LONG).show()
+                    finish()
                 }
             }
 
@@ -228,6 +242,7 @@ class MyEdit:  AppCompatActivity(), View.OnClickListener {
 
 
     }
+
 
 
 }

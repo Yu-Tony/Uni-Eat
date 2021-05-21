@@ -3,6 +3,7 @@ package com.psm.tablelayout.Profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.R
+import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.my_principal.view.*
 
 
 /*https://stackoverflow.com/questions/32700818/how-to-open-a-fragment-on-button-click-from-a-fragment-in-android*/
 /*https://stackoverflow.com/questions/21028786/how-do-i-open-a-new-fragment-from-another-fragment*/
 class MyFragment : Fragment(), View.OnClickListener {
+
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter:MyAdapter? = null
@@ -36,15 +39,15 @@ class MyFragment : Fragment(), View.OnClickListener {
         btnEdit.setOnClickListener(this)
 
         val textView: TextView = view.findViewById<Button>(R.id.usernameMy)
-        textView.text = (DataMY.perfil[0].userNombre + " " + DataMY.perfil[0].userApellidos)
+        textView.text = (DataMY.perfil?.userNombre + " " + DataMY.perfil?.userApellidos)
 
         imageView = view.findViewById(R.id.pictureMy)
 
 
-        if(DataMY.perfil[0].imgArray == null){
+        if(DataMY.perfil?.imgArray == null){
             //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
         }else{
-            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
+            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
             //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
         }
 
@@ -56,9 +59,40 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }
 
+
+
         return view
     }
 
+    override fun onPause() {
+        super.onPause()
+        //Log.e("hot sauce", "pause")
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val view = view
+        if (view != null) {
+            view.isFocusableInTouchMode = true
+            view.requestFocus()
+        }
+
+        if (view != null) {
+            imageView = view.findViewById(R.id.pictureMy)
+        }
+
+        if(DataMY.perfil?.imgArray == null){
+            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
+        }else{
+            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
+            //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
+        }
+
+        //Log.e("hot sauce", "resume")
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,10 +110,10 @@ class MyFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
     super.onViewCreated(itemView, savedInstanceState)
 
-    val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    /*val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-    /*recycleMY.layoutManager =  layoutManager
-    this.adapter = context?.let { MyAdapter(it, DataCards.comida) }
+    recycleMY.layoutManager =  layoutManager
+    this.adapter = context?.let { MyAdapter(it, DataMY.resenasMine) }
     recycleMY.adapter = this.adapter*/
 
     }
@@ -92,6 +126,8 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }*/
     }
+
+
 
 
 }

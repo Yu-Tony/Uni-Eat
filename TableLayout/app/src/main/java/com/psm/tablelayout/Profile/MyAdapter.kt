@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsLong.Resena
+
 //import com.psm.tablelayout.CardsLong.CardContent
-import com.psm.tablelayout.CardsLong.Comida
+
 
 //class MyAdapter(val context: Context, var comidas:List<Comida>): RecyclerView.Adapter<MyAdapter.ViewHolder>(), Filterable {
-class MyAdapter(val context: Context) {
+class MyAdapter(val context: Context, var resenas:List<Resena>): RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
 
 
@@ -66,33 +68,33 @@ class MyAdapter(val context: Context) {
     }
 
 
-   /* override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =  this.layoutInflater.inflate(com.psm.tablelayout.R.layout.item_card_search,parent,false)
         return  ViewHolder(itemView)
 
-    }*/
+    }
 
-    /*override fun getItemCount(): Int {
-        return this.comidas.size;
-    }*/
+    override fun getItemCount(): Int {
+        return this.resenas.size;
+    }
 
-    /*override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val comida =  this.comidas[position]
-        holder.txtTitle.text =  comida.strTitle
-        holder.txtDescription.setText(comida.strDescription)
-        comida.rating?.let { holder.ratingComidaCard.setRating(it) }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val comida =  this.resenas[position]
+        holder.txtTitle.text =  comida.resenaTitulo
+        holder.txtDescription.setText(comida.resenaDescription)
+        comida.resenaRate?.let { holder.ratingComidaCard.setRating(it) }
         holder.comidaPosition =  position
 
 
-        if(comida.imgArray == null){
-            holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+        if(comida.imgArray1 == null){
+           // holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
         }else{
-            holder.imgcomidaCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(comida.imgArray!!))
+            holder.imgcomidaCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(comida.imgArray1!!))
         }
 
-    }*/
+    }
 
-   /* override fun getFilter(): Filter {
+    /*override fun getFilter(): Filter {
         return object : Filter(){
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
 
@@ -124,9 +126,9 @@ class MyAdapter(val context: Context) {
 
         }
 
-    }
+    }*/
 
-*/
+
 
 
 }

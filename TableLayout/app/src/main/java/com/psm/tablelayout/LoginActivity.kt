@@ -3,6 +3,7 @@ package com.psm.tablelayout
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -86,11 +87,20 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
                                             item[0].userPhone,
                                             item[0].userImage)
 
+                                    //https://stackoverflow.com/questions/45213706/kotlin-wait-function
+                                    DataMY.getresenasDrafts()
+                                    Toast.makeText(this@LoginActivity,"Cargando...", Toast.LENGTH_LONG).show()
+                                    Handler().postDelayed(
+                                        {
+                                            returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                                            setResult(Activity.RESULT_OK, returnIntent)
+                                            finish();
+                                        },
+                                        5000 // value in milliseconds
+                                    )
 
                                     //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
-                                   returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                                    setResult(Activity.RESULT_OK, returnIntent)
-                                    finish();
+
                                 }
                                 else
                                 {

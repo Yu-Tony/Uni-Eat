@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.search.*
 import java.util.*
 
 //class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener
-class SearchActivity:AppCompatActivity()  {
+class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    //private var reviewAdapter:CardsAdapter? = null
+    private var reviewAdapter:CardsAdapter? = null
     private var type:String?=null;
     private var type2:String?="1";
     private var type3:String="1";
@@ -26,13 +26,13 @@ class SearchActivity:AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       /* setContentView(R.layout.search)
+        setContentView(R.layout.search)
 
 
         DataCards.content =  this
         //RecyclerView
         RecycleViewSearch.layoutManager =  LinearLayoutManager(this)
-        this.reviewAdapter =  CardsAdapter(this, DataCards.comida)
+        this.reviewAdapter =  CardsAdapter(this, DataCards.resenas)
         RecycleViewSearch.adapter = this.reviewAdapter
 
         //--------------------------------------------------------SearchView
@@ -143,6 +143,8 @@ class SearchActivity:AppCompatActivity()  {
                             if(type2=="1"){reviewAdapter?.NameFilter()?.filter(null)}
                             if(type2=="2"){reviewAdapter?.FacuFilter()?.filter(null)}
                             if(type2=="3"){reviewAdapter?.CategFilter()?.filter(null)}
+
+
                         }
                         if(position==1)
                         {   type3="2"
@@ -160,19 +162,20 @@ class SearchActivity:AppCompatActivity()  {
 
         }
 
-*/
+
 
     }
 
 
-   /* override fun onQueryTextSubmit(query: String?): Boolean {
-        return false;
-    }*/
+    override fun onQueryTextSubmit(query: String?): Boolean {
 
-    /*
+        return false;
+    }
+
+
  override fun onQueryTextChange(newText: String?): Boolean {
 
-    (newText != null){
+
 
          if(type2=="1")
          {
@@ -211,11 +214,11 @@ class SearchActivity:AppCompatActivity()  {
 
          }
 
-     }
+
 
      return false;
  }
-*/
+
 
 
 }

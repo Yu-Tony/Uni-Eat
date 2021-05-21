@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        DataCards.resenas
         DataCards.facultad
         DataCards.categorias
 
@@ -152,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                                     tab.setIcon(R.drawable.ico_favoritos)
                                 }
                                 2-> {
+
                                     tab.text =  "MY"
                                     tab.setIcon(R.drawable.ico_person)
                                 }

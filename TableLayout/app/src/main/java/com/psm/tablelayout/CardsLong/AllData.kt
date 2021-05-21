@@ -8,9 +8,13 @@ class Facultades(var facultadesID:Int?=null,
                  var facultadesImage:String? = null,
                  var imgArray: ByteArray? = null)
 {
+    override fun toString(): String {
+        return this.facultadesNombre!!
 
+    }
 
 }
+
 
 
 class Categorias(var categoriaID:Int?=null,
@@ -19,10 +23,10 @@ class Categorias(var categoriaID:Int?=null,
                  var imgArray: ByteArray? = null)
 {
 
-    /*override fun toString(): String {
-        return this.strTitleC
+    override fun toString(): String {
+        return this.categoriaNombre!!
 
-    }*/
+    }
 }
 
 data class Perfil(
@@ -38,14 +42,24 @@ data class Perfil(
 {}
 
 
-class Comida(
-    var strTitle:String? = null,
-    var strDescription:String? =  null,
-    var intIdImage:Int? =  R.drawable.nct01,
-    var facu: Facultades? = null,
-    var categ: Categorias? = null,
-    var imgArray: ByteArray? = null,
-    var rating:Float?=null
-   )
+data class Resena(
+    var resenaID:Int? =  null,
+    var resenaUsuario:String? = null,
+    var resenaTitulo:String? =  null,
+    var resenaCategoria:String? =  null,
+    var resenaFacultad:String? =  null,
+    var resenaDescription:String? =  null,
+    var resenaRate:Float?=null,
+    var resenaPublicado:Int? =  null,
+    var resenaImageOne:String? = null,
+    var resenaImageTwo:String? = null,
+    var resenaImageThree:String? = null,
+    var resenaImageFour:String? = null,
+    var resenaImageFive:String? = null,
+    var imgArray1: ByteArray? = null,
+    var imgArray2: ByteArray? = null,
+    var imgArray3: ByteArray? = null,
+    var imgArray4: ByteArray? = null,
+    var imgArray5: ByteArray? = null
+)
 {}
-

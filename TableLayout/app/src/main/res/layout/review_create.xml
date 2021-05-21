@@ -52,17 +52,20 @@
                     android:textColor="@color/colorVerde" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginRight="20dp"
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Categoría"
+
                     android:textColor="@color/colorVerde" />
 
                 <Spinner
@@ -70,15 +73,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:outlineAmbientShadowColor="@color/colorVerde" />
+            </LinearLayout>
 
-            </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp">
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,8 +94,7 @@
                     android:layout_height="50dp"
                     android:outlineAmbientShadowColor="@color/colorVerde" />
 
-            </RelativeLayout>
-
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -145,6 +146,11 @@
 
                 </ImageSwitcher>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Seleccionar minimo 3 imagenes" />
 
                 <TextView
                     android:layout_width="wrap_content"

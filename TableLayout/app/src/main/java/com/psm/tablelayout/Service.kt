@@ -3,6 +3,7 @@ package com.psm.tablelayout
 import com.psm.tablelayout.CardsLong.Categorias
 import com.psm.tablelayout.CardsLong.Facultades
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.CardsLong.Resena
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,7 +24,7 @@ interface Service{
 
     @Headers("Content-Type: application/json")
     @POST("userUniEatC/update")
-    fun updateUser(@Body UsersData: Perfil): Call<String>
+    fun updateUser(@Body UsersData: Perfil): Call<Int>
 
     /*----------------------------------------------------------------------*/
     @GET("categoriaUniEatC/CategoriasUniEat")
@@ -55,4 +56,24 @@ interface Service{
     @Headers("Content-Type: application/json")
     @POST("facultadUniEatC/Save")
     fun saveFacultad(@Body FacuData: Facultades): Call<Int>
+
+
+    @GET("resenaUniEatC/ResenasUniEat")
+    fun getResenas(): Call<List<Resena>>
+
+    //CAMBIAR A BUSCAR RESENA POR ID
+    @GET("resenaUniEatC/ResenasUniEat/{resenaID}")
+    fun getResena(@Path("resenaID") resenaID: String): Call<List<Resena>>
+
+    @Headers("Content-Type: application/json")
+    @POST("resenaUniEatC/Delete")
+    fun deleteResena(@Body ResData: Resena): Call<Int>
+
+    @Headers("Content-Type: application/json")
+    @POST("resenaUniEatC/Save")
+    fun saveResena(@Body ResData: Resena): Call<Int>
+
+    @Headers("Content-Type: application/json")
+    @POST("resenaUniEatC/Update")
+    fun updateResena(@Body ResData: Resena): Call<Int>
 }

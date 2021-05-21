@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -232,10 +233,20 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                                         item[0].userPhone,
                                         item[0].userImage)
 
-                                    //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
-                                    returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                                    setResult(Activity.RESULT_OK, returnIntent)
-                                    finish();
+
+                                DataMY.getresenasDrafts()
+                                Toast.makeText(this@SignUpActivity,"Cargando...", Toast.LENGTH_LONG).show()
+                                Handler().postDelayed(
+                                    {
+                                        //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
+                                        returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                                        setResult(Activity.RESULT_OK, returnIntent)
+                                        finish();
+                                    },
+                                    5000 // value in milliseconds
+                                )
+
+
 
 
                             } else {
@@ -300,7 +311,7 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                                     phoneUsuario=  editTextTextPhone!!.text.toString()
                                 }
                                 errorUser=0
-                                // Toast.makeText(this@SignUpActivity,"Todo todo bien", Toast.LENGTH_LONG).show()
+
 
                                 checkEmail()
 
