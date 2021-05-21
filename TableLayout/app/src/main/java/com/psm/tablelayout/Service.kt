@@ -9,7 +9,6 @@ import retrofit2.http.*
 //Retrofi usa una interface para hacer la petición hacia el servidor
 interface Service{
 
-    //Servicios para consumir el Album
     @GET("userUniEatC/UsersUniEat")
     fun getUsers(): Call<List<Perfil>>
 
@@ -21,6 +20,10 @@ interface Service{
     @Headers("Content-Type: application/json")
     @POST("userUniEatC/Save")
     fun saveUser(@Body UsersData: Perfil): Call<Int>
+
+    @Headers("Content-Type: application/json")
+    @POST("userUniEatC/update")
+    fun updateUser(@Body UsersData: Perfil): Call<String>
 
     /*----------------------------------------------------------------------*/
     @GET("categoriaUniEatC/CategoriasUniEat")

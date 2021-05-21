@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -14,6 +15,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
 import com.psm.tablelayout.CardsLong.DataCards
+import com.psm.tablelayout.Profile.DataMY
+import com.psm.tablelayout.Profile.MyEdit
 //import com.psm.tablelayout.Profile.MyEdit
 //import com.psm.tablelayout.Profile.onFragmentActionsListener
 import com.psm.tablelayout.Search.SearchActivity
@@ -189,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }*/
 
-    /*override fun onClickFragmentMy(intId:Int) {
+    fun onClickFragmentMy(intId:Int) {
        when(intId)
        {
            R.id.btnEditProfile->{
@@ -205,7 +208,7 @@ class MainActivity : AppCompatActivity() {
                startActivity(intent)
            }
        }
-    }*/
+    }
 
 
 

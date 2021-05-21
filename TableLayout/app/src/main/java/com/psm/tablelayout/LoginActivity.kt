@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.Profile.DataMY
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.signup.*
 import retrofit2.Call
@@ -18,12 +20,14 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
 
     val EXTRA_TEXT_ADD = "logged"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
         val btnLogIn =  findViewById<Button>(R.id.btnLogin)
         btnLogIn.setOnClickListener(this)
+
 
         /*val button = findViewById<Button>(R.id.btnLogin)
         button.setOnClickListener {
@@ -72,7 +76,19 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
                                 if(pass==strMessage)
                                 {
                                     val returnIntent = Intent()
-                                    returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+
+
+                                        DataMY.initializePerfil(item[0].userID,
+                                            item[0].userNombre,
+                                            item[0].userApellidos,
+                                            item[0].userMail,
+                                            item[0].userPassword,
+                                            item[0].userPhone,
+                                            item[0].userImage)
+
+
+                                    //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
+                                   returnIntent.putExtra("result", EXTRA_TEXT_ADD)
                                     setResult(Activity.RESULT_OK, returnIntent)
                                     finish();
                                 }

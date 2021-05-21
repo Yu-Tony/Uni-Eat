@@ -13,6 +13,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.Profile.DataMY
+import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.signup.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,6 +40,7 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
     var nombreUsuario:String?=null
     //////////////////////////////////////
 
+    //https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-android/
     //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +
@@ -197,6 +200,56 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                 //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SignUpActivity,"Usuario creado", Toast.LENGTH_LONG).show()
 
+               /**/
+                val busqueda:String =  editTextTextPersonName!!.text.toString()
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<List<Perfil>> = service.getUser(busqueda)
+
+                result.enqueue(object: Callback<List<Perfil>> {
+                    override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
+                        Toast.makeText(this@SignUpActivity,"Error", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
+
+                        var strMessage:String =  ""
+                        var byteArray:ByteArray? = null
+                        val item =  response.body()
+
+                        if (item != null){
+                            val responseBody: List<Perfil>? = response.body()
+                            if (!responseBody!!.isEmpty()) {
+                                var strMessage:String =  ""
+                                strMessage =   item[0].userPassword.toString()
+
+                                    val returnIntent = Intent()
+
+                                    DataMY.initializePerfil(item[0].userID,
+                                        item[0].userNombre,
+                                        item[0].userApellidos,
+                                        item[0].userMail,
+                                        item[0].userPassword,
+                                        item[0].userPhone,
+                                        item[0].userImage)
+
+                                    //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
+                                    returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                                    setResult(Activity.RESULT_OK, returnIntent)
+                                    finish();
+
+
+                            } else {
+                                Toast.makeText(this@SignUpActivity,"El usuario no existe", Toast.LENGTH_LONG).show()
+                            }
+
+                        }
+
+
+
+                    }
+
+                })
+                /**/
                 val returnIntent = Intent()
                 returnIntent.putExtra("result", EXTRA_TEXT_ADD)
                 setResult(Activity.RESULT_OK, returnIntent)
@@ -299,4 +352,8 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
     }
 
+    private fun getUser()
+    {
+
+    }
 }

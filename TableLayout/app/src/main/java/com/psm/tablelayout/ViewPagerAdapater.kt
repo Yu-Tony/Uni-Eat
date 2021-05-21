@@ -10,6 +10,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 //import com.psm.tablelayout.CardsLong.CardFragment
 import com.psm.tablelayout.CardsLong.CardHomeFragment
 import com.psm.tablelayout.CardsLong.DataCards
+import com.psm.tablelayout.Profile.MyFragment
 
 //import com.psm.tablelayout.Profile.MyEditFragment
 //import com.psm.tablelayout.Profile.MyFragment
@@ -24,7 +25,7 @@ class ViewPagerAdapater(fragment: FragmentActivity, private val context: Context
 
         val fragment1 = CardHomeFragment()
        // val fragment2 =  CardFragment()
-       // val fragment3 =  MyFragment()
+        val fragment3 =  MyFragment()
        // val fragment =  DemoObjectFragment()
 
 
@@ -40,7 +41,7 @@ class ViewPagerAdapater(fragment: FragmentActivity, private val context: Context
             2 ->
             {
 
-                return fragment1
+                return fragment3
 
             }
             3 ->
