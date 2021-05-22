@@ -198,84 +198,84 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
         result.enqueue(object: Callback<Int>{
             override fun onFailure(call: Call<Int>, t: Throwable) {
-                Toast.makeText(this@SignUpActivity,"Error",Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignUpActivity,"Error Save User",Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SignUpActivity,"Usuario creado", Toast.LENGTH_LONG).show()
 
-               /**/
-                val busqueda:String =  editTextTextPersonName!!.text.toString()
-                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-                val result: Call<List<Perfil>> = service.getUser(busqueda)
 
-                result.enqueue(object: Callback<List<Perfil>> {
-                    override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
-                        Toast.makeText(this@SignUpActivity,"Error", Toast.LENGTH_LONG).show()
-                    }
+                        val busqueda:String =  editTextTextPersonName!!.text.toString()
+                        val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                        val result: Call<List<Perfil>> = service.getUser(busqueda)
 
-                    override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
-
-                        var strMessage:String =  ""
-                        var byteArray:ByteArray? = null
-                        val item =  response.body()
-
-                        if (item != null){
-                            val responseBody: List<Perfil>? = response.body()
-                            if (!responseBody!!.isEmpty()) {
-                                var strMessage:String =  ""
-                                strMessage =   item[0].userPassword.toString()
-
-                                    val returnIntent = Intent()
-
-                                    DataMY.initializePerfil(item[0].userID,
-                                        item[0].userNombre,
-                                        item[0].userApellidos,
-                                        item[0].userMail,
-                                        item[0].userPassword,
-                                        item[0].userPhone,
-                                        item[0].userImage)
-
-
-                                DataMY.getresenasDrafts()
-
-                                SaveSharedPreference.setUserName(this@SignUpActivity,
-                                    DataMY.perfil?.userNombre
-                                )
-
-
-                                Toast.makeText(this@SignUpActivity,"Cargando...", Toast.LENGTH_LONG).show()
-                                Handler().postDelayed(
-                                    {
-
-                                        //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
-                                        returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                                        setResult(Activity.RESULT_OK, returnIntent)
-                                        finish();
-                                    },
-                                    5000 // value in milliseconds
-                                )
-
-
-
-
-                            } else {
-                                Toast.makeText(this@SignUpActivity,"El usuario no existe", Toast.LENGTH_LONG).show()
+                        result.enqueue(object: Callback<List<Perfil>> {
+                            override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
+                                Toast.makeText(this@SignUpActivity,"Error Get User", Toast.LENGTH_LONG).show()
                             }
 
-                        }
+                            override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
+
+                                var strMessage:String =  ""
+                                var byteArray:ByteArray? = null
+                                val item =  response.body()
+
+                                if (item != null){
+                                    val responseBody: List<Perfil>? = response.body()
+                                    if (!responseBody!!.isEmpty())
+                                    {
+                                        var strMessage:String =  ""
+                                        strMessage =   item[0].userPassword.toString()
+
+                                        val returnIntent = Intent()
+
+                                        DataMY.initializePerfil(item[0].userID,
+                                            item[0].userNombre,
+                                            item[0].userApellidos,
+                                            item[0].userMail,
+                                            item[0].userPassword,
+                                            item[0].userPhone,
+                                            item[0].userImage)
+
+
+                                        DataMY.getresenasDrafts()
+
+                                        SaveSharedPreference.setUserName(this@SignUpActivity,
+                                            DataMY.perfil?.userNombre
+                                        )
+
+
+                                        Toast.makeText(this@SignUpActivity,"Cargando...", Toast.LENGTH_LONG).show()
+                                        Handler().postDelayed(
+                                            {
+
+                                                //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
+                                                returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                                                setResult(Activity.RESULT_OK, returnIntent)
+                                                finish();
+                                            },
+                                            5000 // value in milliseconds
+                                        )
+
+                                    } else {
+                                        Toast.makeText(this@SignUpActivity,"El usuario no existe", Toast.LENGTH_LONG).show()
+                                    }
+
+                                }
 
 
 
-                    }
+                            }
 
-                })
-                /**/
-                val returnIntent = Intent()
-                returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                setResult(Activity.RESULT_OK, returnIntent)
-                finish();
+                        })
+
+                        val returnIntent = Intent()
+                        returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                        setResult(Activity.RESULT_OK, returnIntent)
+                        finish();
+
+
             }
         })
     }

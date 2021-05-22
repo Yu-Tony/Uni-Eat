@@ -36,25 +36,25 @@ class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): 
 
             this.ImageCard.setOnClickListener {
 
-                //Lanzamos el intent para abrir el detalle
+                /*//Lanzamos el intent para abrir el detalle
                 val getFilter: Categorias =  DataCards.categorias[this.categPosition]
                 // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
                 activityIntent.putExtra(FILTER_NAME,getFilter.categoriaNombre)
                 activityIntent.putExtra(FILTER_TYPE,"2")
-                context.startActivity(activityIntent)
+                context.startActivity(activityIntent)*/
             }
 
 
             this.TitleCard.setOnClickListener {
 
-                //Lanzamos el intent para abrir el detalle
+                /*//Lanzamos el intent para abrir el detalle
                 val getFilter: Categorias =  DataCards.categorias[this.categPosition]
                 // Log.e("welcome", getFilter.strTitleF);
                 val  activityIntent =  Intent(context, SearchActivity::class.java)
                 activityIntent.putExtra(FILTER_NAME,getFilter.categoriaNombre)
                 activityIntent.putExtra(FILTER_TYPE,"2")
-                context.startActivity(activityIntent)
+                context.startActivity(activityIntent)*/
             }
 
         }

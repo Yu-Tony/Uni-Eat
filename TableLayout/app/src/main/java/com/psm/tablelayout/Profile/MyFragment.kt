@@ -41,9 +41,9 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         imageView = view.findViewById(R.id.pictureMy)
 
-        /*val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
-        if (networkInfo != null && networkInfo.isConnected) {
+       /* if (networkInfo != null && networkInfo.isConnected) {
 
         } else {
             // display error

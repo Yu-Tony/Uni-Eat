@@ -25,7 +25,7 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
 
     val EXTRA_TEXT_ADD = "logged"
 
-    val app = applicationContext as PerfilApp
+//    val app = applicationContext as PerfilApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +43,9 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
             finish();
         }*/
 
-        lifecycleScope.launch{
+       /* lifecycleScope.launch{
             val people = app.room.perfilDAO().getAll()
-        }
+        }*/
 
     }
 
