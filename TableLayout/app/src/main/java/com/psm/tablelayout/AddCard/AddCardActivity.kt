@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
@@ -16,8 +18,13 @@ import com.psm.tablelayout.CardsLong.Facultades
 import com.psm.tablelayout.CardsLong.Resena
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
+import com.psm.tablelayout.RestEngine
+import com.psm.tablelayout.Service
 import kotlinx.android.synthetic.main.review_create.*
 import kotlinx.android.synthetic.main.signup.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,8 +46,21 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
 
     var AllCampos:Boolean?=true
 
+    var imgArray:ByteArray? =  null
+    var imgArray2:ByteArray? =  null
+    var imgArray3:ByteArray? =  null
+    var imgArray4:ByteArray? =  null
+    var imgArray5:ByteArray? =  null
 
+    var encodedString:String? = null;
+    var encodedString2:String? = null;
 
+    var strEncodeImage: Array<String?> = arrayOfNulls(5)
+    /*var strEncodeImage:String? = null
+    var strEncodeImageTwo:String? = null
+    var strEncodeImage3:String? = null
+    var strEncodeImage4:String? = null
+    var strEncodeImage5:String? = null*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +133,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
             if (position < images!!.size-1){
                 position++
                 imageViewCreateReview.setImageURI(images!![position])
-                //Toast.makeText(this, images!![position].toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
             }
             else{
                 //no more images
@@ -126,6 +146,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
             if (position > 0) {
                 position--
                 imageViewCreateReview.setImageURI(images!![position])
+                Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
             } else {
                 //no more images
                 Toast.makeText(this, "No More images...", Toast.LENGTH_SHORT).show()
@@ -169,16 +190,50 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                         }
                         else
                         {
+
                             for (i in 0 until count){
                                 val imageUri = data.clipData!!.getItemAt(i).uri
                                 //add image to list
                                 images!!.add(imageUri)
-
-
                             }
+
                             //set first image from list to image switcher
                             imageViewCreateReview.setImageURI(images!![0])
                             position = 0;
+
+                            for(i in 0 until count)
+                            {
+                                val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![i])
+                                val stream = ByteArrayOutputStream()
+                                //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
+                                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                                //Agregamos al objecto album el arreglo de bytes
+                                imgArray =  stream.toByteArray()
+                                encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                                strEncodeImage[i] = "data:image/png;base64," + encodedString
+                                Log.e("light bulb codes", strEncodeImage[i]!!)
+
+                            }
+
+                           /* val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![0])
+                            val stream = ByteArrayOutputStream()
+                            //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
+                            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                            //Agregamos al objecto album el arreglo de bytes
+                            imgArray =  stream.toByteArray()
+                            encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                            strEncodeImage = "data:image/png;base64," + encodedString
+                            Log.e("light bulb first", strEncodeImage!!)*/
+
+                            /*val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![1])
+                            val stream = ByteArrayOutputStream()
+                            //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
+                            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                            //Agregamos al objecto album el arreglo de bytes
+                            imgArray =  stream.toByteArray()
+                            encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                            strEncodeImageTwo = "data:image/png;base64," + encodedString
+                            Log.e("light bulb first", strEncodeImageTwo!!)*/
                         }
 
                 }
@@ -188,6 +243,16 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     //set image to image switcher
                     imageViewCreateReview.setImageURI(imageUri)
                     position = 0;
+
+                    val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+                    val stream = ByteArrayOutputStream()
+                    //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    //Agregamos al objecto album el arreglo de bytes
+                    imgArray =  stream.toByteArray()
+                    encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                    strEncodeImage[0] = "data:image/png;base64," + encodedString
+                    Log.e("light bulb only one", strEncodeImage[0]!!)
                 }
 
             }
@@ -211,20 +276,21 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
             /*---------------------------------IMAGENES---------------------------------------*/
             var imgArray:ByteArray? =  null
             var encodedString:String? = null;
-            var strEncodeImage:String? = null
+           /* var strEncodeImage:String? = null
             var strEncodeImage2:String? = null
             var strEncodeImage3:String? = null
             var strEncodeImage4:String? = null
-            var strEncodeImage5:String? = null
+            var strEncodeImage5:String? = null*/
             var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
             if(photo!=null)
-            { val stream = ByteArrayOutputStream()
+            {/////////////OMG
+                /*val stream = ByteArrayOutputStream()
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 imgArray =  stream.toByteArray()
                 encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage = "data:image/png;base64," + encodedString
+                strEncodeImage = "data:image/png;base64," + encodedString*/
             }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
+           /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
             if(photo!=null)
             { val stream = ByteArrayOutputStream()
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -255,11 +321,11 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 imgArray =  stream.toByteArray()
                 encodedString=  Base64.getEncoder().encodeToString(imgArray)
                 strEncodeImage5 = "data:image/png;base64," + encodedString
-            }
+            }*/
 
             /*---------------------------------TABLA---------------------------------------*/
 
-            val res =   Resena(0,
+            /*val res =   Resena(0,
                 DataMY.perfil?.userMail,
                 tituloCreate!!.text.toString(),
                 CategoriaSeleccionada,
@@ -268,6 +334,20 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 ratingCreate.rating,
                 0,
                 strEncodeImage, strEncodeImage2, strEncodeImage3,strEncodeImage4,strEncodeImage5)
+
+            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+            val result: Call<Int> = service.saveResena(res)
+
+            result.enqueue(object: Callback<Int> {
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                    Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+                    finish()
+                }
+            })*/
 
         }
 
@@ -281,22 +361,19 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
         {
 
             /*---------------------------------IMAGENES---------------------------------------*/
-            var imgArray:ByteArray? =  null
-            var encodedString:String? = null;
-            var strEncodeImage:String? = null
-            var strEncodeImage2:String? = null
-            var strEncodeImage3:String? = null
-            var strEncodeImage4:String? = null
-            var strEncodeImage5:String? = null
-            var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
+            //var imgArray:ByteArray? =  null
+
+           // var strEncodeImage2:String? = null
+            //var strEncodeImage3:String? = null
+            //var strEncodeImage4:String? = null
+            //var strEncodeImage5:String? = null
+/*var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
+                val stream = ByteArrayOutputStream()
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
+                imgArray =  stream.toByteArray()*/
+
+
+           /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
             if(photo!=null)
             { val stream = ByteArrayOutputStream()
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -327,7 +404,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 imgArray =  stream.toByteArray()
                 encodedString=  Base64.getEncoder().encodeToString(imgArray)
                 strEncodeImage5 = "data:image/png;base64," + encodedString
-            }
+            }*/
 
             /*---------------------------------TABLA---------------------------------------*/
 
@@ -338,8 +415,33 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 FacultadSeleccionada,
                 DescriptionCreate!!.text.toString(),
                 ratingCreate.rating,
-                0,
-                strEncodeImage, strEncodeImage2, strEncodeImage3,strEncodeImage4,strEncodeImage5)
+                1,
+                strEncodeImage[0], strEncodeImage[1], strEncodeImage[2],strEncodeImage[3],strEncodeImage[4])
+
+            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+            val result: Call<Int> = service.saveResena(res)
+
+            result.enqueue(object: Callback<Int> {
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                    Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+
+                    DataCards.getResenas()
+                    Toast.makeText(this@AddCardActivity,"Subiendo post...", Toast.LENGTH_LONG).show()
+                    Handler().postDelayed(
+                        {
+                            Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                            finish();
+                        },
+                        20000 // value in milliseconds
+                    )
+
+
+                }
+            })
 
         }
 

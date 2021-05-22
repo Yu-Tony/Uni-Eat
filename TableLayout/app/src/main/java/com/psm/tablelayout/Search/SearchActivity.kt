@@ -219,6 +219,9 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
      return false;
  }
 
+    override fun onResume() {
+        super.onResume()
 
+    }
 
 }

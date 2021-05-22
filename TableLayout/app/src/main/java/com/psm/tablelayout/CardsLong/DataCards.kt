@@ -3,6 +3,7 @@ package com.psm.tablelayout.CardsLong
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
@@ -32,8 +33,9 @@ object DataCards {
 
    /* */
 
-     private fun getFacultades()
+      fun getFacultades()
     {
+        facultad.clear()
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
         var resultFacultades: Call<List<Facultades>> = service.getFacultades()
 
@@ -61,8 +63,9 @@ object DataCards {
         })
     }
 
-    private fun getCategorias()
+     fun getCategorias()
     {
+        categorias.clear()
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
         var resultCategorias: Call <List<Categorias>> = service.getCategorias()
 
@@ -89,8 +92,9 @@ object DataCards {
         })
     }
 
-    private fun getResenas()
+     fun getResenas()
     {
+        resenas.clear()
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
         var resultResenas: Call <List<Resena>> = service.getResenas()
 
