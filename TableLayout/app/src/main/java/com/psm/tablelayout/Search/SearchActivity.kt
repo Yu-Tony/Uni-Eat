@@ -2,7 +2,9 @@ package com.psm.tablelayout.Search
 
 import FILTER_NAME
 import FILTER_TYPE
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -221,6 +223,11 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onResume() {
         super.onResume()
+
+        Toast.makeText(this,"Buscando reseñas...", Toast.LENGTH_LONG).show()
+        DataCards.getResenas()
+
+        //Toast.makeText(this,"ONRESUME", Toast.LENGTH_LONG).show()
 
     }
 

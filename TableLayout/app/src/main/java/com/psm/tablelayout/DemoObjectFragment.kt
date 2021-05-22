@@ -22,7 +22,7 @@ class DemoObjectFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.my_principal, container, false)
+        return inflater.inflate(R.layout.fragment_demo_object, container, false)
     }
 
     //Va apesar el argumento del adaptador
@@ -31,7 +31,7 @@ class DemoObjectFragment : Fragment() {
         //Esto es un get si contiene el argumento tal
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             val textView: TextView = view.findViewById(R.id.txtTitle)
-            textView.text = "Love Me: " + getInt(ARG_OBJECT).toString()
+            textView.text = "Proximamente "
         }
     }
 

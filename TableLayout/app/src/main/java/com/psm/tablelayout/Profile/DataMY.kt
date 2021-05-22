@@ -129,6 +129,7 @@ object DataMY {
     fun getresenasDrafts()
     {
         resenasDrafts.clear()
+
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
         var resultResenas: Call<List<Resena>> = service.getResenas()
 

@@ -1,8 +1,12 @@
 package com.psm.tablelayout.CardsLong
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.psm.tablelayout.R
 
 //Nos permite manejar los generos
+
+
 class Facultades(var facultadesID:Int?=null,
                  var facultadesNombre:String?=null,
                  var facultadesImage:String? = null,

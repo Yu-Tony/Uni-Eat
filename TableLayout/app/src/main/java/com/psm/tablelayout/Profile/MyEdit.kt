@@ -28,6 +28,7 @@ class MyEdit:  AppCompatActivity(), View.OnClickListener {
     private val IMAGE_PICK_CODE = 1000;
     var imgArray:ByteArray? =  null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.my_editar)

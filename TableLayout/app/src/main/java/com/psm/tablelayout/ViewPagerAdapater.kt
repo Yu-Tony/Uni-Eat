@@ -27,7 +27,7 @@ class ViewPagerAdapater(fragment: FragmentActivity, private val context: Context
         val fragment1 = CardHomeFragment()
         val fragment2 =  CardFragment()
         val fragment3 =  MyFragment()
-       // val fragment =  DemoObjectFragment()
+        val fragment =  DemoObjectFragment()
 
 
         when(position){
@@ -37,7 +37,7 @@ class ViewPagerAdapater(fragment: FragmentActivity, private val context: Context
             }
             1 ->
             {
-                return fragment1
+                return fragment
             }
             2 ->
             {

@@ -21,7 +21,6 @@ import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
 import kotlinx.android.synthetic.main.review_create.*
-import kotlinx.android.synthetic.main.signup.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,9 +62,26 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
     var strEncodeImage5:String? = null*/
 
 
+    var EditIntent:String? =null
+    var IDintent:Int?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.review_create)
+
+
+        val RatingIntent = getIntent().getStringExtra("Rating")?.toFloat()
+
+
+        EditIntent = getIntent().getStringExtra("Edit")
+        val TituloIntent = getIntent().getStringExtra("Titulo")
+        val DescIntent = getIntent().getStringExtra("Descripcion")
+        val CategIntent = getIntent().getStringExtra("Categoria")
+        val FacuIntent = getIntent().getStringExtra("Facultad")
+        IDintent = getIntent().getStringExtra("ID")?.toInt()
+
+        //Toast.makeText(this, IDintent.toString(), Toast.LENGTH_SHORT).show()
+
 
         /*---------SPINNER CATEGORIAS-------------*/
         val spinnerCategoriaCreate=findViewById<Spinner>(R.id.spinnerCategory)
@@ -160,6 +176,27 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
 
         val btnPost =  findViewById<Button>(R.id.btnPost)
         btnPost.setOnClickListener(this)
+
+        /*---------------------------EDITAR-----------------------------------*/
+
+        if(EditIntent=="Editar")
+        {
+            val TituloEditar: TextView = findViewById(R.id.tituloCreate) as TextView
+            TituloEditar.text = TituloIntent
+            val DescEditar: TextView = findViewById(R.id.DescriptionCreate) as TextView
+            DescEditar.text=DescIntent
+
+            imageCreateLayout.setVisibility(View.GONE);
+            if (RatingIntent != null) {
+                ratingCreate.setRating(RatingIntent)
+            }
+            FacultadSeleccionada=FacuIntent
+            CategoriaSeleccionada=CategIntent
+        }
+        else
+        {
+            imageCreateLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private fun pickImagesIntent() {
@@ -185,8 +222,8 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     //get number of picked images
                     val count = data.clipData!!.itemCount
 
-                        if (count > 5) {
-                            Toast.makeText(this@AddCardActivity,"Solo puedes guardar un maximo de 5 imagenes", Toast.LENGTH_LONG).show()
+                        if (count > 3) {
+                            Toast.makeText(this@AddCardActivity,"Solo puedes guardar un maximo de 3 imagenes", Toast.LENGTH_LONG).show()
                         }
                         else
                         {
@@ -270,180 +307,292 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
     private fun DraftAdd()
     {
         CheckCampos()
-        if(AllCampos==true)
+        if(EditIntent=="Editar")
         {
+            if(AllCampos==true)
+            {
+                val res =   Resena(IDintent,
+                    DataMY.perfil?.userMail,
+                    tituloCreate!!.text.toString(),
+                    CategoriaSeleccionada,
+                    FacultadSeleccionada,
+                    DescriptionCreate!!.text.toString(),
+                    ratingCreate.rating,
+                    0)
 
-            /*---------------------------------IMAGENES---------------------------------------*/
-            var imgArray:ByteArray? =  null
-            var encodedString:String? = null;
-           /* var strEncodeImage:String? = null
-            var strEncodeImage2:String? = null
-            var strEncodeImage3:String? = null
-            var strEncodeImage4:String? = null
-            var strEncodeImage5:String? = null*/
-            var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
-            if(photo!=null)
-            {/////////////OMG
-                /*val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage = "data:image/png;base64," + encodedString*/
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.updateResena(res)
+
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                       // Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        //Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+
+
+                    }
+                })
             }
-           /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString =  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage2 = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage3 = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage4 = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage5 = "data:image/png;base64," + encodedString
-            }*/
-
-            /*---------------------------------TABLA---------------------------------------*/
-
-            /*val res =   Resena(0,
-                DataMY.perfil?.userMail,
-                tituloCreate!!.text.toString(),
-                CategoriaSeleccionada,
-                FacultadSeleccionada,
-                DescriptionCreate!!.text.toString(),
-                ratingCreate.rating,
-                0,
-                strEncodeImage, strEncodeImage2, strEncodeImage3,strEncodeImage4,strEncodeImage5)
-
-            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-            val result: Call<Int> = service.saveResena(res)
-
-            result.enqueue(object: Callback<Int> {
-                override fun onFailure(call: Call<Int>, t: Throwable) {
-                    Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
-                }
-
-                override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                    Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
-                    finish()
-                }
-            })*/
-
         }
-
-
-    }
-
-    private fun PostAdd()
-    {
-        CheckCampos()
-        if(AllCampos==true)
+        else
         {
+            if(AllCampos==true)
+            {
 
-            /*---------------------------------IMAGENES---------------------------------------*/
-            //var imgArray:ByteArray? =  null
+                /*---------------------------------IMAGENES---------------------------------------*/
+                //var imgArray:ByteArray? =  null
 
-           // var strEncodeImage2:String? = null
-            //var strEncodeImage3:String? = null
-            //var strEncodeImage4:String? = null
-            //var strEncodeImage5:String? = null
+                // var strEncodeImage2:String? = null
+                //var strEncodeImage3:String? = null
+                //var strEncodeImage4:String? = null
+                //var strEncodeImage5:String? = null
 /*var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
                 val stream = ByteArrayOutputStream()
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 imgArray =  stream.toByteArray()*/
 
 
-           /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString =  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage2 = "data:image/png;base64," + encodedString
+                /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString =  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage2 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage3 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage4 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage5 = "data:image/png;base64," + encodedString
+                 }*/
+
+                /*---------------------------------TABLA---------------------------------------*/
+
+                val res =   Resena(0,
+                    DataMY.perfil?.userMail,
+                    tituloCreate!!.text.toString(),
+                    CategoriaSeleccionada,
+                    FacultadSeleccionada,
+                    DescriptionCreate!!.text.toString(),
+                    ratingCreate.rating,
+                    0,
+                    strEncodeImage[0], strEncodeImage[1], strEncodeImage[2],strEncodeImage[3],strEncodeImage[4])
+
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.saveResena(res)
+
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Guardando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+
+
+                    }
+                })
+
             }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage3 = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage4 = "data:image/png;base64," + encodedString
-            }
-            photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
-            if(photo!=null)
-            { val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()
-                encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                strEncodeImage5 = "data:image/png;base64," + encodedString
-            }*/
-
-            /*---------------------------------TABLA---------------------------------------*/
-
-            val res =   Resena(0,
-                DataMY.perfil?.userMail,
-                tituloCreate!!.text.toString(),
-                CategoriaSeleccionada,
-                FacultadSeleccionada,
-                DescriptionCreate!!.text.toString(),
-                ratingCreate.rating,
-                1,
-                strEncodeImage[0], strEncodeImage[1], strEncodeImage[2],strEncodeImage[3],strEncodeImage[4])
-
-            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-            val result: Call<Int> = service.saveResena(res)
-
-            result.enqueue(object: Callback<Int> {
-                override fun onFailure(call: Call<Int>, t: Throwable) {
-                    Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
-                }
-
-                override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                    Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
-
-                    DataCards.getResenas()
-                    Toast.makeText(this@AddCardActivity,"Subiendo post...", Toast.LENGTH_LONG).show()
-                    Handler().postDelayed(
-                        {
-                            Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
-                            finish();
-                        },
-                        20000 // value in milliseconds
-                    )
-
-
-                }
-            })
-
         }
+
+
+
+    }
+
+    private fun PostAdd()
+    {
+
+        CheckCampos()
+        if(EditIntent=="Editar")
+        {
+            if(AllCampos==true)
+            {
+                val res =   Resena(IDintent,
+                    DataMY.perfil?.userMail,
+                    tituloCreate!!.text.toString(),
+                    CategoriaSeleccionada,
+                    FacultadSeleccionada,
+                    DescriptionCreate!!.text.toString(),
+                    ratingCreate.rating,
+                    1)
+
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.updateResena(res)
+
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        //Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        //Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+
+
+                    }
+                })
+            }
+        }
+        else
+        {
+            if(AllCampos==true)
+            {
+
+                /*---------------------------------IMAGENES---------------------------------------*/
+                //var imgArray:ByteArray? =  null
+
+                // var strEncodeImage2:String? = null
+                //var strEncodeImage3:String? = null
+                //var strEncodeImage4:String? = null
+                //var strEncodeImage5:String? = null
+/*var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
+                val stream = ByteArrayOutputStream()
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                imgArray =  stream.toByteArray()*/
+
+
+                /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString =  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage2 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage3 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage4 = "data:image/png;base64," + encodedString
+                 }
+                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
+                 if(photo!=null)
+                 { val stream = ByteArrayOutputStream()
+                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                     imgArray =  stream.toByteArray()
+                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
+                     strEncodeImage5 = "data:image/png;base64," + encodedString
+                 }*/
+
+                /*---------------------------------TABLA---------------------------------------*/
+
+                val res =   Resena(0,
+                    DataMY.perfil?.userMail,
+                    tituloCreate!!.text.toString(),
+                    CategoriaSeleccionada,
+                    FacultadSeleccionada,
+                    DescriptionCreate!!.text.toString(),
+                    ratingCreate.rating,
+                    1,
+                    strEncodeImage[0], strEncodeImage[1], strEncodeImage[2],strEncodeImage[3],strEncodeImage[4])
+
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.saveResena(res)
+
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
+
+                        DataCards.getResenas()
+                        Toast.makeText(this@AddCardActivity,"Subiendo post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                //Toast.makeText(this@AddCardActivity, strEncodeImage[1], Toast.LENGTH_LONG).show()
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+
+
+                    }
+                })
+
+            }
+        }
+
 
 
     }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--https://lobothijau.medium.com/create-carousel-easily-in-android-app-with-carouselview-6cbf5ef500a9-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlanco">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,27 +22,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="com.lobothijau.carouselsederhana.MainActivity"
-            tools:showIn="@layout/activity_main">
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            >
 
-            <com.synnapps.carouselview.CarouselView
-                android:id="@+id/carouselReviewWatch"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnBeforeReviewWatch"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/ico_prev"
+                android:backgroundTint="@color/colorNaranja" />
+
+            <ImageView
+                android:id="@+id/imageViewWatchReview"
+                android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:fillColor="#FFFFFFFF"
-                app:pageColor="#00000000"
-                app:radius="6dp"
-                app:slideInterval="3000"
-                app:strokeColor="#FF777777"
-                app:strokeWidth="1dp"/>
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars">
 
-        </RelativeLayout>
+            </ImageView>
+
+            <Button
+
+                android:id="@+id/btnAfterReviewWatch"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/ico_next"
+                android:backgroundTint="@color/colorNaranja" />
+        </LinearLayout>
 
         <RatingBar
             android:id="@+id/ratingReviewWatch"
@@ -166,6 +183,35 @@
                 android:textColor="@color/colorVerde"/>
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/OptionsCreators"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/DeleteMyReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Borrar"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/colorVerde"/>
+
+            <Button
+                android:id="@+id/EditMyReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Editar"
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/colorVerde"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

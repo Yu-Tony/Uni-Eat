@@ -9,10 +9,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.LocalData.PerfilApp
 import com.psm.tablelayout.Profile.DataMY
+import com.psm.tablelayout.Profile.SaveSharedPreference
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.signup.*
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +25,7 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
 
     val EXTRA_TEXT_ADD = "logged"
 
+    val app = applicationContext as PerfilApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,11 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
             setResult(Activity.RESULT_OK, returnIntent)
             finish();
         }*/
+
+        lifecycleScope.launch{
+            val people = app.room.perfilDAO().getAll()
+        }
+
     }
 
     override fun onClick(v: View?) {
@@ -89,6 +99,11 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
 
                                     //https://stackoverflow.com/questions/45213706/kotlin-wait-function
                                     DataMY.getresenasDrafts()
+
+                                    SaveSharedPreference.setUserName(this@LoginActivity,
+                                        item[0].userNombre
+                                    )
+
                                     Toast.makeText(this@LoginActivity,"Cargando...", Toast.LENGTH_LONG).show()
                                     Handler().postDelayed(
                                         {

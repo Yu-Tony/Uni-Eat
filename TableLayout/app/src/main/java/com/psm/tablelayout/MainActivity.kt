@@ -1,29 +1,35 @@
 package com.psm.tablelayout
 
+//import com.psm.tablelayout.Profile.MyEdit
+//import com.psm.tablelayout.Profile.onFragmentActionsListener
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
 import com.psm.tablelayout.CardsLong.DataCards
-import com.psm.tablelayout.Profile.DataMY
+import com.psm.tablelayout.LocalData.FacultadApp
 import com.psm.tablelayout.Profile.MyEdit
-//import com.psm.tablelayout.Profile.MyEdit
-//import com.psm.tablelayout.Profile.onFragmentActionsListener
+import com.psm.tablelayout.Profile.SaveSharedPreference
 import com.psm.tablelayout.Search.SearchActivity
-import com.psm.tablelayout.Splash.SplashActivity
+import kotlinx.coroutines.launch
+
 
 //class MainActivity : AppCompatActivity(), onFragmentActionsListener {
 class MainActivity : AppCompatActivity() {
+
+
+
+
 
 
     var loggedin = false;
@@ -35,11 +41,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DataCards.resenas
+       /* lifecycleScope.launch {
+            val FacultadesIntern = app.room.facultadesLocalDAO().getAll()
+        }*/
+
+
+        //DataCards.resenas
         DataCards.facultad
         DataCards.categorias
 
-        if(loggedin==false)
+        if(SaveSharedPreference.getUserName(this)?.length  == 0)
         {
 
             setContentView(R.layout.start)
@@ -69,58 +80,51 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
+            setContentView(R.layout.activity_main)
+            val pagerMain =  findViewById<ViewPager2>(R.id.pager)
+            pagerMain.adapter =  this.adapter
 
+            val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
 
-
-
-
-                setContentView(R.layout.activity_main)
-                val pagerMain =  findViewById<ViewPager2>(R.id.pager)
-                pagerMain.adapter =  this.adapter
-
-                val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
-
-                //Aqui ya sabe quien es nuestro tab, y quien nuestro pager
-                val tabLayoutMediator =  TabLayoutMediator(tab_layoutMain,pagerMain
-                    , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                        when(position){
-                            0-> {
-                                tab.text =  "Home"
-                                tab.setIcon(R.drawable.ico_home)
-                            }
-                            1-> {
-                                tab.text =  "Favorite"
-                                tab.setIcon(R.drawable.ico_favoritos)
-                            }
-                            2-> {
-                                tab.text =  "MY"
-                                tab.setIcon(R.drawable.ico_person)
-                            }
-                            3-> {
-                                tab.text =  "Drafts"
-                                tab.setIcon(R.drawable.ico_draw)
-                            }
-
+            //Aqui ya sabe quien es nuestro tab, y quien nuestro pager
+            val tabLayoutMediator =  TabLayoutMediator(tab_layoutMain,pagerMain
+                , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    when(position){
+                        0-> {
+                            tab.text =  "Home"
+                            tab.setIcon(R.drawable.ico_home)
                         }
-                    })
-                tabLayoutMediator.attach()
+                        1-> {
+                            tab.text =  "Favorite"
+                            tab.setIcon(R.drawable.ico_favoritos)
+                        }
+                        2-> {
+                            tab.text =  "MY"
+                            tab.setIcon(R.drawable.ico_person)
+                        }
+                        3-> {
+                            tab.text =  "Drafts"
+                            tab.setIcon(R.drawable.ico_draw)
+                        }
 
-                val btnAdd = findViewById<FloatingActionButton>(R.id.floating_action_button)
-                btnAdd.setOnClickListener {
-                    val intentAdd = Intent(this, AddCardActivity::class.java);
-                    startActivity(intentAdd);
-                }
+                    }
+                })
+            tabLayoutMediator.attach()
 
-                val btnSearch = findViewById<FloatingActionButton>(R.id.floating_action_button2)
-                btnSearch.setOnClickListener {
-                    val intentSearch = Intent(this, SearchActivity::class.java);
-                    startActivity(intentSearch);
-                }
+            val btnAdd = findViewById<FloatingActionButton>(R.id.floating_action_button)
+            btnAdd.setOnClickListener {
+                val intentAdd = Intent(this, AddCardActivity::class.java);
+                startActivity(intentAdd);
+            }
 
+            val btnSearch = findViewById<FloatingActionButton>(R.id.floating_action_button2)
+            btnSearch.setOnClickListener {
+                val intentSearch = Intent(this, SearchActivity::class.java);
+                startActivity(intentSearch);
+            }
         }
 
 
-       /* */
 
     }
 
@@ -174,8 +178,14 @@ class MainActivity : AppCompatActivity() {
 
                     val btnSearch = findViewById<FloatingActionButton>(R.id.floating_action_button2)
                     btnSearch.setOnClickListener {
-                        val intentSearch = Intent(this, SearchActivity::class.java);
-                        startActivity(intentSearch);
+
+
+
+                                val intentSearch = Intent(this, SearchActivity::class.java);
+                                startActivity(intentSearch);
+
+
+
                     }
                 };
             }

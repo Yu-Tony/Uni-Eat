@@ -51,19 +51,19 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
 
             this.imgcomidaCard.setOnClickListener {
 
-               /* //Lanzamos el intent para abrir el detalle
+                //Lanzamos el intent para abrir el detalle
                 val  activityIntent =  Intent(context,CardContent::class.java)
                 activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
-                context.startActivity(activityIntent)*/
+                context.startActivity(activityIntent)
             }
 
 
             this.txtTitle.setOnClickListener {
 
-               /* //Lanzamos el intent para abrir el detalle
+                //Lanzamos el intent para abrir el detalle
                 val  activityIntent =  Intent(context,CardContent::class.java)
                 activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
-                context.startActivity(activityIntent)*/
+                context.startActivity(activityIntent)
             }
 
         }

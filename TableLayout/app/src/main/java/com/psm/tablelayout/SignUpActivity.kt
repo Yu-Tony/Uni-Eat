@@ -1,12 +1,16 @@
 package com.psm.tablelayout
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.ContactsContract.CommonDataKinds.Email
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -15,7 +19,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.Profile.DataMY
-import kotlinx.android.synthetic.main.login.*
+import com.psm.tablelayout.Profile.SaveSharedPreference
 import kotlinx.android.synthetic.main.signup.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -235,9 +239,16 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
 
                                 DataMY.getresenasDrafts()
+
+                                SaveSharedPreference.setUserName(this@SignUpActivity,
+                                    DataMY.perfil?.userNombre
+                                )
+
+
                                 Toast.makeText(this@SignUpActivity,"Cargando...", Toast.LENGTH_LONG).show()
                                 Handler().postDelayed(
                                     {
+
                                         //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
                                         returnIntent.putExtra("result", EXTRA_TEXT_ADD)
                                         setResult(Activity.RESULT_OK, returnIntent)
@@ -363,8 +374,5 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun getUser()
-    {
 
-    }
 }

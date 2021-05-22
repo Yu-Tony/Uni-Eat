@@ -36,7 +36,7 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
 
         init{
 
-           /* this.ImageCard.setOnClickListener {
+            this.ImageCard.setOnClickListener {
 
                 //Lanzamos el intent para abrir el detalle
                 val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
@@ -45,7 +45,7 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
                 activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
                 activityIntent.putExtra(FILTER_TYPE,"1")
                 context.startActivity(activityIntent)
-            }*/
+            }
 
             this.TitleCard.setOnClickListener {
 

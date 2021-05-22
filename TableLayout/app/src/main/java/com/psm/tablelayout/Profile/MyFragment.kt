@@ -2,8 +2,8 @@ package com.psm.tablelayout.Profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +11,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.R
-import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.my_principal.view.*
 
 
@@ -43,6 +41,13 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         imageView = view.findViewById(R.id.pictureMy)
 
+        /*val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+
+        } else {
+            // display error
+        }*/
 
         if(DataMY.perfil?.imgArray == null){
             //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
@@ -59,10 +64,21 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }
 
+        view.btnLogOutMy.setOnClickListener{ view ->
+
+            SaveSharedPreference.setUserName(getActivity(),
+               ""
+            )
+
+
+            System.exit(0);
+        }
+
 
 
         return view
     }
+
 
     override fun onPause() {
         super.onPause()
