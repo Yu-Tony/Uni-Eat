@@ -3,19 +3,20 @@ package com.psm.tablelayout
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.MediaStore
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.Profile.DataMY
@@ -56,7 +57,23 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                 ".{8,}" +  // at least 8 characters
                 "$"
     )
+
+    fun isValidEmail(target: CharSequence?): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target)
+            .matches()
+    }
     ///////////////////////////////////////
+
+    var builderUser: AlertDialog.Builder? = null
+    var dialogUser: AlertDialog? = null
+
+    var builderCreateError: AlertDialog.Builder? = null
+    var dialogCreateError: AlertDialog? = null
+
+    var builderCreate: AlertDialog.Builder? = null
+    var dialogCreate: AlertDialog? = null
+
+    //////////////////////////////////////////////////
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +101,33 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
             setResult(Activity.RESULT_OK, returnIntent)*/
 
         }*/
+
+         builderUser = AlertDialog.Builder(this)
+         dialogUser = builderUser!!.setTitle("Error")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setMessage("Ya existe un usuario con este correo, intentar con otro correo o iniciar sesión")
+            .setPositiveButton("Cerrar") {
+                    dialogUser, which -> dialogUser.dismiss()
+            }
+            .create()
+
+        builderCreateError = AlertDialog.Builder(this)
+         dialogCreateError = builderCreateError!!.setTitle("Error")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setMessage("Ocurrió un error al crear el usuario, favor de intentar de nuevo")
+            .setPositiveButton("Cerrar") {
+                    dialogCreateError, which -> dialogCreateError.dismiss()
+            }
+            .create()
+
+        builderCreate = AlertDialog.Builder(this)
+        dialogCreate = builderCreate!!.setTitle("Bienvenido")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setMessage("Usuario creado exitosamente")
+            .setPositiveButton("Cerrar") {
+                    dialogCreate, which -> dialogCreate.dismiss()
+            }
+            .create()
     }
 
     override fun onClick(v: View?) {
@@ -158,7 +202,7 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
                     if (item != null){
                         val responseBody: List<Perfil>? = response.body()
                         if (!responseBody!!.isEmpty()) {
-                            Toast.makeText(this@SignUpActivity,"Ya existe un usuario con este correo", Toast.LENGTH_LONG).show()
+                            dialogUser?.show()
                         } else {
                             //Toast.makeText(this@SignUpActivity,"Creando uno nuevo", Toast.LENGTH_LONG).show()
                             createUser()
@@ -198,82 +242,30 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
         result.enqueue(object: Callback<Int>{
             override fun onFailure(call: Call<Int>, t: Throwable) {
-                Toast.makeText(this@SignUpActivity,"Error Save User",Toast.LENGTH_LONG).show()
+                dialogCreate?.show()
             }
 
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 //Toast.makeText(this@SignUpActivity,"OK",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SignUpActivity,"Usuario creado", Toast.LENGTH_LONG).show()
+                //dialogCreate?.show()
 
+                DataMY.initializePerfil (0,
+                    nombreUsuario,
+                    apellidoUsuario,
+                    emailUsuario,
+                    passUsuario,
+                    phoneUsuario,
+                    strEncodeImage)
 
-                        val busqueda:String =  editTextTextPersonName!!.text.toString()
-                        val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-                        val result: Call<List<Perfil>> = service.getUser(busqueda)
+                SaveSharedPreference.setUserName(this@SignUpActivity,
+                    DataMY.perfil?.userNombre
+                )
 
-                        result.enqueue(object: Callback<List<Perfil>> {
-                            override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
-                                Toast.makeText(this@SignUpActivity,"Error Get User", Toast.LENGTH_LONG).show()
-                            }
-
-                            override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
-
-                                var strMessage:String =  ""
-                                var byteArray:ByteArray? = null
-                                val item =  response.body()
-
-                                if (item != null){
-                                    val responseBody: List<Perfil>? = response.body()
-                                    if (!responseBody!!.isEmpty())
-                                    {
-                                        var strMessage:String =  ""
-                                        strMessage =   item[0].userPassword.toString()
-
-                                        val returnIntent = Intent()
-
-                                        DataMY.initializePerfil(item[0].userID,
-                                            item[0].userNombre,
-                                            item[0].userApellidos,
-                                            item[0].userMail,
-                                            item[0].userPassword,
-                                            item[0].userPhone,
-                                            item[0].userImage)
-
-
-                                        DataMY.getresenasDrafts()
-
-                                        SaveSharedPreference.setUserName(this@SignUpActivity,
-                                            DataMY.perfil?.userNombre
-                                        )
-
-
-                                        Toast.makeText(this@SignUpActivity,"Cargando...", Toast.LENGTH_LONG).show()
-                                        Handler().postDelayed(
-                                            {
-
-                                                //Toast.makeText(this@LoginActivity, DataMY.perfil[0].userNombre, Toast.LENGTH_LONG).show()
-                                                returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                                                setResult(Activity.RESULT_OK, returnIntent)
-                                                finish();
-                                            },
-                                            5000 // value in milliseconds
-                                        )
-
-                                    } else {
-                                        Toast.makeText(this@SignUpActivity,"El usuario no existe", Toast.LENGTH_LONG).show()
-                                    }
-
-                                }
-
-
-
-                            }
-
-                        })
-
-                        val returnIntent = Intent()
-                        returnIntent.putExtra("result", EXTRA_TEXT_ADD)
-                        setResult(Activity.RESULT_OK, returnIntent)
-                        finish();
+                val returnIntent = Intent()
+                returnIntent.putExtra("result", EXTRA_TEXT_ADD)
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish();
 
 
             }
@@ -282,95 +274,113 @@ class SignUpActivity:AppCompatActivity(), View.OnClickListener {
 
     private fun checkUser(){
 
-        /*--------------------------------NOMBRE CHECK-----------------------------------------*/
-        if(editTextTextPersonName!!.text.toString() != "")
+        //https://handyopinion.com/no-internet-connection-dialog-in-android-java-kotlin/
+        val ConnectionManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = ConnectionManager.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected == true)
         {
-            errorUser=0
-            nombreUsuario =  editTextTextPersonName!!.text.toString()
-
-            /*-----------------------------APELLIDO CHECK---------------------------*/
-            if(editTextTextPersonName2!!.text.toString() != "")
+            /*--------------------------------NOMBRE CHECK-----------------------------------------*/
+            if(editTextTextPersonName!!.text.toString() != "")
             {
                 errorUser=0
-                apellidoUsuario =  editTextTextPersonName2!!.text.toString()
+                nombreUsuario =  editTextTextPersonName!!.text.toString()
 
-                /*-----------------------------EMAIL CHECK---------------------------*/
-                if(editTextTextEmailAddress!!.text.toString() != "")
+                /*-----------------------------APELLIDO CHECK---------------------------*/
+                if(editTextTextPersonName2!!.text.toString() != "")
                 {
                     errorUser=0
-                    emailUsuario =  editTextTextEmailAddress!!.text.toString()
+                    apellidoUsuario =  editTextTextPersonName2!!.text.toString()
 
-                    /*-----------------------------PASSWORD CHECK---------------------------*/
-                    if(editTextTextPassword!!.text.toString() != "")
+                    /*-----------------------------EMAIL CHECK---------------------------*/
+                    if(editTextTextEmailAddress!!.text.toString() != "")
                     {
-                        if (!PASSWORD_PATTERN.matcher(editTextTextPassword!!.text.toString()).matches()) {
-                            errorUser=0
-                            Toast.makeText(this@SignUpActivity,"Contraseña debe tener minimo 8 caracteres y debe incluir 1 mayus, 1 min, 1 numero", Toast.LENGTH_LONG).show()
-                        }
-                        else
+                        errorUser=0
+                        emailUsuario =  editTextTextEmailAddress!!.text.toString()
+                        var emailCorrect = isValidEmail(emailUsuario)
+
+                        if(emailCorrect==true)
                         {
-                            passUsuario =  editTextTextPassword!!.text.toString()
-                            errorUser=0
-
-                            /*-----------------------------IMAGEN CHECK---------------------------*/
-                            if(imgArray!=null)
+                            /*-----------------------------PASSWORD CHECK---------------------------*/
+                            if(editTextTextPassword!!.text.toString() != "")
                             {
-                                /*-----------------------------PHONE CHECK---------------------------*/
-                                if(editTextTextPhone!!.text.toString() != "")
-                                {
+                                if (!PASSWORD_PATTERN.matcher(editTextTextPassword!!.text.toString()).matches()) {
                                     errorUser=0
-                                    phoneUsuario=  editTextTextPhone!!.text.toString()
+                                    Toast.makeText(this@SignUpActivity,"Contraseña debe tener minimo 8 caracteres y debe incluir 1 mayus, 1 min, 1 numero", Toast.LENGTH_LONG).show()
                                 }
-                                errorUser=0
+                                else
+                                {
+                                    passUsuario =  editTextTextPassword!!.text.toString()
+                                    errorUser=0
+
+                                    /*-----------------------------IMAGEN CHECK---------------------------*/
+                                    if(imgArray!=null)
+                                    {
+                                        /*-----------------------------PHONE CHECK---------------------------*/
+                                        if(editTextTextPhone!!.text.toString() != "")
+                                        {
+                                            errorUser=0
+                                            phoneUsuario=  editTextTextPhone!!.text.toString()
+                                        }
+                                        errorUser=0
 
 
-                                checkEmail()
+                                        checkEmail()
+
+                                    }
+                                    else
+                                    {
+                                        errorUser=1
+                                        Toast.makeText(this@SignUpActivity,"Favor de agregar una imagen", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+
+
 
                             }
                             else
                             {
                                 errorUser=1
-                                Toast.makeText(this@SignUpActivity,"Favor de agregar una imagen", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@SignUpActivity,"El campo Contraseña no puede estar vacío", Toast.LENGTH_LONG).show()
                             }
                         }
+                        else
+                        {
+                            Toast.makeText(this@SignUpActivity,"Ingrese un email valido", Toast.LENGTH_LONG).show()
 
-
+                        }
 
                     }
                     else
                     {
                         errorUser=1
-                        Toast.makeText(this@SignUpActivity,"El campo Contraseña no puede estar vacío", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignUpActivity,"El campo Correo no puede estar vacío", Toast.LENGTH_LONG).show()
                     }
 
                 }
                 else
                 {
                     errorUser=1
-                    Toast.makeText(this@SignUpActivity,"El campo Correo no puede estar vacío", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignUpActivity,"El campo Apellido no puede estar vacío", Toast.LENGTH_LONG).show()
                 }
-
             }
             else
             {
                 errorUser=1
-                Toast.makeText(this@SignUpActivity,"El campo Apellido no puede estar vacío", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignUpActivity,"El campo Nombre no puede estar vacío", Toast.LENGTH_LONG).show()
             }
         }
         else
         {
-            errorUser=1
-            Toast.makeText(this@SignUpActivity,"El campo Nombre no puede estar vacío", Toast.LENGTH_LONG).show()
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            val dialog: AlertDialog = builder.setTitle("Alerta de conexión a internet")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage("Favor de revisar tu conexión a internet")
+                .setPositiveButton("Cerrar") {
+                        dialog, which -> dialog.dismiss()
+                }
+                .create()
+            dialog.show()
         }
-
-
-
-
-
-
-
-
-
 
     }
 

@@ -26,9 +26,9 @@ object DataCards {
         //this.initializeFacultad()
         //this.initializeCategorias()
        // this.initializeComidas()
-        this.getFacultades()
-        this.getCategorias()
-        this.getResenas()
+        //this.getFacultades()
+        //this.getCategorias()
+        //this.getResenas()
     }
 
    /* */

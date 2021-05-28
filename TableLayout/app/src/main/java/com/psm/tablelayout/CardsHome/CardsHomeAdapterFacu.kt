@@ -136,7 +136,9 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
     }
 
 
-
+    fun setData(items: List<Facultades>) {
+        facu = items
+    }
 
 
 }

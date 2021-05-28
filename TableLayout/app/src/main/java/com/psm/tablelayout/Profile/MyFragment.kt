@@ -4,17 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.R
+import com.psm.tablelayout.RestEngine
+import com.psm.tablelayout.Service
 import kotlinx.android.synthetic.main.my_principal.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 /*https://stackoverflow.com/questions/32700818/how-to-open-a-fragment-on-button-click-from-a-fragment-in-android*/
@@ -35,26 +44,6 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         val btnEdit = view.findViewById<Button>(R.id.btnEditProfile)
         btnEdit.setOnClickListener(this)
-
-        val textView: TextView = view.findViewById<Button>(R.id.usernameMy)
-        textView.text = (DataMY.perfil?.userNombre + " " + DataMY.perfil?.userApellidos)
-
-        imageView = view.findViewById(R.id.pictureMy)
-
-        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connMgr.activeNetworkInfo
-       /* if (networkInfo != null && networkInfo.isConnected) {
-
-        } else {
-            // display error
-        }*/
-
-        if(DataMY.perfil?.imgArray == null){
-            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
-        }else{
-            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
-            //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
-        }
 
         //usernameMy
         view.btnEditProfile.setOnClickListener { view ->
@@ -90,22 +79,65 @@ class MyFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
-        val view = view
-        if (view != null) {
-            view.isFocusableInTouchMode = true
-            view.requestFocus()
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = connMgr.activeNetworkInfo
+        Log.e("ONRESUME", "MY")
+        if (networkInfo != null && networkInfo.isConnected) {
+            val busqueda:String = DataMY.perfil?.userMail.toString()
+            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+            val result: Call<List<Perfil>> = service.getUser(busqueda)
+
+            result.enqueue(object: Callback<List<Perfil>> {
+                override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
+                    Toast.makeText(getActivity(),"Error al obtener el usuario",Toast.LENGTH_SHORT).show();
+                }
+
+                override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
+
+                    val item =  response.body()
+
+                    if (item != null){
+                        val responseBody: List<Perfil>? = response.body()
+                        if (!responseBody!!.isEmpty())
+                        {
+                            var strMessage:String =  ""
+                            strMessage =   item[0].userPassword.toString()
+
+                            val returnIntent = Intent()
+
+                            DataMY.initializePerfil(item[0].userID,
+                                item[0].userNombre,
+                                item[0].userApellidos,
+                                item[0].userMail,
+                                item[0].userPassword,
+                                item[0].userPhone,
+                                item[0].userImage)
+
+
+                            /*SaveSharedPreference.setUserName(this@SignUpActivity,
+                                DataMY.perfil?.userNombre
+                            )*/
+
+                            showData();
+
+                        } else {
+                            Toast.makeText(getActivity(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+
+
+                }
+
+            })
+
+        } else {
+            // display error
         }
 
-        if (view != null) {
-            imageView = view.findViewById(R.id.pictureMy)
-        }
 
-        if(DataMY.perfil?.imgArray == null){
-            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
-        }else{
-            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
-            //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
-        }
 
         //Log.e("hot sauce", "resume")
     }
@@ -144,6 +176,31 @@ class MyFragment : Fragment(), View.OnClickListener {
     }
 
 
+    fun showData()
+    {
+        val view = view
+        if (view != null) {
+            view.isFocusableInTouchMode = true
+            view.requestFocus()
+        }
 
+        if (view != null) {
+            val textView: TextView = view.findViewById<Button>(R.id.usernameMy)
+            textView.text = (DataMY.perfil?.userNombre + " " + DataMY.perfil?.userApellidos)
+
+            imageView = view.findViewById(R.id.pictureMy)
+        }
+
+        if(DataMY.perfil?.imgArray == null){
+            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
+        }else{
+            imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
+            //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
+        }
+
+    }
 
 }
+
+
+

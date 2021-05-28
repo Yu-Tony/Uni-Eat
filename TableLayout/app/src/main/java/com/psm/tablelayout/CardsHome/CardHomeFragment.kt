@@ -1,10 +1,15 @@
 package com.psm.tablelayout.CardsLong
 
+import android.app.Activity
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,8 +48,6 @@ class CardHomeFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-
-
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val layoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         //val layoutManager3 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -57,9 +60,11 @@ class CardHomeFragment : Fragment() {
         adapterCateg = context?.let { CardsHomeAdapterCateg(it, DataCards.categorias) }
         recycleCategoria.adapter = adapterCateg
 
-       /* recycleBest.layoutManager =  layoutManager3
-        adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.comida) }
-        recycleBest.adapter = adapterBest*/
+
+
+        /* recycleBest.layoutManager =  layoutManager3
+         adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.comida) }
+         recycleBest.adapter = adapterBest*/
 
 
 
@@ -67,6 +72,32 @@ class CardHomeFragment : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
 
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected)
+        {
+            DataCards.getCategorias()
+            DataCards.getFacultades()
+            Toast.makeText(getActivity(),"Cargando...", Toast.LENGTH_SHORT).show();
+            Handler().postDelayed(
+                {
+                    adapterFacu?.setData(DataCards.facultad)
+                    adapterCateg?.setData(DataCards.categorias)
+                    adapterFacu?.notifyDataSetChanged()
+                    adapterCateg?.notifyDataSetChanged()
+
+                },
+                3000 // value in milliseconds
+            )
+
+        }
+
+
+
+    }
 
 }

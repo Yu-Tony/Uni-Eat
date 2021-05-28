@@ -1,17 +1,15 @@
 package com.psm.tablelayout.CardsLong
 
-import FILTER_NAME
-import FILTER_TYPE
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
-import com.psm.tablelayout.Search.SearchActivity
-import retrofit2.Call
 
 
 class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): RecyclerView.Adapter<CardsHomeAdapterCateg.ViewHolder>(), Filterable {
@@ -123,7 +121,9 @@ class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): 
 
     }
 
-
+    fun setData(items: List<Categorias>) {
+        categ = items
+    }
 
 
 

@@ -47,8 +47,10 @@ class MainActivity : AppCompatActivity() {
 
 
         //DataCards.resenas
-        DataCards.facultad
-        DataCards.categorias
+        //DataCards.facultad
+        //DataCards.categorias
+
+
 
         if(SaveSharedPreference.getUserName(this)?.length  == 0)
         {
@@ -83,6 +85,8 @@ class MainActivity : AppCompatActivity() {
             setContentView(R.layout.activity_main)
             val pagerMain =  findViewById<ViewPager2>(R.id.pager)
             pagerMain.adapter =  this.adapter
+
+            pagerMain.setUserInputEnabled(false);
 
             val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
 

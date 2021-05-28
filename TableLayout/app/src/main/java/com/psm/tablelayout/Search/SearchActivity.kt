@@ -33,9 +33,9 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
         DataCards.content =  this
         //RecyclerView
-        RecycleViewSearch.layoutManager =  LinearLayoutManager(this)
+       /* RecycleViewSearch.layoutManager =  LinearLayoutManager(this)
         this.reviewAdapter =  CardsAdapter(this, DataCards.resenas)
-        RecycleViewSearch.adapter = this.reviewAdapter
+        RecycleViewSearch.adapter = this.reviewAdapter*/
 
         //--------------------------------------------------------SearchView
         searchbarSearch.setOnQueryTextListener(this)
@@ -225,7 +225,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onResume()
 
         Toast.makeText(this,"Buscando reseñas...", Toast.LENGTH_LONG).show()
-        DataCards.getResenas()
+        //DataCards.getResenas()
 
         //Toast.makeText(this,"ONRESUME", Toast.LENGTH_LONG).show()
 
