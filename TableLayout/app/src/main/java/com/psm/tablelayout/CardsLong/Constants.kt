@@ -9,7 +9,7 @@ const val LOREMIPSUM =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
 
 //Intents
-const val CARD_POSITION = "Card_Position"
+const val CARD_POSITION = "Card_ID"
 const val FILTER_NAME = "Filter_Name"
 const val FILTER_TYPE = "Filter_Type"
 const val DEFAULT_CARD_POSITION = -1

@@ -2,7 +2,9 @@ package com.psm.tablelayout.Search
 
 import FILTER_NAME
 import FILTER_TYPE
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -18,24 +20,31 @@ import java.util.*
 //class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener
 class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    private var reviewAdapter:CardsAdapter? = null
-    private var type:String?=null;
-    private var type2:String?="1";
+    private var reviewAdapter:CardsAdapterAll? = null
+    private var type:String="null";
+    private var type2:String="1";
     private var type3:String="1";
+    private var textToSearch:String ="null";
+    //////////////////////////////////////
+
+    var spinnerType:Spinner?=null
+    var spinnerSort:Spinner?=null
+
     /*private val fullCategories =  ArrayList<Categorias>(DataCards.categorias)
     private val fullFacultades =  ArrayList<Facultades>(DataCards.facultad)*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.search)
 
-
-        DataCards.content =  this
+        type=="null"
+        //DataCards.content =  this
         //RecyclerView
-       /* RecycleViewSearch.layoutManager =  LinearLayoutManager(this)
-        this.reviewAdapter =  CardsAdapter(this, DataCards.resenas)
-        RecycleViewSearch.adapter = this.reviewAdapter*/
+         RecycleViewSearch.layoutManager =  LinearLayoutManager(this)
+         this.reviewAdapter =  CardsAdapterAll(this, DataCards.resenas)
+         RecycleViewSearch.adapter = this.reviewAdapter
 
         //--------------------------------------------------------SearchView
         searchbarSearch.setOnQueryTextListener(this)
@@ -64,7 +73,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 //https://stackoverflow.com/questions/51111974/how-to-implement-multiple-filters-in-searchview-using-recyclerview-and-cardview
                 reviewAdapter?.FacuFilter()?.filter(extraStr)
                 if (extraStr != null) {
-                   // Log.e("mamba facu", extraStr)
+                    // Log.e("mamba facu", extraStr)
                 }
             }
 
@@ -72,7 +81,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             {
                 reviewAdapter?.CategFilter()?.filter(extraStr)
                 if (extraStr != null) {
-                   // Log.e("mamba categ", extraStr)
+                    // Log.e("mamba categ", extraStr)
                 }
             }
 
@@ -94,12 +103,12 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 AdvancedLayout.setVisibility(View.VISIBLE);
 
                 //https://www.youtube.com/watch?v=nzQVzIHIzUg
-                val spinnerType=findViewById<Spinner>(R.id.spinnerType)
+                 spinnerType=findViewById<Spinner>(R.id.spinnerType)
                 val listType = resources.getStringArray(R.array.listType)
                 val adaptadorSpinnerType = ArrayAdapter(this,android.R.layout.simple_spinner_item,listType)
-                spinnerType.adapter=adaptadorSpinnerType;
+                spinnerType?.adapter=adaptadorSpinnerType;
 
-                spinnerType.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
+                spinnerType?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
                 {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
                         TODO("Not yet implemented")
@@ -121,12 +130,12 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
                 }
 
-                val spinnerSort=findViewById<Spinner>(R.id.spinnerSort)
+                spinnerSort=findViewById<Spinner>(R.id.spinnerSort)
                 val listSort = resources.getStringArray(R.array.listSort)
                 val adaptadorSpinnerSort = ArrayAdapter(this,android.R.layout.simple_spinner_item,listSort)
-                spinnerSort.adapter=adaptadorSpinnerSort
+                spinnerSort?.adapter=adaptadorSpinnerSort
 
-                spinnerSort.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
+                spinnerSort?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
                 {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
                         TODO("Not yet implemented")
@@ -175,60 +184,96 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
 
- override fun onQueryTextChange(newText: String?): Boolean {
+    override fun onQueryTextChange(newText: String?): Boolean {
+
+        if (newText != null) {
+            textToSearch = newText
+        }
+
+        if(type2=="1")
+        {
+            if(type3=="1")
+            {
+                reviewAdapter?.NameFilter()?.filter(newText)
+            }
+            else
+            {
+                reviewAdapter?.NameFilterUpside()?.filter(newText)
+            }
+
+        }
+        if(type2=="2")
+        {
+            if(type3=="1")
+            {
+                reviewAdapter?.FacuFilter()?.filter(newText)
+            }
+            else
+            {
+                reviewAdapter?.FacuFilterUpside()?.filter(newText)
+            }
+
+        }
+        if(type2=="3")
+        {
+            if(type3=="1")
+            {
+                reviewAdapter?.CategFilter()?.filter(newText)
+            }
+            else
+            {
+                reviewAdapter?.CategFilterUpside()?.filter(newText)
+            }
+
+        }
 
 
 
-         if(type2=="1")
-         {
-             if(type3=="1")
-             {
-                 reviewAdapter?.NameFilter()?.filter(newText)
-             }
-             else
-             {
-                 reviewAdapter?.NameFilterUpside()?.filter(newText)
-             }
-
-         }
-         if(type2=="2")
-         {
-             if(type3=="1")
-             {
-                 reviewAdapter?.FacuFilter()?.filter(newText)
-             }
-             else
-             {
-                 reviewAdapter?.FacuFilterUpside()?.filter(newText)
-             }
-
-         }
-         if(type2=="3")
-         {
-             if(type3=="1")
-             {
-                 reviewAdapter?.CategFilter()?.filter(newText)
-             }
-             else
-             {
-                 reviewAdapter?.CategFilterUpside()?.filter(newText)
-             }
-
-         }
-
-
-
-     return false;
- }
+        return false;
+    }
 
     override fun onResume() {
         super.onResume()
 
-        Toast.makeText(this,"Buscando reseñas...", Toast.LENGTH_LONG).show()
-        //DataCards.getResenas()
+        val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
 
-        //Toast.makeText(this,"ONRESUME", Toast.LENGTH_LONG).show()
+        if (networkInfo != null && networkInfo.isConnected)
+        {
+
+            searchbarSearch.setQuery("", false);
+            searchbarSearch.setIconified(true);
+            type2 = "1"
+            type3 = "1"
+            spinnerType?.setSelection(0)
+            spinnerSort?.setSelection(0)
+            if(textToSearch=="" && type2=="1" && type3=="1" && type=="null")
+            {
+                DataCards.getResenas()
+            }
+
+
+
+
+            Toast.makeText(this,"Cargando...", Toast.LENGTH_SHORT).show();
+            Handler().postDelayed(
+                {
+                    reviewAdapter?.setData(DataCards.resenas)
+                    reviewAdapter?.notifyDataSetChanged()
+
+                },
+                4000 // value in milliseconds
+            )
+
+        }
+        else
+        {
+
+        }
+
+
 
     }
+
 
 }

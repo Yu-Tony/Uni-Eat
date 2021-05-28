@@ -26,7 +26,7 @@ class SearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spinner: Spinner
+       /* val spinner: Spinner
         spinner = view.findViewById(R.id.SearchLayoutAdvanced)
 
         spinner.adapter = activity?.let {
@@ -35,7 +35,7 @@ class SearchFragment: Fragment() {
                 R.layout.support_simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.StringsSearchOptions)
             )
-        }
+        }*/
 
 
     }

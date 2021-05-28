@@ -7,19 +7,94 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 >
 
+<LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginEnd="10dp"
+       android:layout_marginBottom="10dp"
+       android:orientation="vertical"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcListComidaSearch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_card_search"
-        />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="horizontal">
 
+           <SearchView
+               android:id="@+id/searchbarSearch"
+               android:layout_width="330dp"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="15dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginRight="0dp"
+               android:background="@drawable/rounded_button"
+               android:queryHint="Buscar">
+
+           </SearchView>
+
+           <Button
+               android:id="@+id/btnToggleSearchAdvanced"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:layout_gravity="right"
+               android:background="@drawable/ico_filter"
+               android:backgroundTint="@color/colorVerde" />
+
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:id="@+id/SearchLayoutAdvanced"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:visibility="gone"
+           >
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Buscar por:" />
+
+           <Spinner
+               android:id="@+id/spinnerType"
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:layout_marginBottom="10dp"/>
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Ordenar de forma:" />
+
+           <Spinner
+               android:id="@+id/spinnerSort"
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:layout_marginBottom="10dp"/>
+
+       </LinearLayout>
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/rcListComidaSearch"
+           android:layout_width="match_parent"
+           android:layout_height="700dp"
+           tools:listitem="@layout/item_card_search"
+
+           />
+
+
+   </LinearLayout>
+
+    <include
+        android:id="@+id/llProgressBar"
+        android:visibility="gone"
+        layout="@layout/loading_page"/>
+
+ <!-- android:id="@+id/rcListComidaSearch"-->
 </androidx.constraintlayout.widget.ConstraintLayout>

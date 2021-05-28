@@ -84,54 +84,56 @@ class MyFragment : Fragment(), View.OnClickListener {
         val networkInfo = connMgr.activeNetworkInfo
         Log.e("ONRESUME", "MY")
         if (networkInfo != null && networkInfo.isConnected) {
-            val busqueda:String = DataMY.perfil?.userMail.toString()
+            val busqueda: String? = SaveSharedPreference.getUserName(getActivity())
+
+            //val busqueda:String = DataMY.perfil?.userMail.toString()
             val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-            val result: Call<List<Perfil>> = service.getUser(busqueda)
+            val result: Call<List<Perfil>>? = busqueda?.let { service.getUser(it) }
 
-            result.enqueue(object: Callback<List<Perfil>> {
-                override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
-                    Toast.makeText(getActivity(),"Error al obtener el usuario",Toast.LENGTH_SHORT).show();
-                }
+            if (result != null) {
+                result.enqueue(object: Callback<List<Perfil>> {
+                    override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
+                        Toast.makeText(getActivity(),"Error al obtener el usuario",Toast.LENGTH_SHORT).show();
+                    }
 
-                override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
+                    override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
 
-                    val item =  response.body()
+                        val item =  response.body()
 
-                    if (item != null){
-                        val responseBody: List<Perfil>? = response.body()
-                        if (!responseBody!!.isEmpty())
-                        {
-                            var strMessage:String =  ""
-                            strMessage =   item[0].userPassword.toString()
+                        if (item != null){
+                            val responseBody: List<Perfil>? = response.body()
+                            if (!responseBody!!.isEmpty()) {
+                                var strMessage:String =  ""
+                                strMessage =   item[0].userPassword.toString()
 
-                            val returnIntent = Intent()
+                                val returnIntent = Intent()
 
-                            DataMY.initializePerfil(item[0].userID,
-                                item[0].userNombre,
-                                item[0].userApellidos,
-                                item[0].userMail,
-                                item[0].userPassword,
-                                item[0].userPhone,
-                                item[0].userImage)
+                                DataMY.initializePerfil(item[0].userID,
+                                    item[0].userNombre,
+                                    item[0].userApellidos,
+                                    item[0].userMail,
+                                    item[0].userPassword,
+                                    item[0].userPhone,
+                                    item[0].userImage)
 
 
-                            /*SaveSharedPreference.setUserName(this@SignUpActivity,
-                                DataMY.perfil?.userNombre
-                            )*/
+                                /*SaveSharedPreference.setUserName(this@SignUpActivity,
+                                        DataMY.perfil?.userNombre
+                                    )*/
 
-                            showData();
+                                showData();
 
-                        } else {
-                            Toast.makeText(getActivity(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                            }
+
                         }
+
 
                     }
 
-
-
-                }
-
-            })
+                })
+            }
 
         } else {
             // display error

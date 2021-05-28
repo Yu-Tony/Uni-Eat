@@ -1,6 +1,7 @@
 package com.psm.tablelayout.CardsLong
 
 import CARD_POSITION
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -10,10 +11,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
-import kotlinx.android.synthetic.main.review_watch.*
 
 
-class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView.Adapter<CardsAdapter.ViewHolder>(), Filterable {
+class CardsAdapterAll(val context: Context, var resenas:List<Resena>): RecyclerView.Adapter<CardsAdapterAll.ViewHolder>(), Filterable {
 
 
 
@@ -32,6 +32,7 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
         val imgcomidaCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.imgComidaCard)
         val ratingComidaCard=itemView?.findViewById<RatingBar>(com.psm.tablelayout.R.id.ratingBarItemCard)
         var comidaPosition:Int =  0
+        var comidaID:Int = 0
 
 
         init{
@@ -53,23 +54,25 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
 
                 //Lanzamos el intent para abrir el detalle
                 val  activityIntent =  Intent(context,CardContent::class.java)
-                activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
+                activityIntent.putExtra(CARD_POSITION,this.comidaID)
                 context.startActivity(activityIntent)
+
+                //Log.e("call me",this.comidaID.toString())
+
+
+
             }
 
 
-            this.txtTitle.setOnClickListener {
+           /* this.txtTitle.setOnClickListener {
 
                 //Lanzamos el intent para abrir el detalle
                 val  activityIntent =  Intent(context,CardContent::class.java)
                 activityIntent.putExtra(CARD_POSITION,this.comidaPosition)
                 context.startActivity(activityIntent)
-            }
+            }*/
 
         }
-
-
-
 
     }
 
@@ -92,7 +95,7 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
         comida.resenaRate?.let { holder.ratingComidaCard.setRating(it) }
         holder.txtDescription.setText(comida.resenaDescription)
         holder.comidaPosition =  position
-
+        holder.comidaID = comida.resenaID!!
 
         if(comida.imgArray1 == null){
             //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
@@ -103,6 +106,10 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
     }
 
 
+
+    fun setData(items: List<Resena>) {
+        resenas = items
+    }
 
     override fun getFilter(): Filter
     {
@@ -201,20 +208,14 @@ class CardsAdapter(val context: Context, var resenas:List<Resena>): RecyclerView
                 }
                 else{
                     val queryString = charSequence?.toString()?.toLowerCase()
-                    if (queryString == null || queryString.isEmpty() || queryString == "")
-                    {
-                        // Log.e("This enter ", "is null too")
-                        fullResenas
-                    }
-                    else
-                    {
+
                         // Log.e("This enter is not null ", queryString)
                         resenas.filter { comidas ->
 
 
                                     comidas.resenaFacultad!!.toLowerCase().contains(queryString)
                         }
-                    }
+
 
                 }
 

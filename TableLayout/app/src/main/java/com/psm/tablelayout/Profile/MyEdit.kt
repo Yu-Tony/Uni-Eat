@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
@@ -42,6 +44,14 @@ class MyEdit:  AppCompatActivity(), View.OnClickListener {
 
         val btnCancelProfile =  findViewById<Button>(R.id.btnCancelProfile)
         btnCancelProfile.setOnClickListener(this)
+
+
+        if(DataMY.perfil?.imgArray == null){
+            //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
+        }else{
+            this.imageEditProfile!!.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
+            //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
+        }
 
     }
 

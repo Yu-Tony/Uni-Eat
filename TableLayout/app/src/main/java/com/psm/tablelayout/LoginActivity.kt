@@ -133,7 +133,7 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
                                         DataMY.getresenasDrafts()
 
                                         SaveSharedPreference.setUserName(this@LoginActivity,
-                                            item[0].userNombre
+                                            item[0].userMail
                                         )
 
                                         Toast.makeText(this@LoginActivity,"Cargando...", Toast.LENGTH_LONG).show()

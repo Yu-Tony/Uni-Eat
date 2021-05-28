@@ -27,7 +27,7 @@ import retrofit2.Response
 
 class CardContent: AppCompatActivity(), View.OnClickListener {
 
-    var resenaPosition:Int = 0
+    var resenaID:Int = 0
 
     val bitmapArray = arrayListOf<Bitmap>()
     private var position = 0
@@ -44,16 +44,9 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
 
          image = findViewById<View>(R.id.imageViewWatchReview) as ImageView
 
-        this.resenaPosition =  savedInstanceState?.getInt(CARD_POSITION,DEFAULT_CARD_POSITION) ?: intent.getIntExtra(CARD_POSITION,DEFAULT_CARD_POSITION)
+        this.resenaID = intent.getIntExtra(CARD_POSITION,DEFAULT_CARD_POSITION)
         //Display Album
-        if(this.resenaPosition != DEFAULT_CARD_POSITION){
-            this.displayAlbum()
-        }else{
-            DataCards.resenas.add(Resena())
-            //DataCards.comida.add(Comida())
-            //this.comidaPosition =  DataCards.comida.lastIndex
-            this.resenaPosition=DataCards.resenas.lastIndex
-        }
+        displayAlbum()
 
         //switch to next image clicking this button
         btnAfterReviewWatch.setOnClickListener {
@@ -91,109 +84,127 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
 
     private fun displayAlbum()
     {
-        bitmapArray.clear()
+        var contador:Int = DataCards.resenas.lastIndex
+        var i = 0
 
-        val showReview:Resena =  DataCards.resenas[resenaPosition]
-        txtTituloReviewWatch.setText(showReview.resenaTitulo)
-        txtDescripcionReviewWatch.setText(showReview.resenaDescription)
-        txtCategoriaReviewWatch.setText(showReview.resenaCategoria)
-        txtFacultadReviewWatch.setText(showReview.resenaFacultad)
-        showReview.resenaRate.let {
-            if (it != null) {
-                ratingReviewWatch.setRating(it)
+
+
+        while (i <= contador) {
+
+            if( DataCards.resenas[i].resenaID == resenaID)
+            {
+
+                bitmapArray.clear()
+
+                val showReview:Resena =  DataCards.resenas[i]
+                txtTituloReviewWatch.setText(showReview.resenaTitulo)
+                txtDescripcionReviewWatch.setText(showReview.resenaDescription)
+                txtCategoriaReviewWatch.setText(showReview.resenaCategoria)
+                txtFacultadReviewWatch.setText(showReview.resenaFacultad)
+                showReview.resenaRate.let {
+                    if (it != null) {
+                        ratingReviewWatch.setRating(it)
+                    }
+                };
+
+                if(showReview.resenaImageOne == "data:image/png;base64,"){
+                    //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+                    //Log.e("Not has smthng",showReview.resenaImageOne.toString())
+                }else{
+                    //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!)); // Add a bitmap
+                    //Log.e("HAS smthng",showReview.resenaImageOne.toString())
+                }
+
+                if(showReview.resenaImageTwo == "data:image/png;base64,"){
+                }else{
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray2!!)); // Add a bitmap
+                }
+
+                if(showReview.resenaImageThree == "data:image/png;base64,"){
+                }else{
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray3!!)); // Add a bitmap
+                }
+
+                if(showReview.resenaImageFour == "data:image/png;base64,"){
+                }else{
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray4!!)); // Add a bitmap
+                }
+
+                if(showReview.resenaImageFive == "data:image/png;base64,"){
+                }else{
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray5!!)); // Add a bitmap
+                }
+
+
+                position = 0;
+
+                image?.setImageBitmap(bitmapArray.get(0)!!)
+
+                if(DataMY.perfil?.userMail == showReview.resenaUsuario)
+                {
+                    OptionsCreators.setVisibility(View.VISIBLE);
+
+                }
+
+                /*if(showReview.imgArray2 == null){
+                    //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+                }else{
+                    //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray2!!)); // Add a bitmap
+                    //bitmapArray.get(0); // Get first bitmap
+                }
+
+                if(showReview.imgArray3 == null){
+                    //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+                }else{
+                    //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray3!!)); // Add a bitmap
+                    //bitmapArray.get(0); // Get first bitmap
+                }
+
+                if(showReview.imgArray4 == null){
+                    //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+                }else{
+                    //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray4!!)); // Add a bitmap
+                    //bitmapArray.get(0); // Get first bitmap
+                }
+
+                if(showReview.imgArray5 == null){
+                    //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
+                }else{
+                    //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
+                    bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray5!!)); // Add a bitmap
+                    //bitmapArray.get(0); // Get first bitmap
+                }
+
+                val image =bitmapArray.get(0)*/
+
+
+
+                /* carouselReviewWatch.pageCount=3;
+                 carouselReviewWatch.setImageListener{
+                     position,imageView->
+                     showReview.imgArray?.get(position)?.toInt()?.let { imageView.setImageResource(it) }
+                 }
+
+                 */
+
             }
-        };
-
-        if(showReview.resenaImageOne == "data:image/png;base64,"){
-            //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
-            //Log.e("Not has smthng",showReview.resenaImageOne.toString())
-        }else{
-            //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!)); // Add a bitmap
-            //Log.e("HAS smthng",showReview.resenaImageOne.toString())
-        }
-
-        if(showReview.resenaImageTwo == "data:image/png;base64,"){
-        }else{
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray2!!)); // Add a bitmap
-        }
-
-        if(showReview.resenaImageThree == "data:image/png;base64,"){
-        }else{
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray3!!)); // Add a bitmap
-        }
-
-        if(showReview.resenaImageFour == "data:image/png;base64,"){
-        }else{
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray4!!)); // Add a bitmap
-        }
-
-        if(showReview.resenaImageFive == "data:image/png;base64,"){
-        }else{
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray5!!)); // Add a bitmap
+            i = (i+1)
         }
 
 
-        position = 0;
-
-        image?.setImageBitmap(bitmapArray.get(0)!!)
-
-        if(DataMY.perfil?.userMail == showReview.resenaUsuario)
-        {
-            OptionsCreators.setVisibility(View.VISIBLE);
-
-        }
-
-        /*if(showReview.imgArray2 == null){
-            //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
-        }else{
-            //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray2!!)); // Add a bitmap
-            //bitmapArray.get(0); // Get first bitmap
-        }
-
-        if(showReview.imgArray3 == null){
-            //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
-        }else{
-            //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray3!!)); // Add a bitmap
-            //bitmapArray.get(0); // Get first bitmap
-        }
-
-        if(showReview.imgArray4 == null){
-            //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
-        }else{
-            //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray4!!)); // Add a bitmap
-            //bitmapArray.get(0); // Get first bitmap
-        }
-
-        if(showReview.imgArray5 == null){
-            //holder.imgcomidaCard.setImageResource(comida.intIdImage!!)
-        }else{
-            //imageViewWatchReview.setImageBitmap(ImageUtilities.getBitMapFromByteArray(showReview.imgArray1!!))
-            bitmapArray.add(ImageUtilities.getBitMapFromByteArray(showReview.imgArray5!!)); // Add a bitmap
-            //bitmapArray.get(0); // Get first bitmap
-        }
-
-        val image =bitmapArray.get(0)*/
-
-
-
-       /* carouselReviewWatch.pageCount=3;
-        carouselReviewWatch.setImageListener{
-            position,imageView->
-            showReview.imgArray?.get(position)?.toInt()?.let { imageView.setImageResource(it) }
-        }
-
-        */
 
 
     }
 
+
+
     private fun DeleteReview()
     {
-
+/*
         val review =   Resena(DataCards.resenas[resenaPosition].resenaID)
 
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
@@ -223,14 +234,14 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
                 )
             }
 
-        })
+        })*/
 
 
     }
 
     private fun EditReview()
     {
-        val intent = Intent(this,AddCardActivity::class.java) //not application context
+       /* val intent = Intent(this,AddCardActivity::class.java) //not application context
         intent.putExtra("Edit","Editar")
         intent.putExtra("Titulo",txtTituloReviewWatch.text.toString())
         intent.putExtra("Descripcion",txtDescripcionReviewWatch.text.toString())
@@ -239,7 +250,7 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
         intent.putExtra("Rating",ratingReviewWatch.rating.toString())
         intent.putExtra("ID",DataCards.resenas[resenaPosition].resenaID.toString())
 
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     override fun onClick(v: View?) {

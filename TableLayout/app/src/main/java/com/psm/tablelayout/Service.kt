@@ -61,6 +61,9 @@ interface Service{
     @GET("resenaUniEatC/ResenasUniEat")
     fun getResenas(): Call<List<Resena>>
 
+    @GET("resenaUniEatC/ResenasUniEatBest")
+    fun getBestResenas(): Call<List<Resena>>
+
     //CAMBIAR A BUSCAR RESENA POR ID
     @GET("resenaUniEatC/ResenasUniEat/{resenaID}")
     fun getResena(@Path("resenaID") resenaID: String): Call<List<Resena>>
