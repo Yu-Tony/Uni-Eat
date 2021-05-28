@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
+import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
 open class CardFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapterAll:CardsAdapterAll? = null
+    private var adapterDrafts:CardsAdapterAll? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,32 +37,39 @@ open class CardFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         rcListComidaSearch.layoutManager =  layoutManager
-        this.adapterAll = context?.let { CardsAdapterAll(it, DataMY.resenasDrafts) }
-        rcListComidaSearch.adapter = this.adapterAll
+        this.adapterDrafts = context?.let { CardsAdapterAll(it, DataMY.resenasDrafts) }
+        rcListComidaSearch.adapter = this.adapterDrafts
     }
+
 
     override fun onResume() {
         super.onResume()
 
-        /*val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
 
-        if (networkInfo != null && networkInfo.isConnected) {
-            TODO("get cards")
+        if (networkInfo != null && networkInfo.isConnected)
+        {
+            DataMY.getresenasDrafts()
             Toast.makeText(getActivity(),"Cargando...", Toast.LENGTH_SHORT).show();
+
+
             Handler().postDelayed(
                 {
+                    adapterDrafts?.setData(DataMY.resenasDrafts)
+                    adapterDrafts?.notifyDataSetChanged()
 
-                    TODO("adapter set data")
-                    TODO("adapter notify")
                 },
                 5000 // value in milliseconds
             )
+
         }
         else
         {
 
-        }*/
+        }
+
+
 
     }
 

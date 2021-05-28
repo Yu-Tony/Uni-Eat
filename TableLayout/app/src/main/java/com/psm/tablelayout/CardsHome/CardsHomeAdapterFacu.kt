@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.Search.SearchActivity
+import com.psm.tablelayout.Search.SearchFilterActivity
 import retrofit2.Call
 import kotlin.collections.ArrayList
 
@@ -39,12 +40,12 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
             this.ImageCard.setOnClickListener {
 
                 //Lanzamos el intent para abrir el detalle
-               /* val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
+                val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
                // Log.e("welcome", getFilter.strTitleF);
-                val  activityIntent =  Intent(context, SearchActivity::class.java)
+                val  activityIntent =  Intent(context, SearchFilterActivity::class.java)
                 activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
                 activityIntent.putExtra(FILTER_TYPE,"1")
-                context.startActivity(activityIntent)*/
+                context.startActivity(activityIntent)
             }
 
             this.TitleCard.setOnClickListener {

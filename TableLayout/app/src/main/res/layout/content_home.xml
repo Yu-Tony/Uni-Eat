@@ -82,7 +82,13 @@
                 android:layout_marginEnd="8dp" />
 
         </LinearLayout>
+
+
     </ScrollView>
 
+    <include
+        android:id="@+id/llProgressBar"
+        android:visibility="gone"
+        layout="@layout/loading_page"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

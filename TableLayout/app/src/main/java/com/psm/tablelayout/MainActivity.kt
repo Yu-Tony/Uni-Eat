@@ -18,6 +18,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
 import com.psm.tablelayout.CardsLong.DataCards
 import com.psm.tablelayout.LocalData.FacultadApp
+import com.psm.tablelayout.LocalData.PerfilDAO
+import com.psm.tablelayout.LocalData.PerfilDB
+import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.Profile.MyEdit
 import com.psm.tablelayout.Profile.SaveSharedPreference
 import com.psm.tablelayout.Search.SearchActivity
@@ -27,14 +30,9 @@ import kotlinx.coroutines.launch
 //class MainActivity : AppCompatActivity(), onFragmentActionsListener {
 class MainActivity : AppCompatActivity() {
 
-
-
-
-
-
     var loggedin = false;
     var LAUNCH_SECOND_ACTIVITY = 1;
-
+    lateinit var perfilDAO: PerfilDAO
 
     private val adapter by lazy{ ViewPagerAdapater(this, this)}
 
@@ -82,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
+
+            DataMY.perfil?.userMail = SaveSharedPreference.getUserName(this)
             setContentView(R.layout.activity_main)
             val pagerMain =  findViewById<ViewPager2>(R.id.pager)
             pagerMain.adapter =  this.adapter

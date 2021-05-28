@@ -25,15 +25,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".Profile.MyEdit"></activity>
         <activity android:name=".CardsLong.CardContent"></activity>
         <activity android:name=".AddCard.AddCardActivity"></activity>
         <activity android:name=".Search.SearchActivity"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".Search.SearchFilterActivity"></activity>
 
 
 

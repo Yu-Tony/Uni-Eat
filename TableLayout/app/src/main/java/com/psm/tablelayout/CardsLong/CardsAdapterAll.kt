@@ -203,6 +203,7 @@ class CardsAdapterAll(val context: Context, var resenas:List<Resena>): RecyclerV
                 val filterResults = Filter.FilterResults()
                 filterResults.values =  if (charSequence == null || charSequence.isEmpty() || charSequence == ""){
                     //Log.e("This enter ", "is null :c")
+                    Toast.makeText(Activity(),"FULL RESENA", Toast.LENGTH_SHORT).show();
                     fullResenas
 
                 }
@@ -211,7 +212,7 @@ class CardsAdapterAll(val context: Context, var resenas:List<Resena>): RecyclerV
 
                         // Log.e("This enter is not null ", queryString)
                         resenas.filter { comidas ->
-
+                            Toast.makeText(Activity(),"ONLY FACU", Toast.LENGTH_SHORT).show();
 
                                     comidas.resenaFacultad!!.toLowerCase().contains(queryString)
                         }

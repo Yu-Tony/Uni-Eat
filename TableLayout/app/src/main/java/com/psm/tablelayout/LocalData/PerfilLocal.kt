@@ -3,7 +3,7 @@ package com.psm.tablelayout.LocalData
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName="Perfil_Table")
 class PerfilLocal(
     @PrimaryKey(autoGenerate = true)
     var userID:Int? =  null,

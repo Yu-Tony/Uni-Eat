@@ -63,7 +63,6 @@ class CardHomeFragment : Fragment() {
 
 
 
-
         /* recycleBest.layoutManager =  layoutManager3
          adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.comida) }
          recycleBest.adapter = adapterBest*/
@@ -86,7 +85,10 @@ class CardHomeFragment : Fragment() {
             DataCards.getFacultades()
             DataCards.getBest()
             Toast.makeText(getActivity(),"Cargando...", Toast.LENGTH_SHORT).show();
-            llProgressBar.visibility = View.VISIBLE
+
+            if(llProgressBar != null) {
+                llProgressBar.visibility = View.VISIBLE
+            }
             Handler().postDelayed(
                 {
                     adapterFacu?.setData(DataCards.facultad)
@@ -99,7 +101,9 @@ class CardHomeFragment : Fragment() {
                 },
                 5000 // value in milliseconds
             )
-            llProgressBar.visibility = View.GONE
+            if(llProgressBar != null) {
+                llProgressBar.visibility = View.GONE
+            }
 
         }
         else

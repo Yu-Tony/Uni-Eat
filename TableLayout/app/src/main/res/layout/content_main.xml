@@ -20,32 +20,7 @@
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="horizontal">
 
-           <SearchView
-               android:id="@+id/searchbarSearch"
-               android:layout_width="330dp"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="15dp"
-               android:layout_marginTop="10dp"
-               android:layout_marginRight="0dp"
-               android:background="@drawable/rounded_button"
-               android:queryHint="Buscar">
-
-           </SearchView>
-
-           <Button
-               android:id="@+id/btnToggleSearchAdvanced"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
-               android:layout_gravity="right"
-               android:background="@drawable/ico_filter"
-               android:backgroundTint="@color/colorVerde" />
-
-       </LinearLayout>
 
 
        <LinearLayout
@@ -91,10 +66,7 @@
 
    </LinearLayout>
 
-    <include
-        android:id="@+id/llProgressBar"
-        android:visibility="gone"
-        layout="@layout/loading_page"/>
+
 
  <!-- android:id="@+id/rcListComidaSearch"-->
 </androidx.constraintlayout.widget.ConstraintLayout>
