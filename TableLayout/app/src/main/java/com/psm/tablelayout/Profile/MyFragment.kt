@@ -12,11 +12,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
+import com.psm.tablelayout.LocalData.Perfil.PerfilViewModel
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
@@ -35,7 +38,11 @@ class MyFragment : Fragment(), View.OnClickListener {
     private var adapter:MyAdapter? = null
     private var listener: onFragmentActionsListener?=null;
     private lateinit var imageView: ImageView
+///////////////////////////////
+    private lateinit var mUserViewModel: PerfilViewModel
 
+
+    /////////////////////////
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -44,6 +51,9 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         val btnEdit = view.findViewById<Button>(R.id.btnEditProfile)
         btnEdit.setOnClickListener(this)
+
+
+        mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
 
         //usernameMy
         view.btnEditProfile.setOnClickListener { view ->
@@ -101,6 +111,13 @@ class MyFragment : Fragment(), View.OnClickListener {
                         val item =  response.body()
 
                         if (item != null){
+
+                            var AllUsersInDB = mUserViewModel.readAllData
+                            if(AllUsersInDB!=null)
+                            {
+                                mUserViewModel.deleteAllUsers()
+                            }
+
                             val responseBody: List<Perfil>? = response.body()
                             if (!responseBody!!.isEmpty()) {
                                 var strMessage:String =  ""
@@ -116,12 +133,28 @@ class MyFragment : Fragment(), View.OnClickListener {
                                     item[0].userPhone,
                                     item[0].userImage)
 
+                                val profile =
+                                    PerfilLocal(
+                                        null,
+                                        item[0].userNombre,
+                                        item[0].userApellidos,
+                                        item[0].userMail,
+                                        item[0].userPassword,
+                                        item[0].userPhone,
+                                        item[0].userImage
+                                    )
+
+
+
+                                mUserViewModel.insert(profile)
 
                                 /*SaveSharedPreference.setUserName(this@SignUpActivity,
                                         DataMY.perfil?.userNombre
                                     )*/
 
                                 showData();
+
+
 
                             } else {
                                 Toast.makeText(getActivity(),"El usuario no existe",Toast.LENGTH_SHORT).show();
@@ -135,8 +168,29 @@ class MyFragment : Fragment(), View.OnClickListener {
                 })
             }
 
-        } else {
-            // display error
+        }
+        else {
+           mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
+            mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
+
+
+                if(perfil!=null)
+                {
+                    Toast.makeText(getActivity(),"Getting from database",Toast.LENGTH_SHORT).show();
+                    DataMY.initializePerfil(perfil[0].userID,
+                        perfil[0].userNombre,
+                        perfil[0].userApellidos,
+                        perfil[0].userMail,
+                        perfil[0].userPassword,
+                        perfil[0].userPhone,
+                        perfil[0].userImage
+                    )
+                }
+
+
+            })
+
+            showData();
         }
 
 

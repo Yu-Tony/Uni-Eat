@@ -10,9 +10,14 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.tablelayout.CardsHome.CardsHomeAdapterBest
+import com.psm.tablelayout.LocalData.Facultades.FacultadesViewModel
+import com.psm.tablelayout.LocalData.Perfil.PerfilViewModel
+import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -26,7 +31,8 @@ class CardHomeFragment : Fragment() {
     private var adapterBest:CardsHomeAdapterBest? = null
     //private var adapterBest:CardsHomeAdapterBest? = null
 
-
+/////////////////////////////
+//private lateinit var mFacultadesViewModel: FacultadesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +66,7 @@ class CardHomeFragment : Fragment() {
         adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.BestResenas) }
         recycleBest.adapter = adapterBest
 
-
+        //mFacultadesViewModel = ViewModelProvider(this).get(FacultadesViewModel::class.java)
 
 
         /* recycleBest.layoutManager =  layoutManager3
@@ -81,10 +87,23 @@ class CardHomeFragment : Fragment() {
 
         if (networkInfo != null && networkInfo.isConnected)
         {
+            /*var AllUsersInDB = mFacultadesViewModel.readAllData
+            if(AllUsersInDB!=null)
+            {
+                mFacultadesViewModel.deleteAllUsers()
+            }*/
+
             DataCards.getCategorias()
             DataCards.getFacultades()
             DataCards.getBest()
             Toast.makeText(getActivity(),"Cargando...", Toast.LENGTH_SHORT).show();
+
+           /* var i=0;
+            do {
+                mFacultadesViewModel.insert(DataCards.facultadL[i])
+                i = (i+1)
+            }while (DataCards.facultadL[i]!=null)*/
+
 
             if(llProgressBar != null) {
                 llProgressBar.visibility = View.VISIBLE
@@ -108,6 +127,26 @@ class CardHomeFragment : Fragment() {
         }
         else
         {
+           /* mFacultadesViewModel = ViewModelProvider(this).get(FacultadesViewModel::class.java)
+            mFacultadesViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
+
+
+                if(perfil!=null)
+                {
+                    Toast.makeText(getActivity(),"Getting from database",Toast.LENGTH_SHORT).show();
+
+                    var i=0;
+                    do {
+                        DataCards.facultadL.add(perfil[i])
+                       // mFacultadesViewModel.insert(DataCards.facultadL[i])
+                        i = (i+1)
+                    }while (DataCards.facultadL[i]!=null)
+
+                }
+
+
+            })*/
+
 
         }
 

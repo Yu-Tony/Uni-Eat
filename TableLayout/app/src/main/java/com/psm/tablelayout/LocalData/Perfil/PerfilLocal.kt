@@ -1,4 +1,4 @@
-package com.psm.tablelayout.LocalData
+package com.psm.tablelayout.LocalData.Perfil
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

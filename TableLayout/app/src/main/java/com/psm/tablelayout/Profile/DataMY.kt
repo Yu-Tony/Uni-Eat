@@ -1,18 +1,10 @@
 package com.psm.tablelayout.Profile
 
-import android.provider.SyncStateContract.Helpers.insert
 import android.util.Log
-import com.psm.tablelayout.CardsLong.DataCards
-import com.psm.tablelayout.CardsLong.Facultades
 import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.CardsLong.Resena
-import com.psm.tablelayout.LocalData.PerfilDAO
-import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +16,8 @@ object DataMY {
     val resenasMine = ArrayList<Resena>()
     var resenasDrafts = ArrayList<Resena>()
     val resenasFav = ArrayList<Resena>()
+
+
 
     init {
         //this.initializeFacultad()
@@ -53,9 +47,6 @@ object DataMY {
         perfil =profile
 
 
-        CoroutineScope(IO).launch {
-            db.PerfilDAO.insert(perfil)
-        }
 
 
        /* perfil[0].userID = profile.userID

@@ -87,8 +87,6 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
         var contador:Int = DataCards.resenas.lastIndex
         var i = 0
 
-        Log.e("ID", resenaID.toString())
-
         while (i <= contador) {
 
             if( DataCards.resenas[i].resenaID == resenaID)
@@ -270,53 +268,129 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
 
     private fun DeleteReview()
     {
-/*
-        val review =   Resena(DataCards.resenas[resenaPosition].resenaID)
+        var contador:Int = DataCards.resenas.lastIndex
+        var i = 0
+        while (i <= contador) {
+            if( DataCards.resenas[i].resenaID == resenaID)
+            {
+                val review =   Resena(DataCards.resenas[i].resenaID)
 
-        val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
-        val result: Call<Int> = service.deleteResena(review)
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.deleteResena(review)
 
-        result.enqueue(object: Callback<Int> {
-            override fun onFailure(call: Call<Int>, t: Throwable) {
-                //Toast.makeText(this@CardContent,"Error",Toast.LENGTH_LONG).show()
-                DataCards.getResenas()
-                Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
-                Handler().postDelayed(
-                    {
-                        finish();
-                    },
-                    5000 // value in milliseconds
-                )
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        //Toast.makeText(this@CardContent,"Error",Toast.LENGTH_LONG).show()
+                        DataCards.getResenas()
+                        Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        //Toast.makeText(this@CardContent,"OK",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                })
             }
+            i=(i+1)
+        }
 
-            override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                //Toast.makeText(this@CardContent,"OK",Toast.LENGTH_LONG).show()
-                Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
-                Handler().postDelayed(
-                    {
-                        finish();
-                    },
-                    5000 // value in milliseconds
-                )
+        i=0;
+        var contador2:Int = DataMY.resenasDrafts.lastIndex
+        while(i<=contador2) {
+            if (DataMY.resenasDrafts[i].resenaID == resenaID)
+            {
+                val review =   Resena(resenaID)
+
+                val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+                val result: Call<Int> = service.deleteResena(review)
+
+                result.enqueue(object: Callback<Int> {
+                    override fun onFailure(call: Call<Int>, t: Throwable) {
+                        //Toast.makeText(this@CardContent,"Error",Toast.LENGTH_LONG).show()
+                        DataCards.getResenas()
+                        Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                        //Toast.makeText(this@CardContent,"OK",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
+                        Handler().postDelayed(
+                            {
+                                finish();
+                            },
+                            5000 // value in milliseconds
+                        )
+                    }
+
+                })
             }
+            i=(i+1)
+        }
 
-        })*/
 
 
     }
 
     private fun EditReview()
     {
-       /* val intent = Intent(this,AddCardActivity::class.java) //not application context
-        intent.putExtra("Edit","Editar")
-        intent.putExtra("Titulo",txtTituloReviewWatch.text.toString())
-        intent.putExtra("Descripcion",txtDescripcionReviewWatch.text.toString())
-        intent.putExtra("Categoria",txtCategoriaReviewWatch.text.toString())
-        intent.putExtra("Facultad",txtFacultadReviewWatch.text.toString())
-        intent.putExtra("Rating",ratingReviewWatch.rating.toString())
-        intent.putExtra("ID",DataCards.resenas[resenaPosition].resenaID.toString())
+        var contador:Int = DataCards.resenas.lastIndex
+        var i = 0
+        var intent = Intent(this,AddCardActivity::class.java) //not application context
 
-        startActivity(intent)*/
+        while (i <= contador) {
+
+
+
+            if( DataCards.resenas[i].resenaID == resenaID)
+            {
+
+                intent.putExtra("Edit","Editar")
+                intent.putExtra("Titulo",txtTituloReviewWatch.text.toString())
+                intent.putExtra("Descripcion",txtDescripcionReviewWatch.text.toString())
+                intent.putExtra("Categoria",txtCategoriaReviewWatch.text.toString())
+                intent.putExtra("Facultad",txtFacultadReviewWatch.text.toString())
+                intent.putExtra("Rating",ratingReviewWatch.rating.toString())
+                intent.putExtra("ID",DataCards.resenas[i].resenaID.toString())
+            }
+
+            i=(i+1)
+        }
+
+        i=0;
+        var contador2:Int = DataMY.resenasDrafts.lastIndex
+        while(i<=contador2) {
+            if (DataMY.resenasDrafts[i].resenaID == resenaID) {
+                intent.putExtra("Edit","Editar")
+                intent.putExtra("Titulo",txtTituloReviewWatch.text.toString())
+                intent.putExtra("Descripcion",txtDescripcionReviewWatch.text.toString())
+                intent.putExtra("Categoria",txtCategoriaReviewWatch.text.toString())
+                intent.putExtra("Facultad",txtFacultadReviewWatch.text.toString())
+                intent.putExtra("Rating",ratingReviewWatch.rating.toString())
+                intent.putExtra("ID",resenaID.toString())
+            }
+            i=(i+1)
+        }
+
+        startActivity(intent)
     }
 
     override fun onClick(v: View?) {

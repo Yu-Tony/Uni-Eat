@@ -1,8 +1,8 @@
-package com.psm.tablelayout.LocalData
+package com.psm.tablelayout.LocalData.Perfil
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 
 @Dao
 interface PerfilDAO
@@ -10,8 +10,8 @@ interface PerfilDAO
     @Query("SELECT * FROM Perfil_Table")
     fun getAll():LiveData<List<PerfilLocal>>
 
-    @Query("SELECT * FROM Perfil_Table WHERE userID = :id")
-    suspend fun getByID(id:Int):PerfilLocal
+    @Query("SELECT * FROM Perfil_Table WHERE userMail = :id")
+    suspend fun getByID(id:String): PerfilLocal
 
     @Update
     suspend fun update(person: PerfilLocal)
@@ -21,4 +21,7 @@ interface PerfilDAO
 
     @Delete
     suspend fun delete(person: PerfilLocal)
+
+    @Query("DELETE FROM Perfil_Table")
+    suspend fun deleteAllUsers()
 }

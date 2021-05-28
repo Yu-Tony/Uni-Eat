@@ -1,9 +1,10 @@
-package com.psm.tablelayout.LocalData
+package com.psm.tablelayout.LocalData.Perfil
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.psm.tablelayout.LocalData.Perfil.PerfilDAO
 
 @Database(
     entities=[PerfilLocal::class],
@@ -22,9 +23,9 @@ abstract class PerfilDB : RoomDatabase()
 
         fun getInstance(context: Context): PerfilDB
         {
-            if(INSTANCE==null)
+            if(INSTANCE ==null)
             {
-                INSTANCE=Room.databaseBuilder(
+                INSTANCE =Room.databaseBuilder(
                     context.applicationContext,
                     PerfilDB::class.java, "user_database"
                 ).build()

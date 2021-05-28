@@ -360,52 +360,6 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
             if(AllCampos==true)
             {
 
-                /*---------------------------------IMAGENES---------------------------------------*/
-                //var imgArray:ByteArray? =  null
-
-                // var strEncodeImage2:String? = null
-                //var strEncodeImage3:String? = null
-                //var strEncodeImage4:String? = null
-                //var strEncodeImage5:String? = null
-/*var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
-                val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()*/
-
-
-                /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString =  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage2 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage3 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage4 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage5 = "data:image/png;base64," + encodedString
-                 }*/
-
                 /*---------------------------------TABLA---------------------------------------*/
 
                 val res =   Resena(0,

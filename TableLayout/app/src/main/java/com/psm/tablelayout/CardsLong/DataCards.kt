@@ -1,8 +1,13 @@
 package com.psm.tablelayout.CardsLong
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.psm.tablelayout.LocalData.Facultades.FacultadesLocal
+import com.psm.tablelayout.LocalData.Facultades.FacultadesViewModel
+import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
@@ -18,10 +23,15 @@ import kotlin.collections.ArrayList
 
 object DataCards {
     val facultad = ArrayList<Facultades>()
+   // val facultadL = ArrayList<FacultadesLocal>()
     val categorias = ArrayList<Categorias>()
     val resenas = ArrayList<Resena>()
     val BestResenas = ArrayList<Resena>()
     var content:Context? = null
+////////////
+
+
+
 
     init {
         //this.initializeFacultad()
@@ -37,6 +47,7 @@ object DataCards {
       fun getFacultades()
     {
         facultad.clear()
+
         val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
         var resultFacultades: Call<List<Facultades>> = service.getFacultades()
 
@@ -50,11 +61,24 @@ object DataCards {
                 val arrayItems =  response.body()
                 if (arrayItems != null){
                     for (item in arrayItems!!){
+
                         val strImage:String =  item.facultadesImage!!.replace("data:image/png;base64,","")
                         var byteArray:ByteArray? = null
                         byteArray =  Base64.getDecoder().decode(strImage)
                         var  facu = Facultades(item.facultadesID,item.facultadesNombre,strImage,byteArray  )
                         facultad.add(facu)
+
+
+
+                       /* val facus =
+                            FacultadesLocal(
+                                null,
+                                item.facultadesNombre,
+                                strImage,
+                                byteArray
+                            )
+
+                        facultadL.add(facus)*/
 
 
                     }

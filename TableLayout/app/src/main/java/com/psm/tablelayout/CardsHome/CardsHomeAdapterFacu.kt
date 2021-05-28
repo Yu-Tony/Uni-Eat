@@ -42,10 +42,15 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
                 //Lanzamos el intent para abrir el detalle
                 val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
                // Log.e("welcome", getFilter.strTitleF);
-                val  activityIntent =  Intent(context, SearchFilterActivity::class.java)
-                activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
+                /*val  activityIntent =  Intent(context, SearchFilterActivity::class.java)
+                activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre.toString())
                 activityIntent.putExtra(FILTER_TYPE,"1")
-                context.startActivity(activityIntent)
+                context.startActivity(activityIntent)*/
+
+                val intent = Intent(context,SearchFilterActivity::class.java)
+                intent.putExtra(FILTER_NAME,getFilter.facultadesNombre.toString())
+                intent.putExtra(FILTER_TYPE,"1")
+                context.startActivity(intent)
             }
 
             this.TitleCard.setOnClickListener {

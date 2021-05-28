@@ -3,28 +3,20 @@ package com.psm.tablelayout
 //import com.psm.tablelayout.Profile.MyEdit
 //import com.psm.tablelayout.Profile.onFragmentActionsListener
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
-import com.psm.tablelayout.CardsLong.DataCards
-import com.psm.tablelayout.LocalData.FacultadApp
-import com.psm.tablelayout.LocalData.PerfilDAO
-import com.psm.tablelayout.LocalData.PerfilDB
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.Profile.MyEdit
 import com.psm.tablelayout.Profile.SaveSharedPreference
 import com.psm.tablelayout.Search.SearchActivity
-import kotlinx.coroutines.launch
 
 
 //class MainActivity : AppCompatActivity(), onFragmentActionsListener {
@@ -32,7 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     var loggedin = false;
     var LAUNCH_SECOND_ACTIVITY = 1;
-    lateinit var perfilDAO: PerfilDAO
+
+
 
     private val adapter by lazy{ ViewPagerAdapater(this, this)}
 
@@ -42,6 +35,7 @@ class MainActivity : AppCompatActivity() {
        /* lifecycleScope.launch {
             val FacultadesIntern = app.room.facultadesLocalDAO().getAll()
         }*/
+
 
 
         //DataCards.resenas
@@ -80,6 +74,8 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
+
+
 
             DataMY.perfil?.userMail = SaveSharedPreference.getUserName(this)
             setContentView(R.layout.activity_main)

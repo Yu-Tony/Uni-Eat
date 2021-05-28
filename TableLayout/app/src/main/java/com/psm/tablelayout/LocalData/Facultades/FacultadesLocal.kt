@@ -1,9 +1,9 @@
-package com.psm.tablelayout.LocalData
+package com.psm.tablelayout.LocalData.Facultades
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName="Facultades_Table")
 class FacultadesLocal(
     @PrimaryKey(autoGenerate = true)
     var facultadesID:Int?=null,
