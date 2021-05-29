@@ -47,10 +47,10 @@ class CardsHomeAdapterFacu(val context: Context, var facu: List<Facultades>): Re
                 activityIntent.putExtra(FILTER_TYPE,"1")
                 context.startActivity(activityIntent)*/
 
-                val intent = Intent(context,SearchFilterActivity::class.java)
-                intent.putExtra(FILTER_NAME,getFilter.facultadesNombre.toString())
-                intent.putExtra(FILTER_TYPE,"1")
-                context.startActivity(intent)
+                val  activityIntent =  Intent(context, SearchFilterActivity::class.java)
+                activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
+                activityIntent.putExtra(FILTER_TYPE,"1")
+                context.startActivity(activityIntent)
             }
 
             this.TitleCard.setOnClickListener {

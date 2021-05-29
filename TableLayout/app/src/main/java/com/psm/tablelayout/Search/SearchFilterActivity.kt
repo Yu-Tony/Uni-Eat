@@ -34,8 +34,8 @@ class SearchFilterActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.content_main)
-        //DataCards.getResenas()
 
+        DataCards.getResenas()
         //DataCards.content =  this
         //RecyclerView
 
@@ -51,45 +51,31 @@ class SearchFilterActivity: AppCompatActivity() {
                     //The key argument here must match that used in the other activity
                 }
 
-
-
-
-
-        //--------------------------------------------------------SearchView
-        //searchbarSearch.setOnQueryTextListener(this)
-
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-
-
         val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected)
         {
 
-            //DataCards.getResenas()
-            Log.e("mamba facu", "aqua blue")
+
             if(type == "1")
             {
                 //https://stackoverflow.com/questions/51111974/how-to-implement-multiple-filters-in-searchview-using-recyclerview-and-cardview
                 Toast.makeText(this,"FILTER??", Toast.LENGTH_SHORT).show();
+
+                //reviewAdapter?.setData(DataCards.resenas)
                 reviewAdapter?.FacuFilter()?.filter(extraStr)
                 if (extraStr != null) {
-                     Log.e("mamba facu", extraStr!!)
+                    //Log.e("mamba facu", extraStr!!)
                 }
             }
 
             if(type == "2")
             {
-
+                //reviewAdapter?.setData(DataCards.resenas)
                 reviewAdapter?.CategFilter()?.filter(extraStr)
                 if (extraStr != null) {
-                     Log.e("mamba categ", extraStr!!)
+                    // Log.e("mamba categ", extraStr!!)
                 }
             }
 
@@ -107,9 +93,22 @@ class SearchFilterActivity: AppCompatActivity() {
 
         }
         else
-        {
+        {}
 
-        }
+
+            //--------------------------------------------------------SearchView
+        //searchbarSearch.setOnQueryTextListener(this)
+
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+
+
+
 
 
 

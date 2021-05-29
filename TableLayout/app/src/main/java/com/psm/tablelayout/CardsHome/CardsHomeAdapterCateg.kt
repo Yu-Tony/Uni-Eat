@@ -1,6 +1,9 @@
 package com.psm.tablelayout.CardsLong
 
+import FILTER_NAME
+import FILTER_TYPE
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.Search.SearchFilterActivity
 
 
 class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): RecyclerView.Adapter<CardsHomeAdapterCateg.ViewHolder>(), Filterable {
@@ -34,13 +38,13 @@ class CardsHomeAdapterCateg(val context: Context, var categ: List<Categorias>): 
 
             this.ImageCard.setOnClickListener {
 
-                /*//Lanzamos el intent para abrir el detalle
+                //Lanzamos el intent para abrir el detalle
                 val getFilter: Categorias =  DataCards.categorias[this.categPosition]
                 // Log.e("welcome", getFilter.strTitleF);
-                val  activityIntent =  Intent(context, SearchActivity::class.java)
+                val  activityIntent =  Intent(context, SearchFilterActivity::class.java)
                 activityIntent.putExtra(FILTER_NAME,getFilter.categoriaNombre)
                 activityIntent.putExtra(FILTER_TYPE,"2")
-                context.startActivity(activityIntent)*/
+                context.startActivity(activityIntent)
             }
 
 

@@ -1,6 +1,9 @@
 package com.psm.tablelayout.CardsHome
 
+import CARD_POSITION
+import FILTER_TYPE
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsLong.CardContent
 import com.psm.tablelayout.CardsLong.Facultades
 import com.psm.tablelayout.CardsLong.Resena
 
@@ -27,19 +31,19 @@ class CardsHomeAdapterBest(val context: Context, var bestRes: List<Resena>): Rec
         val TitleCard =  itemView?.findViewById<TextView>(com.psm.tablelayout.R.id.HomeTextCard)
         val ImageCard =  itemView?.findViewById<ImageView>(com.psm.tablelayout.R.id.HomeImageCard)
         var facuPosition:Int =  0
-
+        var comidaID:Int = 0
 
         init{
 
             this.ImageCard.setOnClickListener {
 
                 //Lanzamos el intent para abrir el detalle
-                /* val getFilter: Facultades =  DataCards.facultad[this.facuPosition]
+
                 // Log.e("welcome", getFilter.strTitleF);
-                 val  activityIntent =  Intent(context, SearchActivity::class.java)
-                 activityIntent.putExtra(FILTER_NAME,getFilter.facultadesNombre)
-                 activityIntent.putExtra(FILTER_TYPE,"1")
-                 context.startActivity(activityIntent)*/
+                val  activityIntent =  Intent(context,CardContent::class.java)
+                activityIntent.putExtra(CARD_POSITION,this.comidaID)
+                context.startActivity(activityIntent)
+
             }
 
             this.TitleCard.setOnClickListener {
@@ -75,6 +79,7 @@ class CardsHomeAdapterBest(val context: Context, var bestRes: List<Resena>): Rec
         val facultades =  this.bestRes[position]
         holder.TitleCard.text =  facultades.resenaTitulo
         holder.facuPosition =  position
+        holder.comidaID = facultades.resenaID!!
         //holder.imgAlbumCard.setImageBitmap(ImageUtilities.getBitMapFromByteArray(album.imgArray!!))
 
 

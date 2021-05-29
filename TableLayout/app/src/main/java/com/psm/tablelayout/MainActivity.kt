@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.psm.tablelayout.AddCard.AddCardActivity
+import com.psm.tablelayout.CardsLong.DataCards
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.Profile.MyEdit
 import com.psm.tablelayout.Profile.SaveSharedPreference
