@@ -7,88 +7,107 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
 
-    <ScrollView
-        android:layout_width="fill_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeHome"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-    >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ScrollView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             >
 
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="left"
-                android:text="Facultades"
-                android:textSize="30sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleFacultades"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                >
 
-                />
+                <TextView
+                    android:textColor="@color/colorVerde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="left"
+                    android:text="Facultades"
+                    android:textSize="30sp" />
 
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="left"
-                android:text="Categorías"
-                android:textSize="30sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleFacultades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="8dp"
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleCategoria"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="8dp" />
+                    />
 
-            <TextView
-                android:textColor="@color/colorVerde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="left"
-                android:text="Mejores Calificados"
-                android:textSize="30sp" />
+                <TextView
+                    android:textColor="@color/colorVerde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="left"
+                    android:text="Categorías"
+                    android:textSize="30sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleBest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="8dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="8dp" />
 
-        </LinearLayout>
+                <TextView
+                    android:textColor="@color/colorVerde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="left"
+                    android:text="Mejores Calificados"
+                    android:textSize="30sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleBest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="8dp" />
+
+            </LinearLayout>
 
 
-    </ScrollView>
+        </ScrollView>
 
-    <include
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+<!--
+ <include
         android:id="@+id/llProgressBar"
         android:visibility="gone"
-        layout="@layout/loading_page"/>
+        layout="@layout/loading_page"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

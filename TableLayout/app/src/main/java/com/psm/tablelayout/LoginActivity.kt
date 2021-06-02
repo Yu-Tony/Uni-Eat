@@ -130,7 +130,7 @@ class LoginActivity: AppCompatActivity(), View.OnClickListener {
                                             item[0].userImage)
 
                                         //https://stackoverflow.com/questions/45213706/kotlin-wait-function
-                                        DataMY.getresenasDrafts()
+                                        //DataMY.getresenasDrafts()
 
                                         SaveSharedPreference.setUserName(this@LoginActivity,
                                             item[0].userMail

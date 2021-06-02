@@ -3,6 +3,8 @@ package com.psm.tablelayout.AddCard
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -34,6 +36,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
 
     //store uris of picked images
     private var images: ArrayList<Uri?>? = null
+    private var imagesBM = ArrayList<Bitmap>()
     //current position/index of selected images
     private var position = 0
     //request code to pick image(s)
@@ -136,6 +139,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
         /*----------------------Display images-------------------------*/
         //init list
         images = ArrayList()
+
         //setup image switcher
         imageViewCreateReview.setFactory { ImageView(applicationContext) }
 
@@ -148,7 +152,11 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
         btnAfterReviewCreate.setOnClickListener {
             if (position < images!!.size-1){
                 position++
-                imageViewCreateReview.setImageURI(images!![position])
+
+                val drawable: Drawable = BitmapDrawable(imagesBM.get(position))
+                imageViewCreateReview.setImageDrawable(drawable)
+
+                //imageViewCreateReview.setImageURI(images!![position])
                 Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
             }
             else{
@@ -161,7 +169,11 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
         btnBeforeReviewCreate.setOnClickListener {
             if (position > 0) {
                 position--
-                imageViewCreateReview.setImageURI(images!![position])
+
+                val drawable: Drawable = BitmapDrawable(imagesBM.get(position))
+                imageViewCreateReview.setImageDrawable(drawable)
+
+               // imageViewCreateReview.setImageURI(images!![position])
                 Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
             } else {
                 //no more images
@@ -234,43 +246,36 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                                 images!!.add(imageUri)
                             }
 
-                            //set first image from list to image switcher
-                            imageViewCreateReview.setImageURI(images!![0])
+
+                           // imageViewCreateReview.setImageURI(images!![0])
                             position = 0;
 
                             for(i in 0 until count)
                             {
                                 val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![i])
+
+                                val resized = Bitmap.createScaledBitmap(photo, 700, 700, true)
+                                //imageView.setImageBitmap(resized)
+
                                 val stream = ByteArrayOutputStream()
                                 //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                                resized.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+
+                                imagesBM.add(resized);
+
+                               /* val bitmap =
+                                    Bitmap.createScaledBitmap(photo, 500, 500, true)*/
                                 //Agregamos al objecto album el arreglo de bytes
                                 imgArray =  stream.toByteArray()
                                 encodedString=  Base64.getEncoder().encodeToString(imgArray)
                                 strEncodeImage[i] = "data:image/png;base64," + encodedString
-                                Log.e("light bulb codes", strEncodeImage[i]!!)
+
 
                             }
 
-                           /* val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![0])
-                            val stream = ByteArrayOutputStream()
-                            //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                            //Agregamos al objecto album el arreglo de bytes
-                            imgArray =  stream.toByteArray()
-                            encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                            strEncodeImage = "data:image/png;base64," + encodedString
-                            Log.e("light bulb first", strEncodeImage!!)*/
+                            val drawable: Drawable = BitmapDrawable(imagesBM.get(0))
+                            imageViewCreateReview.setImageDrawable(drawable)
 
-                            /*val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images!![1])
-                            val stream = ByteArrayOutputStream()
-                            //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                            //Agregamos al objecto album el arreglo de bytes
-                            imgArray =  stream.toByteArray()
-                            encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                            strEncodeImageTwo = "data:image/png;base64," + encodedString
-                            Log.e("light bulb first", strEncodeImageTwo!!)*/
                         }
 
                 }
@@ -278,18 +283,25 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     //picked single image
                     val imageUri = data.data
                     //set image to image switcher
-                    imageViewCreateReview.setImageURI(imageUri)
+
                     position = 0;
 
                     val photo = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
                     val stream = ByteArrayOutputStream()
+                    val resized = Bitmap.createScaledBitmap(photo, 700, 700, true)
                     //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    resized.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                     //Agregamos al objecto album el arreglo de bytes
                     imgArray =  stream.toByteArray()
                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
                     strEncodeImage[0] = "data:image/png;base64," + encodedString
                     Log.e("light bulb only one", strEncodeImage[0]!!)
+
+
+                    val drawable: Drawable = BitmapDrawable(resized)
+                    imageViewCreateReview.setImageDrawable(drawable)
+
+                   // imageViewCreateReview.setImageURI(imageUri)
                 }
 
             }
@@ -326,7 +338,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 result.enqueue(object: Callback<Int> {
                     override fun onFailure(call: Call<Int>, t: Throwable) {
                        // Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -340,7 +352,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         //Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
 
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -383,7 +395,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
 
-                        DataCards.getResenas()
+                       // DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Guardando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -427,7 +439,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                 result.enqueue(object: Callback<Int> {
                     override fun onFailure(call: Call<Int>, t: Throwable) {
                         //Toast.makeText(this@AddCardActivity,"Error",Toast.LENGTH_LONG).show()
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -441,7 +453,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         //Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
 
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Actualizando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -461,53 +473,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
             if(AllCampos==true)
             {
 
-                /*---------------------------------IMAGENES---------------------------------------*/
-                //var imgArray:ByteArray? =  null
-
-                // var strEncodeImage2:String? = null
-                //var strEncodeImage3:String? = null
-                //var strEncodeImage4:String? = null
-                //var strEncodeImage5:String? = null
-/*var photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(0))
-                val stream = ByteArrayOutputStream()
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                imgArray =  stream.toByteArray()*/
-
-
-                /* photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(1))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString =  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage2 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(2))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage3 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(3))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage4 = "data:image/png;base64," + encodedString
-                 }
-                 photo = MediaStore.Images.Media.getBitmap(this.contentResolver, images?.get(4))
-                 if(photo!=null)
-                 { val stream = ByteArrayOutputStream()
-                     photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                     imgArray =  stream.toByteArray()
-                     encodedString=  Base64.getEncoder().encodeToString(imgArray)
-                     strEncodeImage5 = "data:image/png;base64," + encodedString
-                 }*/
-
-                /*---------------------------------TABLA---------------------------------------*/
+                         /*---------------------------------TABLA---------------------------------------*/
 
                 val res =   Resena(0,
                     DataMY.perfil?.userMail,
@@ -530,7 +496,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         Toast.makeText(this@AddCardActivity,"OK",Toast.LENGTH_LONG).show()
 
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@AddCardActivity,"Subiendo post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {

@@ -281,7 +281,7 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
                 result.enqueue(object: Callback<Int> {
                     override fun onFailure(call: Call<Int>, t: Throwable) {
                         //Toast.makeText(this@CardContent,"Error",Toast.LENGTH_LONG).show()
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {
@@ -320,7 +320,7 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
                 result.enqueue(object: Callback<Int> {
                     override fun onFailure(call: Call<Int>, t: Throwable) {
                         //Toast.makeText(this@CardContent,"Error",Toast.LENGTH_LONG).show()
-                        DataCards.getResenas()
+                        //DataCards.getResenas()
                         Toast.makeText(this@CardContent,"Borrando post...", Toast.LENGTH_LONG).show()
                         Handler().postDelayed(
                             {

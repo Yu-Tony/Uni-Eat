@@ -35,7 +35,7 @@ class SearchFilterActivity: AppCompatActivity() {
 
         setContentView(R.layout.content_main)
 
-        DataCards.getResenas()
+        //DataCards.getResenas()
         //DataCards.content =  this
         //RecyclerView
 

@@ -19,6 +19,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/colorVerde"
-        android:text="Please wait ..."/>
+        android:text="Cargando ..."/>
 
 </LinearLayout>

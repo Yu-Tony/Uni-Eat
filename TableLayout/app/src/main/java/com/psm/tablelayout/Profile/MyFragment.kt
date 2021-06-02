@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.psm.recyclerview.Utilities.ImageUtilities
 import com.psm.tablelayout.CardsLong.Perfil
 import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
@@ -23,6 +24,8 @@ import com.psm.tablelayout.LocalData.Perfil.PerfilViewModel
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
+import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.my_principal.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +44,8 @@ class MyFragment : Fragment(), View.OnClickListener {
 ///////////////////////////////
     private lateinit var mUserViewModel: PerfilViewModel
 
+//////////////////////////////////
+    var refreshLayout: SwipeRefreshLayout? = null
 
     /////////////////////////
 
@@ -73,7 +78,8 @@ class MyFragment : Fragment(), View.OnClickListener {
             System.exit(0);
         }
 
-
+        //https://www.devguru.com/content/features/articles/android/swipe_to_refresh_layout.html
+        refreshLayout = view.findViewById<View>(R.id.swipeMy) as SwipeRefreshLayout
 
         return view
     }
@@ -89,11 +95,42 @@ class MyFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
 
+
+        //Log.e("hot sauce", "resume")
+    }
+
+
+
+    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(itemView, savedInstanceState)
+
+    /*val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+    recycleMY.layoutManager =  layoutManager
+    this.adapter = context?.let { MyAdapter(it, DataMY.resenasMine) }
+    recycleMY.adapter = this.adapter*/
+
+        refreshLayout!!.setOnRefreshListener { refreshApp() }
+
+    }
+
+
+    override fun onClick(v: View?) {
+       /* when(v!!.id)
+        {
+            R.id.btnEditProfile->this.listener?.onClickFragmentMy((R.id.btnEditProfile))
+
+        }*/
+    }
+
+
+    private fun refreshApp() {
         val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkInfo = connMgr.activeNetworkInfo
         Log.e("ONRESUME", "MY")
         if (networkInfo != null && networkInfo.isConnected) {
+
             val busqueda: String? = SaveSharedPreference.getUserName(getActivity())
 
             //val busqueda:String = DataMY.perfil?.userMail.toString()
@@ -170,7 +207,7 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }
         else {
-           mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
+            mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
             mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
 
 
@@ -195,44 +232,9 @@ class MyFragment : Fragment(), View.OnClickListener {
 
 
 
-        //Log.e("hot sauce", "resume")
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is onFragmentActionsListener)
-        {
-            listener = context;
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener=null;
-    }
-
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(itemView, savedInstanceState)
-
-    /*val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-    recycleMY.layoutManager =  layoutManager
-    this.adapter = context?.let { MyAdapter(it, DataMY.resenasMine) }
-    recycleMY.adapter = this.adapter*/
-
-    }
-
-
-    override fun onClick(v: View?) {
-       /* when(v!!.id)
-        {
-            R.id.btnEditProfile->this.listener?.onClickFragmentMy((R.id.btnEditProfile))
-
-        }*/
-    }
-
-
-    fun showData()
+        fun showData()
     {
         val view = view
         if (view != null) {
@@ -249,10 +251,14 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         if(DataMY.perfil?.imgArray == null){
             //holder.ImageCard.setImageResource(categorias.categoriaImage!!)
-        }else{
+        }
+        else{
             imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil?.imgArray!!))
             //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
         }
+
+        refreshLayout?.setRefreshing(false);
+
 
     }
 
