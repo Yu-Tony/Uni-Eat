@@ -117,7 +117,14 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-
+    <include
+        android:id="@+id/llProgressBarMy"
+        android:visibility="gone"
+        layout="@layout/loading_page"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

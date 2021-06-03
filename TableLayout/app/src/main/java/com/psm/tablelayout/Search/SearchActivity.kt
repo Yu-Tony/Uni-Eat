@@ -46,6 +46,8 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
         setContentView(R.layout.search)
 
+        DataCards.resenas.clear()
+
         type=="null"
         //DataCards.content =  this
         //RecyclerView
@@ -106,7 +108,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
         spinnerType?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
         {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onItemSelected(
@@ -133,7 +135,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
         spinnerSort?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
         {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onItemSelected(
@@ -193,7 +195,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 spinnerType?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
                 {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        TODO("Not yet implemented")
+
                     }
 
                     override fun onItemSelected(
@@ -220,7 +222,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 spinnerSort?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
                 {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        TODO("Not yet implemented")
+
                     }
 
                     override fun onItemSelected(
@@ -264,7 +266,19 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         })*/
 
+        val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
 
+        if (networkInfo != null && networkInfo.isConnected)
+        {
+            getResenas()
+
+        }
+        else
+        {
+            Toast.makeText(this,"No hay conexion a internet", Toast.LENGTH_SHORT).show();
+            swipeSearch.isRefreshing=false;
+        }
 
         refreshApp();
 
@@ -310,15 +324,15 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
         {
             if(type3=="1")
             {
-                //reviewAdapter?.setData(DataCards.resenas)
-                //reviewAdapter?.notifyDataSetChanged()
-               // Toast.makeText(this@SearchActivity,"NORMAL FACU", Toast.LENGTH_SHORT).show();
+                reviewAdapter?.setData(DataCards.resenas)
+                reviewAdapter?.notifyDataSetChanged()
+                // Toast.makeText(this@SearchActivity,"NORMAL FACU", Toast.LENGTH_SHORT).show();
                 reviewAdapter?.FacuFilter()?.filter(newText)
             }
             else
             {
-               // reviewAdapter?.setData(DataCards.resenas)
-                //reviewAdapter?.notifyDataSetChanged()
+                reviewAdapter?.setData(DataCards.resenas)
+                reviewAdapter?.notifyDataSetChanged()
                 //Toast.makeText(this@SearchActivity,"UPSIDE FACU", Toast.LENGTH_SHORT).show();
                 reviewAdapter?.FacuFilterUpside()?.filter(newText)
             }
@@ -331,15 +345,15 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             {
                 reviewAdapter?.setData(DataCards.resenas)
                 reviewAdapter?.notifyDataSetChanged()
-                Toast.makeText(this@SearchActivity,"NORMAL CATEG", Toast.LENGTH_SHORT).show();
-                //reviewAdapter?.CategFilter()?.filter(newText)
+               // Toast.makeText(this@SearchActivity,"NORMAL CATEG", Toast.LENGTH_SHORT).show();
+                reviewAdapter?.CategFilter()?.filter(newText)
             }
             else
             {
                 reviewAdapter?.setData(DataCards.resenas)
                 reviewAdapter?.notifyDataSetChanged()
-                Toast.makeText(this@SearchActivity,"UPSIDE CATEG", Toast.LENGTH_SHORT).show();
-               // reviewAdapter?.CategFilterUpside()?.filter(newText)
+               // Toast.makeText(this@SearchActivity,"UPSIDE CATEG", Toast.LENGTH_SHORT).show();
+                reviewAdapter?.CategFilterUpside()?.filter(newText)
             }
 
         }
@@ -352,7 +366,12 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onResume() {
         super.onResume()
 
-
+        searchbarSearch.setQuery("", false);
+        searchbarSearch.setIconified(true);
+        type2 = "1"
+        type3 = "1"
+        spinnerType?.setSelection(0)
+        spinnerSort?.setSelection(0)
 
 
 
@@ -367,12 +386,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             if (networkInfo != null && networkInfo.isConnected)
             {
 
-               /* searchbarSearch.setQuery("", false);
-                searchbarSearch.setIconified(true);
-                type2 = "1"
-                type3 = "1"
-                spinnerType?.setSelection(0)
-                spinnerSort?.setSelection(0)*/
+
                 /* if(textToSearch=="" && type2=="1" && type3=="1" && type=="null")
                  {*/
 
@@ -387,7 +401,8 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             }
             else
             {
-
+                Toast.makeText(this,"No hay conexion a internet", Toast.LENGTH_SHORT).show();
+                swipeSearch.isRefreshing=false;
             }
         }
 

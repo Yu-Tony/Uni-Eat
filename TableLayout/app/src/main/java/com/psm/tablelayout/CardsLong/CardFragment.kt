@@ -19,6 +19,7 @@ import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.search.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,6 +59,26 @@ open class CardFragment : Fragment() {
         rcListComidaSearch.adapter = this.adapterDrafts
 
         refreshLayout!!.setOnRefreshListener { refreshApp() }
+
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected)
+        {
+
+                llProgressBarDrafts.visibility = View.VISIBLE
+                getresenasDrafts()
+
+
+            //Toast.makeText(getActivity(),"Cargando...", Toast.LENGTH_SHORT).show();
+
+        }
+        else
+        {
+
+        }
+
+
     }
 
     private fun refreshApp()
@@ -74,7 +95,8 @@ open class CardFragment : Fragment() {
         }
         else
         {
-
+            Toast.makeText(getActivity(),"No hay conexion a internet", Toast.LENGTH_SHORT).show();
+            refreshLayout?.setRefreshing(false);
         }
 
     }
@@ -154,6 +176,7 @@ open class CardFragment : Fragment() {
                             adapterDrafts?.setData(DataMY.resenasDrafts)
                             adapterDrafts?.notifyDataSetChanged()
                             refreshLayout?.setRefreshing(false);
+                            llProgressBarDrafts.visibility = View.GONE
                         },
                         7000 // value in milliseconds
                     )

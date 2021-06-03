@@ -65,8 +65,16 @@ class SearchFilterActivity: AppCompatActivity() {
         refreshApp();
 
         swipeDrafts.post {
-            swipeDrafts.isRefreshing = true
-            getResenas()
+            val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo = connMgr.activeNetworkInfo
+
+
+            if (networkInfo != null && networkInfo.isConnected)
+            {
+                swipeDrafts.isRefreshing = true
+                getResenas()
+            }
+
 
 
         }
@@ -217,7 +225,11 @@ class SearchFilterActivity: AppCompatActivity() {
 
         }
         else
-        {}
+        {
+            Toast.makeText(this,"No hay conexion a internet", Toast.LENGTH_SHORT).show();
+            swipeDrafts.isRefreshing=false;
+
+        }
 
 
     }

@@ -28,6 +28,7 @@ import com.psm.tablelayout.LocalData.Perfil.PerfilViewModel
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
+import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.my_principal.view.*
@@ -86,7 +87,111 @@ class MyFragment : Fragment(), View.OnClickListener {
         //https://www.devguru.com/content/features/articles/android/swipe_to_refresh_layout.html
         refreshLayout = view.findViewById<View>(R.id.swipeMy) as SwipeRefreshLayout
 
+        val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+        val networkInfo = connMgr.activeNetworkInfo
+        //Log.e("ONRESUME", "MY")
+        if (networkInfo != null && networkInfo.isConnected) {
+
+            val busqueda: String? = SaveSharedPreference.getUserName(getActivity())
+
+            //val busqueda:String = DataMY.perfil?.userMail.toString()
+            val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+            val result: Call<List<Perfil>>? = busqueda?.let { service.getUser(it) }
+
+            if (result != null) {
+                result.enqueue(object: Callback<List<Perfil>> {
+                    override fun onFailure(call: Call<List<Perfil>>, t: Throwable) {
+                        Toast.makeText(getActivity(),"Error al obtener el usuario",Toast.LENGTH_SHORT).show();
+                    }
+
+                    override fun onResponse(call: Call<List<Perfil>>, response: Response<List<Perfil>>) {
+
+                        val item =  response.body()
+
+                        if (item != null){
+
+                            var AllUsersInDB = mUserViewModel.readAllData
+                            if(AllUsersInDB!=null)
+                            {
+                                mUserViewModel.deleteAllUsers()
+                            }
+
+                            val responseBody: List<Perfil>? = response.body()
+                            if (!responseBody!!.isEmpty()) {
+                                llProgressBarMy.visibility = View.VISIBLE
+                                var strMessage:String =  ""
+                                strMessage =   item[0].userPassword.toString()
+
+                                val returnIntent = Intent()
+
+                                DataMY.initializePerfil(item[0].userID,
+                                    item[0].userNombre,
+                                    item[0].userApellidos,
+                                    item[0].userMail,
+                                    item[0].userPassword,
+                                    item[0].userPhone,
+                                    item[0].userImage)
+
+                                val profile =
+                                    PerfilLocal(
+                                        null,
+                                        item[0].userNombre,
+                                        item[0].userApellidos,
+                                        item[0].userMail,
+                                        item[0].userPassword,
+                                        item[0].userPhone,
+                                        item[0].userImage
+                                    )
+
+
+
+                                mUserViewModel.insert(profile)
+
+                                /*SaveSharedPreference.setUserName(this@SignUpActivity,
+                                        DataMY.perfil?.userNombre
+                                    )*/
+
+                                getresenasMine()
+
+
+
+                            } else {
+                                Toast.makeText(getActivity(),"El usuario no existe",Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+
+                    }
+
+                })
+            }
+
+        }
+        else {
+            mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
+            mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
+
+
+                if(perfil!=null)
+                {
+                    Toast.makeText(getActivity(),"Getting from database",Toast.LENGTH_SHORT).show();
+                    DataMY.initializePerfil(perfil[0].userID,
+                        perfil[0].userNombre,
+                        perfil[0].userApellidos,
+                        perfil[0].userMail,
+                        perfil[0].userPassword,
+                        perfil[0].userPhone,
+                        perfil[0].userImage
+                    )
+                }
+
+
+            })
+
+            showData();
+        }
 
         return view
     }
@@ -208,7 +313,8 @@ class MyFragment : Fragment(), View.OnClickListener {
                                         DataMY.perfil?.userNombre
                                     )*/
 
-                                showData();
+                                //showData();
+                                getresenasMine()
 
 
 
@@ -226,27 +332,8 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }
         else {
-            mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
-            mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
-
-
-                if(perfil!=null)
-                {
-                    Toast.makeText(getActivity(),"Getting from database",Toast.LENGTH_SHORT).show();
-                    DataMY.initializePerfil(perfil[0].userID,
-                        perfil[0].userNombre,
-                        perfil[0].userApellidos,
-                        perfil[0].userMail,
-                        perfil[0].userPassword,
-                        perfil[0].userPhone,
-                        perfil[0].userImage
-                    )
-                }
-
-
-            })
-
-            showData();
+            Toast.makeText(getActivity(),"No hay conexion a internet",Toast.LENGTH_SHORT).show();
+            refreshLayout?.setRefreshing(false);
         }
 
     }
@@ -274,7 +361,7 @@ class MyFragment : Fragment(), View.OnClickListener {
             //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
         }
 
-        getresenasMine()
+        //getresenasMine()
 
 
     }
@@ -346,8 +433,10 @@ class MyFragment : Fragment(), View.OnClickListener {
                             adapterMY?.setData(DataMY.resenasMine)
                             adapterMY?.notifyDataSetChanged()
                             refreshLayout?.setRefreshing(false);
+                            showData();
+                            llProgressBarMy.visibility = View.GONE
                         },
-                        7000 // value in milliseconds
+                        4000 // value in milliseconds
                     )
                 }
             }
