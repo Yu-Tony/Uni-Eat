@@ -1,6 +1,7 @@
 package com.psm.tablelayout.CardsHome
 
 import CARD_POSITION
+import CARD_TYPE
 import FILTER_TYPE
 import android.content.Context
 import android.content.Intent
@@ -40,8 +41,10 @@ class CardsHomeAdapterBest(val context: Context, var bestRes: List<Resena>): Rec
                 //Lanzamos el intent para abrir el detalle
 
                 // Log.e("welcome", getFilter.strTitleF);
+
                 val  activityIntent =  Intent(context,CardContent::class.java)
                 activityIntent.putExtra(CARD_POSITION,this.comidaID)
+                activityIntent.putExtra(CARD_TYPE,1)
                 context.startActivity(activityIntent)
 
             }

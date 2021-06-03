@@ -7,11 +7,13 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.psm.tablelayout.CardsLong.CardsAdapterAll
 import com.psm.tablelayout.CardsLong.DataCards
 import com.psm.tablelayout.CardsLong.Resena
+import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
@@ -20,6 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+
 
 //class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener
 class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -92,10 +95,85 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
         }*/
 
+        //----------------------------------------------------------ADVANCED TOGGLE
 
+        //https://www.youtube.com/watch?v=nzQVzIHIzUg
+        spinnerType=findViewById<Spinner>(R.id.spinnerType)
+        val listType = resources.getStringArray(R.array.listType)
+        val adaptadorSpinnerType = ArrayAdapter(this,android.R.layout.simple_spinner_item,listType)
+        spinnerType?.adapter=adaptadorSpinnerType;
+
+        spinnerType?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
+        {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                if(position==0) { type2="1"}
+                if(position==1) { type2="2"}
+                if(position==2) { type2="3"}
+
+
+            }
+
+        }
+
+        spinnerSort=findViewById<Spinner>(R.id.spinnerSort)
+        val listSort = resources.getStringArray(R.array.listSort)
+        val adaptadorSpinnerSort = ArrayAdapter(this,android.R.layout.simple_spinner_item,listSort)
+        spinnerSort?.adapter=adaptadorSpinnerSort
+
+        spinnerSort?.onItemSelectedListener =object: AdapterView.OnItemSelectedListener
+        {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                if(position==0)
+                {
+                    type3="1"
+                    if(type2=="1"){reviewAdapter?.NameFilter()?.filter(null)}
+                    if(type2=="2"){reviewAdapter?.FacuFilter()?.filter(null)}
+                    if(type2=="3"){reviewAdapter?.CategFilter()?.filter(null)}
+
+
+                }
+                if(position==1)
+                {   type3="2"
+                    if(type2=="1"){reviewAdapter?.NameFilterUpside()?.filter(null)}
+                    if(type2=="2"){reviewAdapter?.FacuFilterUpside()?.filter(null)}
+                    if(type2=="3"){reviewAdapter?.CategFilterUpside()?.filter(null)}
+                }
+
+
+
+            }
+
+        }
+
+        val AdvancedLayout = findViewById<LinearLayout>(R.id.SearchLayoutAdvanced)
+        switch1.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked==true){ AdvancedLayout.setVisibility(View.VISIBLE);}else{ AdvancedLayout.setVisibility(View.GONE);}
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+        })
 
         //--------------------------------------------------------ADVANCED SEARCH
-        var toggleAdvanced = findViewById<Button>(R.id.btnToggleSearchAdvanced)
+      /*  var toggleAdvanced = findViewById<Button>(R.id.btnToggleSearchAdvanced)
         val AdvancedLayout = findViewById<LinearLayout>(R.id.SearchLayoutAdvanced)
         toggleAdvanced.setOnClickListener {
             if (AdvancedLayout.getVisibility() == View.VISIBLE)
@@ -107,7 +185,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 AdvancedLayout.setVisibility(View.VISIBLE);
 
                 //https://www.youtube.com/watch?v=nzQVzIHIzUg
-                 spinnerType=findViewById<Spinner>(R.id.spinnerType)
+                spinnerType=findViewById<Spinner>(R.id.spinnerType)
                 val listType = resources.getStringArray(R.array.listType)
                 val adaptadorSpinnerType = ArrayAdapter(this,android.R.layout.simple_spinner_item,listType)
                 spinnerType?.adapter=adaptadorSpinnerType;
@@ -175,7 +253,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-        }
+        }*/
 
 
         /*ScrollViewSearch.setOnScrollChangeListener(View.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -202,43 +280,66 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
 
-        if (newText != null) {
-            textToSearch = newText
-        }
+
+       /* if (newText == null) {
+            reviewAdapter?.setData(DataCards.resenas)
+            reviewAdapter?.notifyDataSetChanged()
+        }*/
 
         if(type2=="1")
         {
             if(type3=="1")
             {
-                reviewAdapter?.NameFilter()?.filter(newText)
+
+               reviewAdapter?.setData(DataCards.resenas)
+               reviewAdapter?.notifyDataSetChanged()
+               // Toast.makeText(this@SearchActivity,"NORMAL NAME", Toast.LENGTH_SHORT).show();
+               reviewAdapter?.NameFilter()?.filter(newText)
             }
             else
             {
+                reviewAdapter?.setData(DataCards.resenas)
+                reviewAdapter?.notifyDataSetChanged()
+                //Toast.makeText(this@SearchActivity,"UPSIDE NAME", Toast.LENGTH_SHORT).show();
                 reviewAdapter?.NameFilterUpside()?.filter(newText)
             }
 
         }
+
         if(type2=="2")
         {
             if(type3=="1")
             {
+                //reviewAdapter?.setData(DataCards.resenas)
+                //reviewAdapter?.notifyDataSetChanged()
+               // Toast.makeText(this@SearchActivity,"NORMAL FACU", Toast.LENGTH_SHORT).show();
                 reviewAdapter?.FacuFilter()?.filter(newText)
             }
             else
             {
+               // reviewAdapter?.setData(DataCards.resenas)
+                //reviewAdapter?.notifyDataSetChanged()
+                //Toast.makeText(this@SearchActivity,"UPSIDE FACU", Toast.LENGTH_SHORT).show();
                 reviewAdapter?.FacuFilterUpside()?.filter(newText)
             }
 
         }
+
         if(type2=="3")
         {
             if(type3=="1")
             {
-                reviewAdapter?.CategFilter()?.filter(newText)
+                reviewAdapter?.setData(DataCards.resenas)
+                reviewAdapter?.notifyDataSetChanged()
+                Toast.makeText(this@SearchActivity,"NORMAL CATEG", Toast.LENGTH_SHORT).show();
+                //reviewAdapter?.CategFilter()?.filter(newText)
             }
             else
             {
-                reviewAdapter?.CategFilterUpside()?.filter(newText)
+                reviewAdapter?.setData(DataCards.resenas)
+                reviewAdapter?.notifyDataSetChanged()
+                Toast.makeText(this@SearchActivity,"UPSIDE CATEG", Toast.LENGTH_SHORT).show();
+               // reviewAdapter?.CategFilterUpside()?.filter(newText)
             }
 
         }
@@ -266,12 +367,12 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             if (networkInfo != null && networkInfo.isConnected)
             {
 
-                searchbarSearch.setQuery("", false);
+               /* searchbarSearch.setQuery("", false);
                 searchbarSearch.setIconified(true);
                 type2 = "1"
                 type3 = "1"
                 spinnerType?.setSelection(0)
-                spinnerSort?.setSelection(0)
+                spinnerSort?.setSelection(0)*/
                 /* if(textToSearch=="" && type2=="1" && type3=="1" && type=="null")
                  {*/
 
