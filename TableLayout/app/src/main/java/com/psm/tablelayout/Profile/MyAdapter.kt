@@ -94,6 +94,11 @@ class MyAdapter(val context: Context, var resenas:List<Resena>): RecyclerView.Ad
 
     }
 
+    fun setData(items: List<Resena>) {
+        resenas = items
+    }
+
+
     /*override fun getFilter(): Filter {
         return object : Filter(){
             override fun performFiltering(charSequence: CharSequence?): FilterResults {

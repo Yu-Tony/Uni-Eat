@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,21 +16,25 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.psm.recyclerview.Utilities.ImageUtilities
+import com.psm.tablelayout.CardsLong.CardsAdapterAll
 import com.psm.tablelayout.CardsLong.Perfil
+import com.psm.tablelayout.CardsLong.Resena
 import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 import com.psm.tablelayout.LocalData.Perfil.PerfilViewModel
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
-import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.my_principal.*
 import kotlinx.android.synthetic.main.my_principal.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 /*https://stackoverflow.com/questions/32700818/how-to-open-a-fragment-on-button-click-from-a-fragment-in-android*/
@@ -38,7 +43,7 @@ class MyFragment : Fragment(), View.OnClickListener {
 
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter:MyAdapter? = null
+    private var adapterMY:MyAdapter? = null
     private var listener: onFragmentActionsListener?=null;
     private lateinit var imageView: ImageView
 ///////////////////////////////
@@ -81,6 +86,8 @@ class MyFragment : Fragment(), View.OnClickListener {
         //https://www.devguru.com/content/features/articles/android/swipe_to_refresh_layout.html
         refreshLayout = view.findViewById<View>(R.id.swipeMy) as SwipeRefreshLayout
 
+
+
         return view
     }
 
@@ -104,13 +111,18 @@ class MyFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
     super.onViewCreated(itemView, savedInstanceState)
 
-    /*val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
     recycleMY.layoutManager =  layoutManager
-    this.adapter = context?.let { MyAdapter(it, DataMY.resenasMine) }
-    recycleMY.adapter = this.adapter*/
+    this.adapterMY = context?.let { MyAdapter(it, DataMY.resenasMine) }
+    recycleMY.adapter = this.adapterMY
+
+
 
         refreshLayout!!.setOnRefreshListener { refreshApp() }
+
+
+
 
     }
 
@@ -125,10 +137,17 @@ class MyFragment : Fragment(), View.OnClickListener {
 
 
     private fun refreshApp() {
+
+        getProfile();
+
+    }
+
+    fun getProfile()
+    {
         val connMgr = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkInfo = connMgr.activeNetworkInfo
-        Log.e("ONRESUME", "MY")
+        //Log.e("ONRESUME", "MY")
         if (networkInfo != null && networkInfo.isConnected) {
 
             val busqueda: String? = SaveSharedPreference.getUserName(getActivity())
@@ -230,8 +249,6 @@ class MyFragment : Fragment(), View.OnClickListener {
             showData();
         }
 
-
-
     }
 
         fun showData()
@@ -257,10 +274,86 @@ class MyFragment : Fragment(), View.OnClickListener {
             //imageProfile.setImageBitmap(ImageUtilities.getBitMapFromByteArray(DataMY.perfil[0].imgArray!!))
         }
 
-        refreshLayout?.setRefreshing(false);
+        getresenasMine()
 
 
     }
+
+    fun getresenasMine()
+    {
+        val service: Service =  RestEngine.getRestEngine().create(Service::class.java)
+        var resultResenas: Call<List<Resena>> = service.getResenas()
+
+        resultResenas!!.enqueue(object: Callback<List<Resena>> {
+
+            override fun onFailure(call: Call<List<Resena>>, t: Throwable){
+                Log.e("getres", "error")
+            }
+
+            override fun onResponse(call: Call<List<Resena>>, response: Response<List<Resena>>){
+                Log.e("getres", "success")
+                val arrayItems =  response.body()
+                if (arrayItems != null){
+                    for (item in arrayItems!!){
+
+                        if((item.resenaPublicado!=0) && (item.resenaUsuario == DataMY.perfil?.userMail))
+                        {
+                            var byteArray1:ByteArray? = null
+                            var byteArray2:ByteArray? = null
+                            var byteArray3:ByteArray? = null
+                            var byteArray4:ByteArray? = null
+                            var byteArray5:ByteArray? = null
+
+                            if(item.resenaImageOne!=null)
+                            {
+                                val strImage:String =  item.resenaImageOne!!.replace("data:image/png;base64,","")
+                                byteArray1 =  Base64.getDecoder().decode(strImage)
+                            }
+                            if(item.resenaImageTwo!=null)
+                            {
+                                val strImage:String =  item.resenaImageTwo!!.replace("data:image/png;base64,","")
+                                byteArray2 =  Base64.getDecoder().decode(strImage)
+                            }
+                            if(item.resenaImageThree!=null)
+                            {
+                                val strImage:String =  item.resenaImageOne!!.replace("data:image/png;base64,","")
+                                byteArray3 =  Base64.getDecoder().decode(strImage)
+                            }
+                            if(item.resenaImageFour!=null)
+                            {
+                                val strImage:String =  item.resenaImageOne!!.replace("data:image/png;base64,","")
+                                byteArray4 =  Base64.getDecoder().decode(strImage)
+                            }
+                            if(item.resenaImageFive!=null)
+                            {
+                                val strImage:String =  item.resenaImageOne!!.replace("data:image/png;base64,","")
+                                byteArray5 =  Base64.getDecoder().decode(strImage)
+                            }
+
+                            var  res = Resena(item.resenaID,item.resenaUsuario,item.resenaTitulo,item.resenaCategoria,item.resenaFacultad,
+                                item.resenaDescription,item.resenaRate,item.resenaPublicado,
+                                item.resenaImageOne, item.resenaImageTwo,item.resenaImageThree,
+                                item.resenaImageFour,item.resenaImageFive,byteArray1 ,byteArray2,
+                                byteArray3,byteArray4,byteArray5)
+
+                            DataMY.resenasMine.add(res)
+                        }
+
+                    }
+
+                    Handler().postDelayed(
+                        {
+                            adapterMY?.setData(DataMY.resenasMine)
+                            adapterMY?.notifyDataSetChanged()
+                            refreshLayout?.setRefreshing(false);
+                        },
+                        7000 // value in milliseconds
+                    )
+                }
+            }
+        })
+    }
+
 
 }
 
