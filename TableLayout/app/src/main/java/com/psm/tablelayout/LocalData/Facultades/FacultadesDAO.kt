@@ -23,4 +23,8 @@ interface FacultadesDAO
 
     @Query("DELETE FROM Facultades_Table")
     suspend fun deleteAllUsers()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'Facultades_Table'")
+    suspend fun deleteAllTableFacu()
+
 }

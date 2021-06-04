@@ -22,6 +22,12 @@ class FacultadesRepository(private val facultadesDAO: FacultadesDAO) {
         facultadesDAO.deleteAllUsers()
     }
 
+
+    suspend fun deleteAllTableFacu()
+    {
+        facultadesDAO.deleteAllTableFacu()
+    }
+
     suspend fun getByID(facultadesLocal: String)
     {
         facultadesLocal?.let { facultadesDAO.getByID(it) }

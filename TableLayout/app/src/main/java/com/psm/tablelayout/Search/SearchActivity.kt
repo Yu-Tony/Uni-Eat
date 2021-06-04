@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.psm.tablelayout.CardsLong.CardsAdapterAll
 import com.psm.tablelayout.CardsLong.DataCards
@@ -46,6 +47,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
         setContentView(R.layout.search)
 
+        llProgressBarSearch.visibility = View.VISIBLE
         DataCards.resenas.clear()
 
         type=="null"
@@ -271,6 +273,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
         if (networkInfo != null && networkInfo.isConnected)
         {
+
             getResenas()
 
         }
@@ -482,6 +485,7 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                             reviewAdapter?.notifyDataSetChanged()
                             // llProgressBarSearch.visibility = View.GONE
                             swipeSearch.isRefreshing=false;
+                            llProgressBarSearch.visibility = View.GONE
                         },
                         11000 // value in milliseconds
                     )

@@ -1,4 +1,4 @@
-package com.psm.tablelayout.LocalData.Perfil
+package com.psm.tablelayout.LocalData.Best
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,26 +11,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class PerfilViewModel(application: Application): AndroidViewModel(application) {
-    val readAllData: LiveData<List<PerfilLocal>>
-    private val repository: PerfilRepository
+class BestViewModel(application: Application): AndroidViewModel(application) {
+    val readAllData: LiveData<List<BestLocal>>
+    private val repository: BestRepository
 
     init
     {
-        val perfilDao = PerfilDB.getInstance(application).perfilDAO()
+        val perfilDao = PerfilDB.getInstance(application).bestDAO()
         repository =
-            PerfilRepository(perfilDao)
+            BestRepository(perfilDao)
         readAllData = repository.readAllData
     }
 
-    fun insert(perfilLocal: PerfilLocal)
+    fun insert(perfilLocal: BestLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(perfilLocal)
         }
     }
 
-    fun delete(perfilLocal: PerfilLocal)
+    fun delete(perfilLocal: BestLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.delete(perfilLocal)
@@ -44,7 +44,7 @@ class PerfilViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun deleteAllTableUsers()
+    fun deleteAllTableBest()
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTableUsers()

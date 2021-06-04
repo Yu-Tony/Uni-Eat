@@ -1,4 +1,4 @@
-package com.psm.tablelayout.LocalData.Perfil
+package com.psm.tablelayout.LocalData.Categorias
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,26 +11,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class PerfilViewModel(application: Application): AndroidViewModel(application) {
-    val readAllData: LiveData<List<PerfilLocal>>
-    private val repository: PerfilRepository
+class CategoriasViewModel(application: Application): AndroidViewModel(application) {
+    val readAllData: LiveData<List<CategoriasLocal>>
+    private val repository: CategoriasRepository
 
     init
     {
-        val perfilDao = PerfilDB.getInstance(application).perfilDAO()
+        val perfilDao = PerfilDB.getInstance(application).categoriasDAO()
         repository =
-            PerfilRepository(perfilDao)
+            CategoriasRepository(perfilDao)
         readAllData = repository.readAllData
     }
 
-    fun insert(perfilLocal: PerfilLocal)
+    fun insert(perfilLocal: CategoriasLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(perfilLocal)
         }
     }
 
-    fun delete(perfilLocal: PerfilLocal)
+    fun delete(perfilLocal: CategoriasLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.delete(perfilLocal)
@@ -44,7 +44,7 @@ class PerfilViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun deleteAllTableUsers()
+    fun deleteAllTableCateg()
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTableUsers()

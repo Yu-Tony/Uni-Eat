@@ -24,4 +24,9 @@ interface PerfilDAO
 
     @Query("DELETE FROM Perfil_Table")
     suspend fun deleteAllUsers()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'Perfil_Table'")
+    suspend fun deleteAllTableUsers()
+
+
 }

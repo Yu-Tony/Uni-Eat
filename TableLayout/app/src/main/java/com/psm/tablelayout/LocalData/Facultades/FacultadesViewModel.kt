@@ -17,7 +17,7 @@ class FacultadesViewModel(application: Application): AndroidViewModel(applicatio
 
     init
     {
-        val faultadDAO = FacultadDB.getInstance(application).facultadesDAO()
+        val faultadDAO = PerfilDB.getInstance(application).facultadesDAO()
         repository =
             FacultadesRepository(faultadDAO)
         readAllData = repository.readAllData
@@ -41,6 +41,13 @@ class FacultadesViewModel(application: Application): AndroidViewModel(applicatio
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllUsers()
+        }
+    }
+
+    fun deleteAllTableFacu()
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllTableFacu()
         }
     }
 

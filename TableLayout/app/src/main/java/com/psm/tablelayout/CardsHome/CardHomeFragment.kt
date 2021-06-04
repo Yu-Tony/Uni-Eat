@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.PrimaryKey
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.psm.tablelayout.CardsHome.CardsHomeAdapterBest
+import com.psm.tablelayout.LocalData.Best.BestLocal
+import com.psm.tablelayout.LocalData.Best.BestViewModel
+import com.psm.tablelayout.LocalData.Categorias.CategoriasLocal
+import com.psm.tablelayout.LocalData.Categorias.CategoriasViewModel
 import com.psm.tablelayout.LocalData.Facultades.FacultadesLocal
 import com.psm.tablelayout.LocalData.Facultades.FacultadesViewModel
 import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
@@ -45,6 +49,8 @@ var refreshLayout: SwipeRefreshLayout? = null
 
     //////////////////////////////////
     private lateinit var mFacuViewModel: FacultadesViewModel
+    private lateinit var mCategViewModel: CategoriasViewModel
+    private lateinit var mBestViewModel: BestViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +85,9 @@ var refreshLayout: SwipeRefreshLayout? = null
         adapterBest = context?.let { CardsHomeAdapterBest(it, DataCards.BestResenas) }
         recycleBest.adapter = adapterBest
 
-        //mFacultadesViewModel = ViewModelProvider(this).get(FacultadesViewModel::class.java)
+        mFacuViewModel = ViewModelProvider(this).get(FacultadesViewModel::class.java)
+        mCategViewModel = ViewModelProvider(this).get(CategoriasViewModel::class.java)
+        mBestViewModel = ViewModelProvider(this).get(BestViewModel::class.java)
 
 
         /* recycleBest.layoutManager =  layoutManager3
@@ -99,7 +107,6 @@ var refreshLayout: SwipeRefreshLayout? = null
                 mFacultadesViewModel.deleteAllUsers()
             }*/
 
-
             getCategorias()
             getFacultades()
             getBest()
@@ -116,18 +123,18 @@ var refreshLayout: SwipeRefreshLayout? = null
             llProgressBar.visibility = View.VISIBLE
             Handler().postDelayed(
                 {
-                    adapterFacu?.setData(DataCards.facultad)
+                   /* adapterFacu?.setData(DataCards.facultad)
                     adapterCateg?.setData(DataCards.categorias)
                     adapterBest?.setData(DataCards.BestResenas)
                     adapterFacu?.notifyDataSetChanged()
                     adapterCateg?.notifyDataSetChanged()
-                    adapterBest?.notifyDataSetChanged()
+                    adapterBest?.notifyDataSetChanged()*/
                     llProgressBar.visibility = View.GONE
 
                     //refreshLayout?.setRefreshing(false);
 
                 },
-                6000 // value in milliseconds
+                10000 // value in milliseconds
             )
 
 
@@ -136,7 +143,49 @@ var refreshLayout: SwipeRefreshLayout? = null
         }
         else
         {
-            TODO("ELSE DE FRAGMENT OSEA TRAER LAS COSAS DE LA BASE DE DATOS")
+
+            var AllFacusInDB = mFacuViewModel.readAllData
+            //Log.e("esto", AllFacusInDB.toString())
+
+            if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != null)
+            {
+                Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
+
+            } else
+            {
+                Toast.makeText(getActivity(),"No hay datos que cargar, revisa tu conexion a internet", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+          /* if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != "null")
+            {
+
+                /* var iteratorFacus = 0
+                 DataCards.facultad.clear()
+                 while (iteratorFacus < 11)
+                 {
+                     var  facu = Facultades(AllFacusInDB.value?.get(iteratorFacus)?.facultadesID,
+                         AllFacusInDB.value?.get(iteratorFacus)?.facultadesNombre.toString(),
+                         AllFacusInDB.value?.get(iteratorFacus)?.facultadesImage.toString(),
+                         AllFacusInDB.value?.get(iteratorFacus)?.imgArray)
+                     DataCards.facultad.add(facu)
+
+                     iteratorFacus = iteratorFacus + 1;
+                 }
+
+                 Handler().postDelayed(
+                     {
+                         adapterFacu?.setData(DataCards.facultad)
+                         adapterFacu?.notifyDataSetChanged()
+
+                     },
+                     3000) // value in milliseconds*/
+
+            }*/
+
+
+
         }
 
 
@@ -159,7 +208,7 @@ var refreshLayout: SwipeRefreshLayout? = null
 
             if (networkInfo != null && networkInfo.isConnected)
             {
-                /*var AllUsersInDB = mFacultadesViewModel.readAllData
+                /*var AllUsersInDB = mFacuViewModel.readAllData
                 if(AllUsersInDB!=null)
                 {
                     mFacultadesViewModel.deleteAllUsers()
@@ -249,11 +298,21 @@ var refreshLayout: SwipeRefreshLayout? = null
             override fun onResponse(call: Call<List<Facultades>>, response: Response<List<Facultades>>){
                 val arrayItems =  response.body()
 
-              /*  var AllFacusInDB = mFacuViewModel.readAllData
-                if(AllFacusInDB!=null)
+
+                var AllFacusInDB = mFacuViewModel.readAllData
+            //Log.e("esto", AllFacusInDB.toString())
+
+                if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != null)
                 {
+                    Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
                     mFacuViewModel.deleteAllUsers()
-                }*/
+                    mFacuViewModel.deleteAllTableFacu()
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"NO HAY datos en la base de datos", Toast.LENGTH_SHORT).show();
+
+                }
 
                 if (arrayItems != null){
                     for (item in arrayItems!!){
@@ -263,7 +322,7 @@ var refreshLayout: SwipeRefreshLayout? = null
                         byteArray =  Base64.getDecoder().decode(strImage)
                         var  facu = Facultades(item.facultadesID,item.facultadesNombre,strImage,byteArray  )
                         DataCards.facultad.add(facu)
-/*
+
                         val Facu =
                             FacultadesLocal(
                     null,
@@ -271,9 +330,22 @@ var refreshLayout: SwipeRefreshLayout? = null
                                 strImage,
                                 byteArray
                             )
-                        mFacuViewModel.insert(Facu)*/
+                        mFacuViewModel.insert(Facu)
 
                     }
+
+                    Handler().postDelayed(
+                        {
+                            adapterFacu?.setData(DataCards.facultad)
+
+                            adapterFacu?.notifyDataSetChanged()
+
+
+                            //refreshLayout?.setRefreshing(false);
+
+                        },
+                        3000 // value in milliseconds
+                    )
                 }
 
             }
@@ -293,6 +365,15 @@ var refreshLayout: SwipeRefreshLayout? = null
             }
 
             override fun onResponse(call: Call<List<Categorias>>, response: Response<List<Categorias>>){
+
+                var AllCategInDB = mCategViewModel.readAllData
+                if(AllCategInDB.value?.get(0)?.categoriaID.toString() != null)
+                {
+
+                    mCategViewModel.deleteAllUsers()
+                    mCategViewModel.deleteAllTableCateg()
+                }
+
                 val arrayItems =  response.body()
                 if (arrayItems != null){
                     for (item in arrayItems!!){
@@ -303,7 +384,31 @@ var refreshLayout: SwipeRefreshLayout? = null
                         DataCards.categorias.add(categ)
 
 
+                        val Categ =
+                            CategoriasLocal(
+                                null,
+                                item.categoriaNombre,
+                                strImage,
+                                byteArray
+                            )
+                        mCategViewModel.insert(Categ)
+
                     }
+
+                    Handler().postDelayed(
+                        {
+
+                            adapterCateg?.setData(DataCards.categorias)
+
+
+                            adapterCateg?.notifyDataSetChanged()
+
+
+                            //refreshLayout?.setRefreshing(false);
+
+                        },
+                        3000 // value in milliseconds
+                    )
                 }
             }
         })
@@ -322,6 +427,15 @@ var refreshLayout: SwipeRefreshLayout? = null
             }
 
             override fun onResponse(call: Call<List<Resena>>, response: Response<List<Resena>>){
+
+                var AllBestInDB = mBestViewModel.readAllData
+                if(AllBestInDB.value?.get(0)?.resenaID.toString() != null)
+                {
+
+                    mBestViewModel.deleteAllUsers()
+                    mBestViewModel.deleteAllTableBest()
+                }
+
                 val arrayItems =  response.body()
                 if (arrayItems != null){
                     for (item in arrayItems!!){
@@ -369,11 +483,34 @@ var refreshLayout: SwipeRefreshLayout? = null
 
                             DataCards.BestResenas.add(res)
 
+                            val Best =
+                                BestLocal(null,item.resenaUsuario,item.resenaTitulo,item.resenaCategoria,item.resenaFacultad,
+                                    item.resenaDescription,item.resenaRate,item.resenaPublicado,
+                                    item.resenaImageOne, item.resenaImageTwo,item.resenaImageThree,
+                                    item.resenaImageFour,item.resenaImageFive,byteArray1 ,byteArray2,
+                                    byteArray3,byteArray4,byteArray5
+                                )
+                            mBestViewModel.insert(Best)
+
                         }
 
 
 
                     }
+
+                    Handler().postDelayed(
+                        {
+
+                            adapterBest?.setData(DataCards.BestResenas)
+
+                            adapterBest?.notifyDataSetChanged()
+
+
+                            //refreshLayout?.setRefreshing(false);
+
+                        },
+                        3000 // value in milliseconds
+                    )
                 }
             }
         })

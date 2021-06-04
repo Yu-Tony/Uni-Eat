@@ -115,6 +115,7 @@ class MyFragment : Fragment(), View.OnClickListener {
                             if(AllUsersInDB!=null)
                             {
                                 mUserViewModel.deleteAllUsers()
+                                mUserViewModel.deleteAllTableUsers()
                             }
 
                             val responseBody: List<Perfil>? = response.body()

@@ -1,19 +1,39 @@
 package com.psm.tablelayout.LocalData.Perfil
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.RoomMasterTable
+import com.psm.tablelayout.LocalData.Best.BestDAO
+import com.psm.tablelayout.LocalData.Best.BestLocal
+import com.psm.tablelayout.LocalData.Categorias.CategoriasDAO
+import com.psm.tablelayout.LocalData.Categorias.CategoriasLocal
+import com.psm.tablelayout.LocalData.Facultades.FacultadesDAO
+import com.psm.tablelayout.LocalData.Facultades.FacultadesLocal
 import com.psm.tablelayout.LocalData.Perfil.PerfilDAO
+import com.psm.tablelayout.LocalData.Resenas.ResenasDAO
+import com.psm.tablelayout.LocalData.Resenas.ResenasLocal
 
 @Database(
-    entities=[PerfilLocal::class],
+    entities=[PerfilLocal::class,
+        FacultadesLocal::class,
+        CategoriasLocal::class,
+        BestLocal::class,
+        ResenasLocal::class
+    ],
     version=1,
     exportSchema = false
 )
 abstract class PerfilDB : RoomDatabase()
 {
     abstract fun perfilDAO(): PerfilDAO
+    abstract fun facultadesDAO(): FacultadesDAO
+    abstract fun bestDAO(): BestDAO
+    abstract fun categoriasDAO(): CategoriasDAO
+    abstract fun resenasDAO(): ResenasDAO
+
 
     //singleton
     companion object
@@ -28,9 +48,11 @@ abstract class PerfilDB : RoomDatabase()
                 INSTANCE =Room.databaseBuilder(
                     context.applicationContext,
                     PerfilDB::class.java, "user_database"
-                ).build()
+                ) .build()
             }
             return INSTANCE!!
         }
+
+
     }
 }

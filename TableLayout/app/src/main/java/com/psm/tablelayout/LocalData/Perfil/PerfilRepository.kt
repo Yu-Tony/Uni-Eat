@@ -21,6 +21,12 @@ val readAllData: LiveData<List<PerfilLocal>> = perfilDAO.getAll()
         perfilDAO.deleteAllUsers()
     }
 
+    suspend fun deleteAllTableUsers()
+    {
+        perfilDAO.deleteAllTableUsers()
+    }
+
+
     suspend fun getByID(perfilLocal: String)
     {
         perfilLocal?.let { perfilDAO.getByID(it) }

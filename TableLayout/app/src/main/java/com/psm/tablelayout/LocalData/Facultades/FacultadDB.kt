@@ -26,7 +26,7 @@ abstract class FacultadDB : RoomDatabase()
             {
                 INSTANCE =Room.databaseBuilder(
                     context.applicationContext,
-                    FacultadDB::class.java, "user_database"
+                    FacultadDB::class.java, "facu_database"
                 ).build()
             }
             return INSTANCE!!
