@@ -1,6 +1,7 @@
 package com.psm.tablelayout.Search
 
 import android.content.Context
+import android.database.CursorWindow
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
@@ -9,12 +10,13 @@ import android.view.View
 import android.widget.*
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.psm.tablelayout.CardsLong.CardsAdapterAll
 import com.psm.tablelayout.CardsLong.DataCards
 import com.psm.tablelayout.CardsLong.Resena
-import com.psm.tablelayout.Profile.DataMY
+import com.psm.tablelayout.LocalData.Resenas.ResenasLocal
+import com.psm.tablelayout.LocalData.Resenas.ResenasViewModel
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
@@ -23,6 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import java.lang.reflect.Field;
 
 
 //class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener
@@ -40,14 +43,17 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
     /*private val fullCategories =  ArrayList<Categorias>(DataCards.categorias)
     private val fullFacultades =  ArrayList<Facultades>(DataCards.facultad)*/
-
+/////////////////////////////////
+    private lateinit var mResViewModel: ResenasViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         setContentView(R.layout.search)
 
-        llProgressBarSearch.visibility = View.VISIBLE
+       // llProgressBarSearch.visibility = View.VISIBLE
         DataCards.resenas.clear()
 
         type=="null"
@@ -268,6 +274,8 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         })*/
 
+        mResViewModel = ViewModelProvider(this).get(ResenasViewModel::class.java)
+
         val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
 
@@ -276,14 +284,58 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
 
             getResenas()
 
+
         }
         else
         {
-            Toast.makeText(this,"No hay conexion a internet", Toast.LENGTH_SHORT).show();
-            swipeSearch.isRefreshing=false;
-        }
 
+
+            mResViewModel.readAllData.observe(this, androidx.lifecycle.Observer { res->
+
+                if(res!=null)
+                {
+                    DataCards.resenas.clear()
+                    llProgressBarSearch.visibility = View.VISIBLE
+                    Toast.makeText(this,"Getting from database",Toast.LENGTH_SHORT).show();
+
+                    var FullSearch = res.size
+                    var iteratorSearch=0;
+
+                    while (iteratorSearch<FullSearch)
+                    {
+                        var  res = Resena(res[iteratorSearch].resenaID,res[iteratorSearch].resenaUsuario,res[iteratorSearch].resenaTitulo,res[iteratorSearch].resenaCategoria,res[iteratorSearch].resenaFacultad,
+                            res[iteratorSearch].resenaDescription,res[iteratorSearch].resenaRate,res[iteratorSearch].resenaPublicado,
+                            res[iteratorSearch].resenaImageOne, res[iteratorSearch].resenaImageTwo,res[iteratorSearch].resenaImageThree,
+                            res[iteratorSearch].resenaImageFour,res[iteratorSearch].resenaImageFive,res[iteratorSearch].imgArray1 ,
+                            res[iteratorSearch].imgArray2,
+                            res[iteratorSearch].imgArray3,res[iteratorSearch].imgArray4,res[iteratorSearch].imgArray5)
+
+                        DataCards.resenas.add(res)
+                        iteratorSearch = (iteratorSearch+1)
+
+                    }
+
+                    Handler().postDelayed(
+                        {
+                            reviewAdapter?.setData(DataCards.resenas)
+                            reviewAdapter?.notifyDataSetChanged()
+                            // llProgressBarSearch.visibility = View.GONE
+                            swipeSearch.isRefreshing=false;
+                            llProgressBarSearch.visibility = View.GONE
+                        },
+                        8000 // value in milliseconds
+                    )
+
+
+
+                }
+
+
+            })
+
+        }
         refreshApp();
+
 
     }
 
@@ -425,12 +477,13 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
             }
 
             override fun onResponse(call: Call<List<Resena>>, response: Response<List<Resena>>){
-                Log.e("getres", "success")
+                llProgressBarSearch.visibility = View.VISIBLE
+                //Log.e("getres", "success")
                 val arrayItems =  response.body()
                 if (arrayItems != null){
                     for (item in arrayItems!!){
 
-                        Log.e("getres", item.resenaPublicado.toString())
+                       // Log.e("getres", item.resenaPublicado.toString())
                         if(item.resenaPublicado!=0)
                         {
 
@@ -473,6 +526,16 @@ class SearchActivity:AppCompatActivity(), SearchView.OnQueryTextListener {
                                 byteArray3,byteArray4,byteArray5)
 
                             DataCards.resenas.add(res)
+
+                            val Res =
+                                ResenasLocal(null,item.resenaUsuario,item.resenaTitulo,item.resenaCategoria,item.resenaFacultad,
+                                    item.resenaDescription,item.resenaRate,item.resenaPublicado,
+                                    item.resenaImageOne, item.resenaImageTwo,item.resenaImageThree,
+                                    item.resenaImageFour,item.resenaImageFive,byteArray1 ,byteArray2,
+                                    byteArray3,byteArray4,byteArray5
+
+                                )
+                            mResViewModel.insert(Res)
                         }
 
 

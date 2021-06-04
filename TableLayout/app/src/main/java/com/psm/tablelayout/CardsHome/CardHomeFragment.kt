@@ -144,45 +144,112 @@ var refreshLayout: SwipeRefreshLayout? = null
         else
         {
 
-            var AllFacusInDB = mFacuViewModel.readAllData
-            //Log.e("esto", AllFacusInDB.toString())
+            DataCards.facultad.clear()
+            DataCards.categorias.clear()
+            DataCards.BestResenas.clear()
 
-            if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != null)
-            {
-                Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
+            mFacuViewModel.readAllData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { facul->
+                if(facul!=null)
+                {
+                    llProgressBar.visibility = View.VISIBLE
+                    Toast.makeText(getActivity(),"Cargando de la base de datos...",Toast.LENGTH_SHORT).show();
+                    var iteratorFacu=0;
+                    val AllFacu = facul.size
 
-            } else
-            {
-                Toast.makeText(getActivity(),"No hay datos que cargar, revisa tu conexion a internet", Toast.LENGTH_SHORT).show();
+                    while (iteratorFacu<AllFacu)
+                    {
+                        var  facu = Facultades(facul[iteratorFacu].facultadesID,facul[iteratorFacu].facultadesNombre,facul[iteratorFacu].facultadesImage,facul[iteratorFacu].imgArray  )
+                        DataCards.facultad.add(facu)
 
-            }
+                        iteratorFacu = (iteratorFacu+1)
+                    }
 
+                    Handler().postDelayed(
+                        {
+                            adapterFacu?.setData(DataCards.facultad)
 
-          /* if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != "null")
-            {
+                            adapterFacu?.notifyDataSetChanged()
+                            llProgressBar.visibility = View.GONE
 
-                /* var iteratorFacus = 0
-                 DataCards.facultad.clear()
-                 while (iteratorFacus < 11)
-                 {
-                     var  facu = Facultades(AllFacusInDB.value?.get(iteratorFacus)?.facultadesID,
-                         AllFacusInDB.value?.get(iteratorFacus)?.facultadesNombre.toString(),
-                         AllFacusInDB.value?.get(iteratorFacus)?.facultadesImage.toString(),
-                         AllFacusInDB.value?.get(iteratorFacus)?.imgArray)
-                     DataCards.facultad.add(facu)
+                            //refreshLayout?.setRefreshing(false);
 
-                     iteratorFacus = iteratorFacus + 1;
-                 }
+                        },
+                        3000 // value in milliseconds
+                    )
 
-                 Handler().postDelayed(
-                     {
-                         adapterFacu?.setData(DataCards.facultad)
-                         adapterFacu?.notifyDataSetChanged()
+                }
+            })
 
-                     },
-                     3000) // value in milliseconds*/
+            mCategViewModel.readAllData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { categ->
+                if(categ!=null)
+                {
+                   // llProgressBar.visibility = View.VISIBLE
+                   // Toast.makeText(getActivity(),"Cargando de la base de datos...",Toast.LENGTH_SHORT).show();
+                    var iteratorCateg=0;
+                    val AllCateg = categ.size
+                    while (iteratorCateg<AllCateg)
+                    {
+                        var  cate = Categorias(categ[iteratorCateg].categoriaID,categ[iteratorCateg].categoriaNombre,categ[iteratorCateg].categoriaImage,categ[iteratorCateg].imgArray  )
+                        DataCards.categorias.add(cate)
 
-            }*/
+                        iteratorCateg = (iteratorCateg+1)
+                    }
+
+                    Handler().postDelayed(
+                        {
+                            adapterCateg?.setData(DataCards.categorias)
+
+                            adapterCateg?.notifyDataSetChanged()
+                           // llProgressBar.visibility = View.GONE
+
+                            //refreshLayout?.setRefreshing(false);
+
+                        },
+                        3000 // value in milliseconds
+                    )
+
+                }
+            })
+
+            mBestViewModel.readAllData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { bestM->
+                if(bestM!=null)
+                {
+                    //llProgressBar.visibility = View.VISIBLE
+                    // Toast.makeText(getActivity(),"Cargando de la base de datos...",Toast.LENGTH_SHORT).show();
+                    var iteratorBest=0;
+
+                    while (iteratorBest<4)
+                    {
+
+                        var  res = Resena(  bestM[iteratorBest].resenaID,bestM[iteratorBest].resenaUsuario,
+                                            bestM[iteratorBest].resenaTitulo,bestM[iteratorBest].resenaCategoria,
+                                            bestM[iteratorBest].resenaFacultad,bestM[iteratorBest].resenaDescription,
+                                            bestM[iteratorBest].resenaRate,bestM[iteratorBest].resenaPublicado,
+                                            bestM[iteratorBest].resenaImageOne, bestM[iteratorBest].resenaImageTwo,
+                                            bestM[iteratorBest].resenaImageThree, bestM[iteratorBest].resenaImageFour,
+                                            bestM[iteratorBest].resenaImageFive,bestM[iteratorBest].imgArray1 ,
+                                            bestM[iteratorBest].imgArray2, bestM[iteratorBest].imgArray3,
+                                            bestM[iteratorBest].imgArray4,bestM[iteratorBest].imgArray5)
+
+                        DataCards.BestResenas.add(res)
+                        iteratorBest = (iteratorBest+1)
+                    }
+
+                    Handler().postDelayed(
+                        {
+                            adapterBest?.setData(DataCards.BestResenas)
+
+                            adapterBest?.notifyDataSetChanged()
+                            // llProgressBar.visibility = View.GONE
+
+                            //refreshLayout?.setRefreshing(false);
+
+                        },
+                        3000 // value in milliseconds
+                    )
+
+                }
+            })
 
 
 
@@ -304,13 +371,13 @@ var refreshLayout: SwipeRefreshLayout? = null
 
                 if(AllFacusInDB.value?.get(0)?.facultadesID.toString() != null)
                 {
-                    Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
                     mFacuViewModel.deleteAllUsers()
                     mFacuViewModel.deleteAllTableFacu()
                 }
                 else
                 {
-                    Toast.makeText(getActivity(),"NO HAY datos en la base de datos", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity(),"NO HAY datos en la base de datos", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -431,7 +498,7 @@ var refreshLayout: SwipeRefreshLayout? = null
                 var AllBestInDB = mBestViewModel.readAllData
                 if(AllBestInDB.value?.get(0)?.resenaID.toString() != null)
                 {
-
+                    //https://stackoverflow.com/questions/50878734/android-room-how-to-reset-auto-generated-table-primary-key-on-each-app-run
                     mBestViewModel.deleteAllUsers()
                     mBestViewModel.deleteAllTableBest()
                 }

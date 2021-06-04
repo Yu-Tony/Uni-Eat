@@ -259,7 +259,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
 
                                 val stream = ByteArrayOutputStream()
                                 //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                                resized.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                                resized.compress(Bitmap.CompressFormat.JPEG, 70, stream)
 
                                 imagesBM.add(resized);
 
@@ -290,7 +290,7 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     val stream = ByteArrayOutputStream()
                     val resized = Bitmap.createScaledBitmap(photo, 700, 700, true)
                     //Bitmap.CompressFormat agregar el formato desado, estoy usando aqui jpeg
-                    resized.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    resized.compress(Bitmap.CompressFormat.JPEG, 70, stream)
                     //Agregamos al objecto album el arreglo de bytes
                     imgArray =  stream.toByteArray()
                     encodedString=  Base64.getEncoder().encodeToString(imgArray)

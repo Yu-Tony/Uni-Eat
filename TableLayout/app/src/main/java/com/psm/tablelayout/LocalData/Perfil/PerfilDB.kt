@@ -10,6 +10,8 @@ import com.psm.tablelayout.LocalData.Best.BestDAO
 import com.psm.tablelayout.LocalData.Best.BestLocal
 import com.psm.tablelayout.LocalData.Categorias.CategoriasDAO
 import com.psm.tablelayout.LocalData.Categorias.CategoriasLocal
+import com.psm.tablelayout.LocalData.Drafts.DraftDAO
+import com.psm.tablelayout.LocalData.Drafts.DraftLocal
 import com.psm.tablelayout.LocalData.Facultades.FacultadesDAO
 import com.psm.tablelayout.LocalData.Facultades.FacultadesLocal
 import com.psm.tablelayout.LocalData.Perfil.PerfilDAO
@@ -21,7 +23,8 @@ import com.psm.tablelayout.LocalData.Resenas.ResenasLocal
         FacultadesLocal::class,
         CategoriasLocal::class,
         BestLocal::class,
-        ResenasLocal::class
+        ResenasLocal::class,
+        DraftLocal::class
     ],
     version=1,
     exportSchema = false
@@ -33,6 +36,7 @@ abstract class PerfilDB : RoomDatabase()
     abstract fun bestDAO(): BestDAO
     abstract fun categoriasDAO(): CategoriasDAO
     abstract fun resenasDAO(): ResenasDAO
+    abstract fun draftDAO(): DraftDAO
 
 
     //singleton

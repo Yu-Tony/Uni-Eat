@@ -171,27 +171,38 @@ class MyFragment : Fragment(), View.OnClickListener {
 
         }
         else {
-            mUserViewModel = ViewModelProvider(this).get(PerfilViewModel::class.java)
-            mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perfil->
 
+            mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer { perf->
 
-                if(perfil!=null)
+                DataMY.resenasMine.clear()
+                DataMY.perfil=null
+
+                if(perf!=null)
                 {
+
                     Toast.makeText(getActivity(),"Getting from database",Toast.LENGTH_SHORT).show();
-                    DataMY.initializePerfil(perfil[0].userID,
-                        perfil[0].userNombre,
-                        perfil[0].userApellidos,
-                        perfil[0].userMail,
-                        perfil[0].userPassword,
-                        perfil[0].userPhone,
-                        perfil[0].userImage
+                    DataMY.initializePerfil(perf[0].userID,
+                        perf[0].userNombre,
+                        perf[0].userApellidos,
+                        perf[0].userMail,
+                        perf[0].userPassword,
+                        perf[0].userPhone,
+                        perf[0].userImage
                     )
                 }
 
 
             })
 
-            showData();
+            Handler().postDelayed(
+                {
+
+                    showData();
+                   /// llProgressBarMy.visibility = View.GONE
+                },
+                4000 )// value in milliseconds
+
+
         }
 
         return view

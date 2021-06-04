@@ -3,9 +3,15 @@ package com.psm.tablelayout.LocalData.Facultades
 import androidx.lifecycle.LiveData
 
 
-class FacultadesRepository(private val facultadesDAO: FacultadesDAO) {
+class FacultadesRepository(val facultadesDAO: FacultadesDAO) {
 
     val readAllData: LiveData<List<FacultadesLocal>> = facultadesDAO.getAll()
+
+
+    suspend fun selectALL(): List<FacultadesLocal> {
+        val allFacu = facultadesDAO.selectALL()
+        return allFacu
+    }
 
     suspend fun insert(facultadesLocal: FacultadesLocal)
     {

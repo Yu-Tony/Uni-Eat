@@ -9,6 +9,9 @@ interface FacultadesDAO
     @Query("SELECT * FROM Facultades_Table")
     fun getAll(): LiveData<List<FacultadesLocal>>
 
+    @Query("SELECT * FROM Facultades_Table")
+    suspend fun selectALL(): List<FacultadesLocal>
+
     @Query("SELECT * FROM Facultades_Table WHERE facultadesID = :id")
     suspend fun getByID(id:String): FacultadesLocal
 

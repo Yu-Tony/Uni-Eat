@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.psm.tablelayout.LocalData.Drafts.DraftViewModel
+import com.psm.tablelayout.LocalData.Resenas.ResenasViewModel
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
@@ -35,6 +38,9 @@ open class CardFragment : Fragment() {
     ///////////////////////////////////////////////////
 
     var refreshLayout: SwipeRefreshLayout? = null
+
+    /////////////////////////////////////////////////
+    private lateinit var mResViewModel: DraftViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +82,55 @@ open class CardFragment : Fragment() {
         else
         {
 
+            DataCards.resenas.clear()
+            mResViewModel = ViewModelProvider(this).get(DraftViewModel::class.java)
+            mResViewModel.readAllData.observe(this, androidx.lifecycle.Observer { res->
+
+                if(res!=null)
+                {
+                    Toast.makeText(getActivity(),"Cargando de la base de datos...",Toast.LENGTH_SHORT).show();
+
+                    var FullSearch = res.size
+                    var iteratorSearch=0;
+
+                    while (iteratorSearch<FullSearch)
+                    {
+                        Toast.makeText(getActivity(),res[iteratorSearch].resenaPublicado.toString(),Toast.LENGTH_SHORT).show();
+
+
+                        if((res[iteratorSearch].resenaPublicado.toString()=="0") && (res[iteratorSearch].resenaUsuario== DataMY.perfil?.userMail))
+                        {
+                            var  res = Resena(res[iteratorSearch].resenaID,res[iteratorSearch].resenaUsuario,res[iteratorSearch].resenaTitulo,res[iteratorSearch].resenaCategoria,res[iteratorSearch].resenaFacultad,
+                                res[iteratorSearch].resenaDescription,res[iteratorSearch].resenaRate,res[iteratorSearch].resenaPublicado,
+                                res[iteratorSearch].resenaImageOne, res[iteratorSearch].resenaImageTwo,res[iteratorSearch].resenaImageThree,
+                                res[iteratorSearch].resenaImageFour,res[iteratorSearch].resenaImageFive,res[iteratorSearch].imgArray1 ,
+                                res[iteratorSearch].imgArray2,
+                                res[iteratorSearch].imgArray3,res[iteratorSearch].imgArray4,res[iteratorSearch].imgArray5)
+
+                            DataMY.resenasDrafts.add(res)
+
+
+                        }
+
+                        iteratorSearch = (iteratorSearch+1)
+                    }
+
+                    Handler().postDelayed(
+                        {
+                            adapterDrafts?.setData(DataMY.resenasDrafts)
+                            adapterDrafts?.notifyDataSetChanged()
+                            // llProgressBarSearch.visibility = View.GONE
+
+                        },
+                        5000 // value in milliseconds
+                    )
+
+
+
+                }
+
+
+            })
         }
 
 

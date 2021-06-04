@@ -1,4 +1,4 @@
-package com.psm.tablelayout.LocalData.Facultades
+package com.psm.tablelayout.LocalData.Drafts
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,39 +10,30 @@ import com.psm.tablelayout.LocalData.Perfil.PerfilRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FacultadesViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<FacultadesLocal>>
-    val repository: FacultadesRepository
+class DraftViewModel(application: Application): AndroidViewModel(application) {
+    val readAllData: LiveData<List<DraftLocal>>
+    private val repository: DraftRepository
 
     init
     {
-        val faultadDAO = PerfilDB.getInstance(application).facultadesDAO()
+        val perfilDao = PerfilDB.getInstance(application).draftDAO()
         repository =
-            FacultadesRepository(faultadDAO)
+            DraftRepository(perfilDao)
         readAllData = repository.readAllData
     }
 
-
-    fun selectALL()
+    fun insert(perfilLocal: DraftLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
-          repository.selectALL()
-
+            repository.insert(perfilLocal)
         }
     }
 
-    fun insert(facultadesLocal: FacultadesLocal)
+    fun delete(perfilLocal: DraftLocal)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(facultadesLocal)
-        }
-    }
-
-    fun delete(facultadesLocal: FacultadesLocal)
-    {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.delete(facultadesLocal)
+            repository.delete(perfilLocal)
         }
     }
 
@@ -53,18 +44,18 @@ class FacultadesViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
-    fun deleteAllTableFacu()
+    fun deleteAllTableDraft()
     {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllTableFacu()
+            repository.deleteAllTableUsers()
         }
     }
 
     fun getByID(perfilLocal: String)
     {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getByID(perfilLocal)
-        }
+        repository.getByID(perfilLocal)
+    }
 
     }
 }

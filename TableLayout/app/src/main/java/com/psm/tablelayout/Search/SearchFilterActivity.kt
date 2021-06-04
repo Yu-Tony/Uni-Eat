@@ -74,6 +74,10 @@ class SearchFilterActivity: AppCompatActivity() {
                 swipeDrafts.isRefreshing = true
                 getResenas()
             }
+            else
+            {
+
+            }
 
 
 

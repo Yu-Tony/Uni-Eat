@@ -7,7 +7,7 @@ import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 @Dao
 interface ResenasDAO
 {
-    @Query("SELECT * FROM Review_Table")
+    @Transaction @Query("SELECT * FROM Review_Table")
     fun getAll():LiveData<List<ResenasLocal>>
 
     @Query("SELECT * FROM Review_Table WHERE resenaID = :id")

@@ -5,6 +5,7 @@ package com.psm.tablelayout
 
 import android.app.Activity
 import android.content.Intent
+import android.database.CursorWindow
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.Profile.MyEdit
 import com.psm.tablelayout.Profile.SaveSharedPreference
 import com.psm.tablelayout.Search.SearchActivity
+import java.lang.reflect.Field
 
 
 //class MainActivity : AppCompatActivity(), onFragmentActionsListener {
@@ -34,6 +36,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //https://github.com/andpor/react-native-sqlite-storage/issues/364
+        try {
+            val field: Field = CursorWindow::class.java.getDeclaredField("sCursorWindowSize")
+            field.setAccessible(true)
+            field.set(null, 100 * 1024 * 1024) //the 100MB is the new size
+        } catch (e: Exception) {
+            if (e!=null) {
+                e.printStackTrace()
+            }
+        }
 
        /* lifecycleScope.launch {
             val FacultadesIntern = app.room.facultadesLocalDAO().getAll()
