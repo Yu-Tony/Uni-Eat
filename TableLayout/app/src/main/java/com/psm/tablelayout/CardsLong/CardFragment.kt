@@ -14,7 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.psm.tablelayout.LocalData.Drafts.DraftLocal
 import com.psm.tablelayout.LocalData.Drafts.DraftViewModel
+import com.psm.tablelayout.LocalData.Facultades.FacultadesLocal
 import com.psm.tablelayout.LocalData.Resenas.ResenasViewModel
 import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
@@ -40,7 +42,7 @@ open class CardFragment : Fragment() {
     var refreshLayout: SwipeRefreshLayout? = null
 
     /////////////////////////////////////////////////
-    private lateinit var mResViewModel: DraftViewModel
+    private lateinit var mDraftViewModel: DraftViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +60,7 @@ open class CardFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
+        mDraftViewModel = ViewModelProvider(this).get(DraftViewModel::class.java)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         rcListComidaSearch.layoutManager =  layoutManager
@@ -83,8 +86,9 @@ open class CardFragment : Fragment() {
         {
 
             DataCards.resenas.clear()
-            mResViewModel = ViewModelProvider(this).get(DraftViewModel::class.java)
-            mResViewModel.readAllData.observe(this, androidx.lifecycle.Observer { res->
+            DataMY.resenasDrafts.clear()
+
+            mDraftViewModel.readAllData.observe(this, androidx.lifecycle.Observer { res->
 
                 if(res!=null)
                 {
@@ -95,7 +99,7 @@ open class CardFragment : Fragment() {
 
                     while (iteratorSearch<FullSearch)
                     {
-                        Toast.makeText(getActivity(),res[iteratorSearch].resenaPublicado.toString(),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(),res[iteratorSearch].resenaPublicado.toString(),Toast.LENGTH_SHORT).show();
 
 
                         if((res[iteratorSearch].resenaPublicado.toString()=="0") && (res[iteratorSearch].resenaUsuario== DataMY.perfil?.userMail))
@@ -172,6 +176,21 @@ open class CardFragment : Fragment() {
 
             override fun onResponse(call: Call<List<Resena>>, response: Response<List<Resena>>){
 
+                var AllFacusInDB = mDraftViewModel.readAllData
+                //Log.e("esto", AllFacusInDB.toString())
+
+                if(AllFacusInDB.value?.get(0)?.resenaID.toString() != null)
+                {
+                    //Toast.makeText(getActivity(),"Hay datos en la base de datos", Toast.LENGTH_SHORT).show();
+                    mDraftViewModel.deleteAllUsers()
+                    mDraftViewModel.deleteAllTableUsers()
+                }
+                else
+                {
+                    // Toast.makeText(getActivity(),"NO HAY datos en la base de datos", Toast.LENGTH_SHORT).show();
+
+                }
+
                 val arrayItems =  response.body()
                 if (arrayItems != null){
                     for (item in arrayItems!!){
@@ -219,6 +238,16 @@ open class CardFragment : Fragment() {
 
                             DataMY.resenasDrafts.add(res)
 
+                            val Dra =
+                                DraftLocal(
+                                    null,item.resenaUsuario,item.resenaTitulo,item.resenaCategoria,item.resenaFacultad,
+                                    item.resenaDescription,item.resenaRate,item.resenaPublicado,
+                                    item.resenaImageOne, item.resenaImageTwo,item.resenaImageThree,
+                                    item.resenaImageFour,item.resenaImageFive,byteArray1 ,byteArray2,
+                                    byteArray3,byteArray4,byteArray5
+
+                                )
+                            mDraftViewModel.insert(Dra)
 
                         }
 

@@ -234,8 +234,8 @@ class AddCardActivity: AppCompatActivity(), View.OnClickListener {
                     //get number of picked images
                     val count = data.clipData!!.itemCount
 
-                        if (count > 3) {
-                            Toast.makeText(this@AddCardActivity,"Solo puedes guardar un maximo de 3 imagenes", Toast.LENGTH_LONG).show()
+                        if (count > 2) {
+                            Toast.makeText(this@AddCardActivity,"Solo puedes guardar un maximo de 2 imagenes", Toast.LENGTH_LONG).show()
                         }
                         else
                         {

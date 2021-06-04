@@ -10,10 +10,14 @@ import android.util.Log
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.psm.tablelayout.CardsLong.CardsAdapterAll
 import com.psm.tablelayout.CardsLong.DataCards
 import com.psm.tablelayout.CardsLong.Resena
+import com.psm.tablelayout.LocalData.Drafts.DraftViewModel
+import com.psm.tablelayout.LocalData.Resenas.ResenasViewModel
+import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.R
 import com.psm.tablelayout.RestEngine
 import com.psm.tablelayout.Service
@@ -36,7 +40,8 @@ class SearchFilterActivity: AppCompatActivity() {
     var spinnerSort:Spinner?=null
 
     var extraStr:String? = null
-
+//////////////////////////////////////
+private lateinit var mResViewModel: ResenasViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +69,8 @@ class SearchFilterActivity: AppCompatActivity() {
 
         refreshApp();
 
+        mResViewModel = ViewModelProvider(this).get(ResenasViewModel::class.java)
+
         swipeDrafts.post {
             val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connMgr.activeNetworkInfo
@@ -76,7 +83,54 @@ class SearchFilterActivity: AppCompatActivity() {
             }
             else
             {
+                DataCards.resenas.clear()
 
+                mResViewModel.readAllData.observe(this, androidx.lifecycle.Observer { res->
+
+                    if(res!=null)
+                    {
+                        Toast.makeText(this@SearchFilterActivity,"Cargando de la base de datos...",Toast.LENGTH_SHORT).show();
+
+                        var FullSearch = res.size
+                        var iteratorSearch=0;
+
+                        while (iteratorSearch<FullSearch)
+                        {
+                            //Toast.makeText(this,res[iteratorSearch].resenaPublicado.toString(),Toast.LENGTH_SHORT).show();
+
+
+                            if((type == "1" && res[iteratorSearch].resenaFacultad==extraStr) || (type == "2" && res[iteratorSearch].resenaCategoria==extraStr))                            {
+                                var  res = Resena(res[iteratorSearch].resenaID,res[iteratorSearch].resenaUsuario,res[iteratorSearch].resenaTitulo,res[iteratorSearch].resenaCategoria,res[iteratorSearch].resenaFacultad,
+                                    res[iteratorSearch].resenaDescription,res[iteratorSearch].resenaRate,res[iteratorSearch].resenaPublicado,
+                                    res[iteratorSearch].resenaImageOne, res[iteratorSearch].resenaImageTwo,res[iteratorSearch].resenaImageThree,
+                                    res[iteratorSearch].resenaImageFour,res[iteratorSearch].resenaImageFive,res[iteratorSearch].imgArray1 ,
+                                    res[iteratorSearch].imgArray2,
+                                    res[iteratorSearch].imgArray3,res[iteratorSearch].imgArray4,res[iteratorSearch].imgArray5)
+
+                                DataCards.resenas.add(res)
+
+
+                            }
+
+                            iteratorSearch = (iteratorSearch+1)
+                        }
+
+                        Handler().postDelayed(
+                            {
+                                reviewAdapter?.setData(DataCards.resenas)
+                                reviewAdapter?.notifyDataSetChanged()
+                                // llProgressBarSearch.visibility = View.GONE
+
+                            },
+                            5000 // value in milliseconds
+                        )
+
+
+
+                    }
+
+
+                })
             }
 
 

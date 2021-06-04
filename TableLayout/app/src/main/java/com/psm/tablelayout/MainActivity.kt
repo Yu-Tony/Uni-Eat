@@ -4,11 +4,14 @@ package com.psm.tablelayout
 //import com.psm.tablelayout.Profile.onFragmentActionsListener
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.database.CursorWindow
 import android.database.sqlite.SQLiteDatabase
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.RoomMasterTable.TABLE_NAME
@@ -21,6 +24,7 @@ import com.psm.tablelayout.Profile.DataMY
 import com.psm.tablelayout.Profile.MyEdit
 import com.psm.tablelayout.Profile.SaveSharedPreference
 import com.psm.tablelayout.Search.SearchActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.reflect.Field
 
 
@@ -92,7 +96,6 @@ class MainActivity : AppCompatActivity() {
         {
 
 
-
             DataMY.perfil?.userMail = SaveSharedPreference.getUserName(this)
             setContentView(R.layout.activity_main)
             val pagerMain =  findViewById<ViewPager2>(R.id.pager)
@@ -126,6 +129,19 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
             tabLayoutMediator.attach()
+
+            val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo = connMgr.activeNetworkInfo
+
+            if (networkInfo != null && networkInfo.isConnected)
+            {
+                floating_action_button.visibility= View.VISIBLE
+            }
+            else
+            {
+                floating_action_button.visibility= View.GONE
+            }
+
 
             val btnAdd = findViewById<FloatingActionButton>(R.id.floating_action_button)
             btnAdd.setOnClickListener {

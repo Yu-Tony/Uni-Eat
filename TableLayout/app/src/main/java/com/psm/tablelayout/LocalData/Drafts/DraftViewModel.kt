@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.psm.tablelayout.LocalData.Perfil.PerfilDB
 import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 import com.psm.tablelayout.LocalData.Perfil.PerfilRepository
+import com.psm.tablelayout.LocalData.Resenas.ResenasLocal
+import com.psm.tablelayout.LocalData.Resenas.ResenasRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -44,7 +46,7 @@ class DraftViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun deleteAllTableDraft()
+    fun deleteAllTableUsers()
     {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTableUsers()
@@ -54,8 +56,8 @@ class DraftViewModel(application: Application): AndroidViewModel(application) {
     fun getByID(perfilLocal: String)
     {
         viewModelScope.launch(Dispatchers.IO) {
-        repository.getByID(perfilLocal)
-    }
+            repository.getByID(perfilLocal)
+        }
 
     }
 }

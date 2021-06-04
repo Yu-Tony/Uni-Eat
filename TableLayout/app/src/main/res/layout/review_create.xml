@@ -154,7 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Hasta 3 imagenes*" />
+                    android:text="Maximo 2 imagenes**" />
 
                 <Button
                     android:id="@+id/btnImageReviewCreate"

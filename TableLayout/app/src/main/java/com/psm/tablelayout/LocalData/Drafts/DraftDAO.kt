@@ -7,7 +7,7 @@ import com.psm.tablelayout.LocalData.Perfil.PerfilLocal
 @Dao
 interface DraftDAO
 {
-    @Query("SELECT * FROM Draft_Table")
+    @Transaction @Query("SELECT * FROM Draft_Table")
     fun getAll():LiveData<List<DraftLocal>>
 
     @Query("SELECT * FROM Draft_Table WHERE resenaID = :id")
@@ -22,7 +22,7 @@ interface DraftDAO
     @Delete
     suspend fun delete(person: DraftLocal)
 
-    @Query("DELETE FROM Best_Table")
+    @Query("DELETE FROM Draft_Table")
     suspend fun deleteAllUsers()
 
     @Query("DELETE FROM sqlite_sequence WHERE name = 'Draft_Table'")

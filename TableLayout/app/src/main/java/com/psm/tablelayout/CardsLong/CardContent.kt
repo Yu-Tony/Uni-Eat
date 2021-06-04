@@ -4,8 +4,11 @@ import CARD_POSITION
 import CARD_TYPE
 import DEFAULT_CARD_POSITION
 import DEFAULT_CARD_TYPE
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -31,11 +34,13 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
 
     var resenaID:Int = 0
     var typeCard:Int = 0
+    var internetAvailable:Int = 0
     val bitmapArray = arrayListOf<Bitmap>()
     private var position = 0
     var image: ImageView?=null
 
 
+////////////////////////
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -43,6 +48,11 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.review_watch)
 
         OptionsCreators.setVisibility(View.GONE);
+
+
+        val connMgr = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
+
 
          image = findViewById<View>(R.id.imageViewWatchReview) as ImageView
 
@@ -148,9 +158,15 @@ class CardContent: AppCompatActivity(), View.OnClickListener {
 
                     image?.setImageBitmap(bitmapArray.get(0)!!)
 
+
+
+
+
                     if(DataMY.perfil?.userMail == showReview.resenaUsuario)
                     {
-                        OptionsCreators.setVisibility(View.VISIBLE);
+
+                                OptionsCreators.setVisibility(View.VISIBLE);
+
 
                     }
                 }
